@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATHALOID</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+ <body>
+  <div class="container">
+        <div id="hud" role="region" aria-label="Player HUD">
+            <div class="hud-left">
+                <div id="mode-status" aria-live="polite">
+                    <span id="current-mode">Mode: Classic</span>
+                    <span id="mode-timer" style="display:none"> | ⏱ <span id="timer-value">60</span>s</span>
+                    <span id="mode-lives" style="display:none"> | ❤️ <span id="lives-value">3</span></span>
+                </div>
+            </div>
+            <div class="hud-right">
+                <div id="hud-progress-bar" role="progressbar" aria-label="XP to next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                    <div id="hud-progress-fill"></div>
+                </div>
+                <div id="level-badge">Level: <span id="current-level">1</span></div>
+                <!-- Status lights for cockpit theme -->
+                <div id="status-lights" aria-hidden="true">
+                    <span class="led led-green"><span class="label">PWR</span></span>
+                    <span class="led led-amber"><span class="label">LINK</span></span>
+                    <span class="led led-red"><span class="label">SYS</span></span>
+                </div>
+                <!-- Decorative mini radar for cockpit vibe -->
+                <div id="mini-radar" aria-hidden="true">
+                    <div class="sweep"></div>
+                </div>
+            </div>
+        </div>
+        <nav id="tabs" role="tablist" aria-label="Primary">
+            <button id="tab-play" role="tab" aria-selected="true" aria-controls="panel-play" tabindex="0" aria-label="Play">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+                <span>Play</span>
+            </button>
+            <button id="tab-achievements" role="tab" aria-selected="false" aria-controls="panel-achievements" tabindex="-1" aria-label="Achievements">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17 3H7v4H3v5a7 7 0 0 0 7 7v2h4v-2a7 7 0 0 0 7-7V7h-4V3zm2 6a5 5 0 0 1-10 0V9H7V5h10v4h2v0z"/></svg>
+                <span>Achievements</span>
+            </button>
+            <button id="tab-progress" role="tab" aria-selected="false" aria-controls="panel-progress" tabindex="-1" aria-label="Progress">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 13h4v8H3v-8zm7-6h4v14h-4V7zm7-4h4v18h-4V3z"/></svg>
+                <span>Progress</span>
+            </button>
+            <button id="tab-settings" role="tab" aria-selected="false" aria-controls="panel-settings" tabindex="-1" aria-label="Settings">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.14,12.94a7.43,7.43,0,0,0,.05-.94,7.43,7.43,0,0,0-.05-.94l2.11-1.65a.5.5,0,0,0,.12-.64l-2-3.46a.5.5,0,0,0-.6-.22l-2.49,1a7.3,7.3,0,0,0-1.63-.94l-.38-2.65A.5.5,0,0,0,13.7,2H10.3a.5.5,0,0,0-.49.41L9.43,5.06a7.3,7.3,0,0,0-1.63.94l-2.49-1a.5.5,0,0,0-.6.22l-2,3.46a.5.5,0,0,0,.12.64L4.9,11.06a7.43,7.43,0,0,0-.05.94,7.43,7.43,0,0,0,.05.94L2.79,14.59a.5.5,0,0,0-.12.64l2,3.46a.5.5,0,0,0,.6.22l2.49-1a7.3,7.3,0,0,0,1.63.94l.38,2.65a.5.5,0,0,0,.49.41h3.4a.5.5,0,0,0,.49-.41l.38-2.65a7.3,7.3,0,0,0,1.63-.94l2.49,1a.5.5,0,0,0,.6-.22l2-3.46a.5.5,0,0,0-.12-.64ZM12,15.5A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/></svg>
+                <span>Settings</span>
+            </button>
+        </nav>
+
+        <section id="panel-play" role="tabpanel" aria-labelledby="tab-play">
+        <div id="game-mode" role="group" aria-label="Mode selection">
+            <button id="speed-mode" aria-label="Start Speed Mode" aria-pressed="false">Speed Mode</button>
+            <button id="puzzle-mode" aria-label="Start Puzzle Mode" aria-pressed="false">Puzzle Mode</button>
+            <button id="story-mode" aria-label="Start Story Mode" aria-pressed="false">Story Mode</button>
+        </div>
+        <!-- Controls moved to Settings tab -->
+        <!-- Progress moved to Progress tab -->
+        <h1 id="brand-title">MATHALOID</h1>
+        <div id="problem-display" class="problem-container">
+            <span id="num1"></span>
+            <span id="operation"></span>
+            <span id="num2"></span>
+            <label for="answer" class="sr-only">Your Answer</label>
+            = <input type="number" id="answer" placeholder="?" inputmode="numeric" aria-label="Answer" />
+        </div>
+        <button id="submit">Check Answer ✓</button>
+        <!-- Difficulty moved to Settings tab -->
+        <div id="result" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div id="post-answer-controls" style="display:none">
+            Next in <span id="next-countdown">2</span>s
+            <button id="skip-next" data-tooltip="Skip the wait and load the next problem now">Skip now</button>
+        </div>
+        <div id="daily-quote">💡 <span id="quote-text"></span></div>
+        </section>
+
+        <section id="panel-achievements" role="tabpanel" aria-labelledby="tab-achievements" hidden>
+            <div class="badges-grid">
+                <div class="badge" data-achievement="streakMaster" data-tooltip="Streak Master: 10 correct answers in a row">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l2.39 4.84L20 8l-4 3.9L17 18l-5-2.6L7 18l1-6.1L4 8l5.61-1.16L12 2z"/></svg>
+                    <div class="badge-name">Streak Master</div>
+                </div>
+                <div class="badge" data-achievement="quickSolver" data-tooltip="Quick Solver: Answered in under 3 seconds">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13 3a9 9 0 1 0 9 9h-2a7 7 0 1 1-7-7V3zm1 1v8l6 3-.9 1.79L12 13V4h2z"/></svg>
+                    <div class="badge-name">Quick Solver</div>
+                </div>
+                <div class="badge" data-achievement="diverseMaster" data-tooltip="Operation Master: Mastered all operations">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 11h6v2H4v-2zm10-7h6v2h-6V4zM4 4h6v2H4V4zm0 14h6v2H4v-2zm10-7h6v2h-6v-2zm0 7h6v2h-6v-2z"/></svg>
+                    <div class="badge-name">Operation Master</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="panel-progress" role="tabpanel" aria-labelledby="tab-progress" hidden>
+            <div id="progress-section">
+                <div id="progress-bar">
+                    <div id="progress-fill"></div>
+                </div>
+                <div id="next-level">Next level: <span id="points-needed">100</span> points</div>
+            </div>
+            <div id="score">Score: 0</div>
+            <div id="streak-counter">Streak: <span id="current-streak">0</span>🔥</div>
+        </section>
+
+        <section id="panel-settings" role="tabpanel" aria-labelledby="tab-settings" hidden>
+            <div id="controls-bar">
+                <button id="mute-toggle" data-tooltip="Toggle all sounds">🔈 Mute</button>
+                <button id="reset-progress" data-tooltip="Reset your saved score, level, and streak">Reset Progress</button>
+                <button id="reduce-motion" aria-pressed="false" data-tooltip="Reduce animations and motion effects">Reduce Motion</button>
+            </div>
+            <div id="audio-warning" class="notice" role="status" aria-live="polite" hidden>
+                Note: Sounds may be blocked until you interact with the page. Use the buttons or toggle Mute to enable audio.
+            </div>
+            <div id="difficulty">
+                Challenge Level: <input type="range" min="1" max="5" step="0.5" value="1" id="difficulty-slider">
+                <span id="difficulty-value">1</span>
+                <div class="difficulty-labels">
+                    <span>Easy</span>
+                    <span>Expert</span>
+                </div>
+            </div>
+            <div id="theme-controls" class="settings-group" aria-labelledby="theme-controls-label">
+                <h3 id="theme-controls-label">Theme</h3>
+                <fieldset id="theme-preset" role="radiogroup" aria-label="Theme preset">
+                    <label>
+                        <input type="radio" name="theme" id="theme-default" value="default" checked>
+                        Neon Cyan
+                    </label>
+                    <label>
+                        <input type="radio" name="theme" id="theme-holo" value="holo">
+                        Holographic Purple
+                    </label>
+                    <label>
+                        <input type="radio" name="theme" id="theme-solar" value="solar">
+                        Solar Teal
+                    </label>
+                    <label>
+                        <input type="radio" name="theme" id="theme-cockpit" value="cockpit">
+                        Cockpit Neon
+                    </label>
+                </fieldset>
+                <div class="theme-accessibility">
+                    <button id="cb-safe-toggle" aria-pressed="false" data-tooltip="Switch to a color-blind safe palette (blue/orange)">Color‑blind: Off</button>
+                </div>
+            </div>
+        </section>
+        <!-- Cockpit overlay deco: screws and caution stripes -->
+        <div id="cockpit-overlay" aria-hidden="true">
+            <span class="screw tl"></span>
+            <span class="screw tr"></span>
+            <span class="screw bl"></span>
+            <span class="screw br"></span>
+            <div class="caution-strip top"></div>
+            <div class="caution-strip bottom"></div>
+        </div>
+    </div>
+    <script src="mathbot.js"></script>
+    <script src="app.js"></script>
+    <script>
+        (function() {
+            const quotes = [
+                "Every problem solved is a step toward mastery! 🌟",
+                "Mathematics is the art of problem solving! 🎨",
+                "Small steps each day lead to big achievements! 🚀",
+                "Challenge yourself to grow stronger! 💪",
+                "Learning is a journey, not a destination! 🗺️",
+                "Each calculation brings new understanding! 📚",
+                "Practice makes progress! Keep going! 🎯"
+            ];
+            const quote = quotes[new Date().getDate() % quotes.length];
+            document.getElementById('quote-text').innerText = quote;
+        })();
+    </script>
+</body>
+</html>
