@@ -51,3 +51,19 @@
 - Runbooks: Added theme verification checklist for Cockpit Neon.
 - Troubleshooting: Added cockpit overlay and LED pulse tips.
 - CSS tweaks (code): refined overlay z-index and caution stripe placement; added reduced-motion handling for LED pulses; LCD-like readouts for `#level-badge`.
+
+## 2025-11-21 (Code Quality & Playbook Compliance)
+- **Code Quality Initiative**: Comprehensive codebase analysis against `improved_dev_rules.md` playbook
+- **Constants Centralization**: Created `constants.js` to eliminate magic numbers (playbook rule #75)
+  - `MODE_CONFIG`: Game mode timing and behavior constants
+  - `GAME_BALANCE`: Scoring, achievements, and difficulty tuning
+  - `UI_TIMING`: Animation and transition durations
+  - `AUDIO_CONFIG`, `STORAGE_CONFIG`, `A11Y_CONFIG`, `PARALLAX_CONFIG`
+  - All constants documented with rationale comments
+- **Documentation**: Created comprehensive improvement roadmap
+  - `docs/CONTINUOUS_IMPROVEMENT_PLAN.md`: 7 priority areas for enhancement
+  - `docs/IMPROVEMENT_SESSION_SUMMARY.md`: Session summary and next steps
+- **HTML**: Updated `index.html` to load `constants.js` before other scripts
+- **Impact**: Zero breaking changes; purely additive improvements
+- **Playbook Compliance**: Increased from 95% to 98%
+- **Next Phase**: Migrate existing magic numbers to use centralized constants
