@@ -13,6 +13,7 @@ class MathBot {
         };
         this.operationsUsed = new Set();
         this.lastAnswerTime = Date.now();
+        this.noHintStreak = 0;
     }
 
     generateProblem() {

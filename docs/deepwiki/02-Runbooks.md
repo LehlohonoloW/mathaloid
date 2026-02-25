@@ -63,3 +63,12 @@ If CSS/JS do not load:
   - Digital readouts on `#level-badge` and `#mode-status` with a soft neon glow.
 - Reduced Motion: toggle the button; LED pulses stop and visuals remain.
 - Mobile (<640px): caution stripes are intentionally hidden; screws slightly smaller.
+
+## Progress Update - 2026-02-25
+
+- Upgraded core UI to a more immersive, tactile experience with improved interaction feedback and motion.
+- Added Learning Coach enhancements, dynamic hinting, and stronger educational reinforcement during gameplay.
+- Implemented richer game-feel systems: combo indicator, celebratory effects, step-by-step solution reveal, and smarter mascot messaging.
+- Expanded progress UX with operation mastery tracking, extended achievements, and clearer performance indicators.
+- Improved accessibility and control reliability (reduce-motion handling, keyboard flow, and verified button behavior).
+- Added in-UI footer credit: Powered by Lehro Solutions, with increased visibility styling.

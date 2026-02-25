@@ -7,12 +7,13 @@ const elements = {
     operation: document.getElementById('operation'),
     answer: document.getElementById('answer'),
     submit: document.getElementById('submit'),
-    score: document.getElementById('score'),
+    score: document.getElementById('score-display'),
     result: document.getElementById('result'),
     difficultySlider: document.getElementById('difficulty-slider'),
     difficultyValue: document.getElementById('difficulty-value'),
     currentLevel: document.getElementById('current-level'),
     currentStreak: document.getElementById('current-streak'),
+    accuracyRate: document.getElementById('accuracy-rate'),
     progressFill: document.getElementById('progress-fill'),
     pointsNeeded: document.getElementById('points-needed'),
     // HUD XP bar
@@ -35,17 +36,289 @@ const elements = {
     skipNext: document.getElementById('skip-next'),
     // Accessibility
     reduceMotion: document.getElementById('reduce-motion'),
-    // Theme controls
-    themeDefault: document.getElementById('theme-default'),
-    themeHolo: document.getElementById('theme-holo'),
-    themeSolar: document.getElementById('theme-solar'),
-    themeCockpit: document.getElementById('theme-cockpit'),
-    cbSafeToggle: document.getElementById('cb-safe-toggle'),
+    // Theme controls (Abyssal Interface has one committed aesthetic)
+    // cbSafeToggle: document.getElementById('cb-safe-toggle'),
     // Mode group container
     modeGroup: document.getElementById('game-mode'),
     // Notices
-    audioWarning: document.getElementById('audio-warning')
+    audioWarning: document.getElementById('audio-warning'),
+    showHint: document.getElementById('show-hint'),
+    coachOperation: document.getElementById('coach-operation'),
+    coachPrompt: document.getElementById('coach-prompt'),
+    coachFeedback: document.getElementById('coach-feedback'),
+    // Combo
+    comboDisplay: document.getElementById('combo-display'),
+    comboCount: document.getElementById('combo-count'),
+    // Step solution
+    stepSolution: document.getElementById('step-solution'),
+    stepSolutionBody: document.getElementById('step-solution-body'),
+    // Fun fact
+    funFact: document.getElementById('fun-fact'),
+    funFactText: document.getElementById('fun-fact-text'),
+    // Particles
+    particles: document.getElementById('particles'),
+    // Mastery
+    masteryAdd: document.getElementById('mastery-add'),
+    masterySub: document.getElementById('mastery-sub'),
+    masteryMul: document.getElementById('mastery-mul'),
+    masteryDiv: document.getElementById('mastery-div'),
+    masteryAddPct: document.getElementById('mastery-add-pct'),
+    masterySubPct: document.getElementById('mastery-sub-pct'),
+    masteryMulPct: document.getElementById('mastery-mul-pct'),
+    masteryDivPct: document.getElementById('mastery-div-pct'),
+    // Stats
+    totalSolved: document.getElementById('total-solved'),
+    bestStreak: document.getElementById('best-streak'),
+    // Speech
+    quoteText: document.getElementById('quote-text')
 };
+
+const sessionStats = {
+    attempts: 0,
+    correct: 0,
+    bestStreak: 0,
+    hintUsed: false,
+    speedSolved: 0,
+    opStats: { '+': { attempts: 0, correct: 0 }, '-': { attempts: 0, correct: 0 }, '*': { attempts: 0, correct: 0 }, '/': { attempts: 0, correct: 0 } }
+};
+
+// ============================================================
+// BRAIN: Smart Mascot Quotes
+// ============================================================
+const mascotBrain = {
+    greetings: [
+        "Let's crush some numbers! 💪",
+        "Your brain is warming up... 🧠",
+        "Math mode: ACTIVATED! 🚀",
+        "Ready to level up today? ⭐",
+        "Numbers fear you. Let's go! 🔥"
+    ],
+    correctResponses: [
+        "BOOM! You nailed it! 🎉",
+        "Genius move! Keep going! 🧠",
+        "On fire! Unstoppable! 🔥",
+        "That's the magic! ✨",
+        "Your brain just grew 10%! 📈",
+        "Flawless! 💎",
+        "Math wizard alert! 🧙"
+    ],
+    incorrectResponses: [
+        "Almost! Let's learn from this 📝",
+        "Mistakes grow brains! 🌱",
+        "Not yet—but you're closer! 🎯",
+        "Great attempt, try the hint! 💡",
+        "Even geniuses miss sometimes 😉"
+    ],
+    streakMessages: [
+        [3, "Triple combo! Nice! 🌟"],
+        [5, "FIVE in a row!! 🌟🌟"],
+        [7, "LEGENDARY streak! 👑"],
+        [10, "UNSTOPPABLE! 10 streak! 🔥🔥🔥"]
+    ],
+    getGreeting() {
+        return this.greetings[Math.floor(Math.random() * this.greetings.length)];
+    },
+    getCorrect(streak) {
+        for (let i = this.streakMessages.length - 1; i >= 0; i--) {
+            if (streak >= this.streakMessages[i][0]) return this.streakMessages[i][1];
+        }
+        return this.correctResponses[Math.floor(Math.random() * this.correctResponses.length)];
+    },
+    getIncorrect() {
+        return this.incorrectResponses[Math.floor(Math.random() * this.incorrectResponses.length)];
+    }
+};
+
+// ============================================================
+// FUN MATH FACTS
+// ============================================================
+const mathFunFacts = [
+    "Zero is the only number that can't be represented in Roman numerals.",
+    "A 'googol' is 1 followed by 100 zeros — bigger than atoms in the universe!",
+    "111,111,111 × 111,111,111 = 12345678987654321. Palindrome magic!",
+    "The word 'hundred' comes from the Norse word 'hundrath', which meant 120.",
+    "If you shuffle a deck of cards, the order has likely never existed before.",
+    "Pythagoras' followers believed odd numbers were male and even were female.",
+    "A pizza with radius 'z' and height 'a' has volume: Pi × z × z × a.",
+    "Every odd number has the letter 'e' in its name (one, three, five...).",
+    "2520 is the smallest number divisible by 1 through 10.",
+    "Multiplying by 9? The digits of the answer always add up to 9!",
+    "The equals sign (=) was invented in 1557 by Robert Recorde.",
+    "Bees build hexagonal honeycombs because hexagons use the least wax.",
+    "Ancient Egyptians used math to build the pyramids with incredible precision."
+];
+function getRandomFact() {
+    return mathFunFacts[Math.floor(Math.random() * mathFunFacts.length)];
+}
+
+// ============================================================
+// PARTICLE CELEBRATION SYSTEM
+// ============================================================
+function spawnParticles(count) {
+    const container = elements.particles;
+    if (!container || isReducedMotion) return;
+    const colors = ['#22D3EE', '#A78BFA', '#F59E0B', '#10B981', '#EC4899', '#FB7185'];
+    const rect = container.getBoundingClientRect();
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    for (let i = 0; i < count; i++) {
+        const el = document.createElement('div');
+        const isStar = Math.random() > 0.5;
+        el.className = isStar ? 'particle particle-star' : 'particle';
+        const size = 6 + Math.random() * 10;
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.left = cx + 'px';
+        el.style.top = cy + 'px';
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 60 + Math.random() * 120;
+        el.style.setProperty('--px', Math.cos(angle) * dist + 'px');
+        el.style.setProperty('--py', Math.sin(angle) * dist + 'px');
+        el.style.animationDuration = (0.5 + Math.random() * 0.5) + 's';
+        container.appendChild(el);
+        setTimeout(() => el.remove(), 1200);
+    }
+}
+
+// ============================================================
+// POINTS FLOAT-UP
+// ============================================================
+function showPointsFloat(points) {
+    if (isReducedMotion) return;
+    const el = document.createElement('div');
+    el.className = 'points-float';
+    el.textContent = `+${points}`;
+    const btn = elements.submit;
+    if (btn) {
+        const r = btn.getBoundingClientRect();
+        const parent = btn.offsetParent || document.body;
+        const pr = parent.getBoundingClientRect();
+        el.style.left = (r.left - pr.left + r.width / 2 - 20) + 'px';
+        el.style.top = (r.top - pr.top - 10) + 'px';
+        parent.style.position = 'relative';
+        parent.appendChild(el);
+    } else {
+        document.body.appendChild(el);
+    }
+    setTimeout(() => el.remove(), 1100);
+}
+
+// ============================================================
+// STEP-BY-STEP SOLUTION GENERATOR
+// ============================================================
+function showStepSolution(problem, correctAnswer) {
+    const el = elements.stepSolution;
+    const body = elements.stepSolutionBody;
+    if (!el || !body) return;
+    body.innerHTML = '';
+    const { num1, num2, operation } = problem;
+    const steps = [];
+    if (operation === '+') {
+        steps.push(`Start with ${num1}`);
+        steps.push(`Add ${num2} to it`);
+        steps.push(`${num1} + ${num2} = ${correctAnswer}`);
+    } else if (operation === '-') {
+        steps.push(`Start with ${num1}`);
+        steps.push(`Take away ${num2}`);
+        steps.push(`${num1} \u2212 ${num2} = ${correctAnswer}`);
+    } else if (operation === '*') {
+        steps.push(`${num1} groups of ${num2}`);
+        if (num1 <= 5) {
+            const parts = [];
+            for (let i = 0; i < num1; i++) parts.push(num2);
+            steps.push(parts.join(' + ') + ` = ${correctAnswer}`);
+        } else {
+            steps.push(`${num1} \u00d7 ${num2} = ${correctAnswer}`);
+        }
+    } else if (operation === '/') {
+        steps.push(`How many groups of ${num2} in ${num1}?`);
+        steps.push(`${num2} \u00d7 ${correctAnswer} = ${num1}`);
+        steps.push(`So ${num1} \u00f7 ${num2} = ${correctAnswer}`);
+    }
+    steps.forEach((text, i) => {
+        const span = document.createElement('span');
+        span.className = 'step-line';
+        span.textContent = text;
+        span.style.animationDelay = (i * 0.3) + 's';
+        body.appendChild(span);
+    });
+    el.hidden = false;
+}
+
+function hideStepSolution() {
+    if (elements.stepSolution) elements.stepSolution.hidden = true;
+}
+
+// ============================================================
+// FUN FACT DISPLAY
+// ============================================================
+function showFunFact() {
+    if (elements.funFact && elements.funFactText) {
+        elements.funFactText.textContent = getRandomFact();
+        elements.funFact.hidden = false;
+    }
+}
+function hideFunFact() {
+    if (elements.funFact) elements.funFact.hidden = true;
+}
+
+// ============================================================
+// COMBO DISPLAY
+// ============================================================
+function updateCombo(streak) {
+    if (!elements.comboDisplay || !elements.comboCount) return;
+    if (streak >= 2) {
+        elements.comboCount.textContent = streak;
+        elements.comboDisplay.hidden = false;
+        // Re-trigger animation
+        elements.comboDisplay.style.animation = 'none';
+        void elements.comboDisplay.offsetHeight;
+        elements.comboDisplay.style.animation = 'comboPopIn 0.4s var(--bounce-press)';
+    } else {
+        elements.comboDisplay.hidden = true;
+    }
+}
+
+// ============================================================
+// MASTERY TRACKING
+// ============================================================
+function updateMastery() {
+    const ops = ['+', '-', '*', '/'];
+    const ids = {
+        '+': { bar: elements.masteryAdd, pct: elements.masteryAddPct },
+        '-': { bar: elements.masterySub, pct: elements.masterySubPct },
+        '*': { bar: elements.masteryMul, pct: elements.masteryMulPct },
+        '/': { bar: elements.masteryDiv, pct: elements.masteryDivPct }
+    };
+    for (const op of ops) {
+        const s = sessionStats.opStats[op];
+        const pct = s.attempts ? Math.round((s.correct / s.attempts) * 100) : 0;
+        if (ids[op].bar) ids[op].bar.style.width = pct + '%';
+        if (ids[op].pct) ids[op].pct.textContent = pct + '%';
+    }
+}
+
+// ============================================================
+// SMART MASCOT SPEECH
+// ============================================================
+function updateMascot(text) {
+    if (elements.quoteText) elements.quoteText.textContent = text;
+}
+
+// ============================================================
+// NUMBER FLIP ANIMATION
+// ============================================================
+function animateEquation() {
+    if (isReducedMotion) return;
+    [elements.num1, elements.num2, elements.operation].forEach((el, i) => {
+        if (!el) return;
+        el.classList.remove('num-flip');
+        void el.offsetHeight;
+        el.style.animationDelay = (i * 0.1) + 's';
+        el.classList.add('num-flip');
+    });
+}
 
 // Sound effects
 const sounds = {
@@ -59,7 +332,7 @@ function playSound(key) {
     if (isMuted) return;
     const a = sounds[key];
     if (!a) return;
-    try { a.currentTime = 0; } catch (_) {}
+    try { a.currentTime = 0; } catch (_) { }
     a.play().then(() => {
         audioBlocked = false;
         if (elements.audioWarning) elements.audioWarning.hidden = true;
@@ -76,7 +349,7 @@ function primeAudio() {
     const a = sounds.correct;
     if (!a) return;
     a.play().then(() => {
-        try { a.pause(); a.currentTime = 0; } catch (_) {}
+        try { a.pause(); a.currentTime = 0; } catch (_) { }
         audioPrimed = true;
         audioBlocked = false;
         if (elements.audioWarning) elements.audioWarning.hidden = true;
@@ -189,7 +462,10 @@ let cbSafe = false; // color-blind safe palette
 const achievementMessages = {
     streakMaster: "🏆 Streak Master: 10 correct answers in a row!",
     quickSolver: "⚡ Quick Solver: Answered in under 3 seconds!",
-    diverseMaster: "🎯 Operation Master: Mastered all operations!"
+    diverseMaster: "🎯 Operation Master: Mastered all operations!",
+    centurion: "💎 Centurion: Scored 1000 total points!",
+    perfectRound: "🌟 Perfect Round: 5 correct with no hints!",
+    speedDemon: "🚀 Speed Demon: 10 speed mode problems solved!"
 };
 
 // Persistence
@@ -243,7 +519,7 @@ function loadState() {
 }
 
 function applyDifficultyTheme() {
-    document.documentElement.style.setProperty('--difficulty-color', 
+    document.documentElement.style.setProperty('--difficulty-color',
         `hsl(${120 - (mathBot.difficulty - 1) * 30}, 70%, 45%)`);
 }
 
@@ -251,7 +527,7 @@ function setMuted(flag) {
     isMuted = !!flag;
     try {
         Object.values(sounds).forEach(a => { a.muted = isMuted; });
-    } catch (_) {}
+    } catch (_) { }
     if (elements.muteToggle) {
         elements.muteToggle.textContent = isMuted ? '🔇 Unmute' : '🔈 Mute';
         elements.muteToggle.setAttribute('aria-pressed', isMuted ? 'true' : 'false');
@@ -274,17 +550,8 @@ function applyReducedMotion(flag) {
 }
 
 function applyThemePreset(theme) {
-    const allowed = new Set(['default', 'holo', 'solar', 'cockpit']);
-    currentTheme = allowed.has(theme) ? theme : 'default';
-    document.body.classList.remove('theme-holo', 'theme-solar', 'theme-cockpit');
-    if (currentTheme === 'holo') document.body.classList.add('theme-holo');
-    if (currentTheme === 'solar') document.body.classList.add('theme-solar');
-    if (currentTheme === 'cockpit') document.body.classList.add('theme-cockpit');
-    // Reflect radio state
-    if (elements.themeDefault) elements.themeDefault.checked = currentTheme === 'default';
-    if (elements.themeHolo) elements.themeHolo.checked = currentTheme === 'holo';
-    if (elements.themeSolar) elements.themeSolar.checked = currentTheme === 'solar';
-    if (elements.themeCockpit) elements.themeCockpit.checked = currentTheme === 'cockpit';
+    // Abyssal Interface is a singular, committed aesthetic.
+    // Preserving function signature for state loading compatibility.
 }
 
 function setColorBlindSafe(flag) {
@@ -293,6 +560,53 @@ function setColorBlindSafe(flag) {
     if (elements.cbSafeToggle) {
         elements.cbSafeToggle.setAttribute('aria-pressed', cbSafe ? 'true' : 'false');
         elements.cbSafeToggle.textContent = cbSafe ? 'Color‑blind: On' : 'Color‑blind: Off';
+    }
+}
+
+function updateSessionAccuracy() {
+    if (!elements.accuracyRate) return;
+    if (!sessionStats.attempts) {
+        elements.accuracyRate.textContent = '0%';
+        return;
+    }
+    const accuracy = Math.round((sessionStats.correct / sessionStats.attempts) * 100);
+    elements.accuracyRate.textContent = `${accuracy}%`;
+}
+
+function getOperationLabel(operation) {
+    if (operation === '+') return 'Addition';
+    if (operation === '-') return 'Subtraction';
+    if (operation === '*') return 'Multiplication';
+    if (operation === '/') return 'Division';
+    return 'Math Skill';
+}
+
+function getCoachHint(problem) {
+    const { num1, num2, operation } = problem;
+    if (operation === '+') {
+        return `Break apart numbers: ${num1} + ${num2} = (${num1} + ${Math.floor(num2 / 2)}) + ${Math.ceil(num2 / 2)}.`;
+    }
+    if (operation === '-') {
+        return `Count backward: start at ${num1}, move back ${num2} steps.`;
+    }
+    if (operation === '*') {
+        return `Think repeated addition: ${num1} × ${num2} means ${num1} groups of ${num2}.`;
+    }
+    if (operation === '/') {
+        return `Think equal groups: ${num1} ÷ ${num2} asks how many groups of ${num2} fit into ${num1}.`;
+    }
+    return 'Use a step-by-step strategy and check each operation carefully.';
+}
+
+function updateCoach(problem, feedbackText) {
+    if (elements.coachOperation) {
+        elements.coachOperation.textContent = getOperationLabel(problem.operation);
+    }
+    if (elements.coachPrompt) {
+        elements.coachPrompt.textContent = `Solve: ${problem.num1} ${problem.operation} ${problem.num2} = ?`;
+    }
+    if (elements.coachFeedback) {
+        elements.coachFeedback.textContent = feedbackText || 'Tip: Solve mentally first, then confirm with your final answer.';
     }
 }
 
@@ -311,6 +625,19 @@ function resetGameState() {
     mathBot.achievements = { streakMaster: false, quickSolver: false, diverseMaster: false };
     mathBot.operationsUsed = new Set();
     mathBot.lastAnswerTime = Date.now();
+    mathBot.noHintStreak = 0;
+    sessionStats.attempts = 0;
+    sessionStats.correct = 0;
+    sessionStats.bestStreak = 0;
+    sessionStats.hintUsed = false;
+    sessionStats.speedSolved = 0;
+    sessionStats.opStats = { '+': { attempts: 0, correct: 0 }, '-': { attempts: 0, correct: 0 }, '*': { attempts: 0, correct: 0 }, '/': { attempts: 0, correct: 0 } };
+    extendedAchievements.centurion = false;
+    extendedAchievements.perfectRound = false;
+    extendedAchievements.speedDemon = false;
+    updateSessionAccuracy();
+    updateMastery();
+    updateCombo(0);
     // Reset UI
     elements.difficultySlider.value = 1;
     elements.difficultyValue.textContent = 1;
@@ -353,8 +680,8 @@ function updateModeUI() {
     if (elements.currentModeLabel) {
         const label =
             currentMode === 'speed' ? 'Mode: Speed' :
-            currentMode === 'puzzle' ? 'Mode: Puzzle' :
-            currentMode === 'story' ? 'Mode: Story' : 'Mode: Classic';
+                currentMode === 'puzzle' ? 'Mode: Puzzle' :
+                    currentMode === 'story' ? 'Mode: Story' : 'Mode: Classic';
         elements.currentModeLabel.textContent = label;
         elements.currentModeLabel.title = label;
     }
@@ -441,21 +768,18 @@ function displayProblem() {
     clearPendingNext();
     awaitingNext = false;
     currentProblem = mathBot.generateProblem();
-    
-    // Animate problem display
-    const problemContainer = document.querySelector('.problem-container');
-    if (problemContainer) {
-        problemContainer.style.animation = 'none';
-        // Trigger reflow
-        void problemContainer.offsetHeight;
-        problemContainer.style.animation = 'fadeIn 0.5s ease-out';
-    }
-    
+    sessionStats.hintUsed = false;
+
     elements.num1.textContent = currentProblem.num1;
     elements.operation.textContent = currentProblem.operation;
     elements.num2.textContent = currentProblem.num2;
     elements.answer.value = '';
     elements.result.textContent = '';
+    elements.result.className = 'result-msg';
+    hideStepSolution();
+    hideFunFact();
+    updateCoach(currentProblem, 'Tip: Solve mentally first, then confirm with your final answer.');
+    animateEquation();
     setInputsEnabled(true);
     // Only focus the answer if Play tab is active/visible
     const playPanel = document.getElementById('panel-play');
@@ -528,10 +852,13 @@ function computeCorrectAnswer(problem) {
 function updateProgress() {
     const progress = mathBot.getProgress();
     elements.progressFill.style.width = `${progress.progress}%`;
-    elements.score.textContent = `Score: ${progress.score}`;
+    elements.score.textContent = progress.score;
     elements.currentLevel.textContent = progress.level;
     elements.currentStreak.textContent = progress.streak;
-    elements.pointsNeeded.textContent = progress.nextLevel - progress.score;
+    elements.pointsNeeded.textContent = Math.max(0, progress.nextLevel - progress.score);
+    // Extended stats
+    if (elements.totalSolved) elements.totalSolved.textContent = sessionStats.attempts;
+    if (elements.bestStreak) elements.bestStreak.textContent = sessionStats.bestStreak;
     // Mirror progress to HUD bar if present
     if (elements.hudProgressFill) {
         const pct = Math.max(0, Math.min(100, progress.progress));
@@ -548,12 +875,12 @@ function showAchievement(achievementName) {
     notification.className = 'achievement-notification';
     notification.textContent = achievementMessages[achievementName];
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         notification.classList.add('show');
         playSound('levelUp');
     }, 100);
-    
+
     setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => notification.remove(), 500);
@@ -563,19 +890,61 @@ function showAchievement(achievementName) {
     refreshAchievementsUI();
 }
 
+// Extended achievement system
+const extendedAchievements = {
+    centurion: false,
+    perfectRound: false,
+    speedDemon: false
+};
+
+function checkExtendedAchievements() {
+    let newUnlock = null;
+    if (!extendedAchievements.centurion && mathBot.score >= 1000) {
+        extendedAchievements.centurion = true;
+        newUnlock = 'centurion';
+    }
+    if (!extendedAchievements.perfectRound && (mathBot.noHintStreak || 0) >= 5) {
+        extendedAchievements.perfectRound = true;
+        if (!newUnlock) newUnlock = 'perfectRound';
+    }
+    if (!extendedAchievements.speedDemon && sessionStats.speedSolved >= 10) {
+        extendedAchievements.speedDemon = true;
+        if (!newUnlock) newUnlock = 'speedDemon';
+    }
+    if (newUnlock) {
+        showAchievement(newUnlock);
+    }
+    refreshAchievementsUI();
+}
+
 function checkAnswer() {
     // Prevent double submits while waiting for next problem
     if (awaitingNext) return;
     const userAnswer = parseFloat(elements.answer.value);
     if (isNaN(userAnswer)) {
         elements.result.textContent = "Please enter a valid number!";
-        elements.result.className = 'incorrect';
+        elements.result.className = 'result-msg incorrect';
         return;
     }
 
     const result = mathBot.checkAnswer(currentProblem, userAnswer);
-    
+    sessionStats.attempts += 1;
+    const op = currentProblem.operation;
+    if (sessionStats.opStats[op]) sessionStats.opStats[op].attempts += 1;
+    hideStepSolution();
+    hideFunFact();
+
     if (result.correct) {
+        sessionStats.correct += 1;
+        if (sessionStats.opStats[op]) sessionStats.opStats[op].correct += 1;
+        if (mathBot.streak > sessionStats.bestStreak) sessionStats.bestStreak = mathBot.streak;
+        if (!sessionStats.hintUsed) {
+            mathBot.noHintStreak = (mathBot.noHintStreak || 0) + 1;
+        } else {
+            mathBot.noHintStreak = 0;
+        }
+        if (currentMode === 'speed') sessionStats.speedSolved += 1;
+
         // Default success message
         let successMsg = `Correct! +${result.points} points`;
         // Story mode: show explanation to reinforce learning
@@ -585,26 +954,56 @@ function checkAnswer() {
             successMsg = `${successMsg} — ${expl}`;
         }
         elements.result.textContent = successMsg;
-        elements.result.className = 'correct';
+        elements.result.className = 'result-msg correct';
+        updateCoach(currentProblem, 'Great job! Explain your strategy out loud to lock in the concept.');
+        updateMascot(mascotBrain.getCorrect(mathBot.streak));
+        updateCombo(mathBot.streak);
         playSound('correct');
-        
+
+        // Visual celebrations
+        spawnParticles(mathBot.streak >= 5 ? 30 : 16);
+        showPointsFloat(result.points);
+        elements.answer.classList.add('input-glow');
+        setTimeout(() => elements.answer.classList.remove('input-glow'), 700);
+
+        // Show fun fact on every 3rd correct
+        if (sessionStats.correct % 3 === 0) showFunFact();
+
         // Animate score increase
         elements.score.classList.add('level-up');
         setTimeout(() => elements.score.classList.remove('level-up'), 1000);
-        
+
         if (result.achievement) {
             showAchievement(result.achievement);
         }
-        
+
+        // Check new achievements from extended system
+        checkExtendedAchievements();
+
         // Check for level up
         if (result.level > parseInt(elements.currentLevel.textContent)) {
             elements.levelBadge.classList.add('level-up');
             setTimeout(() => elements.levelBadge.classList.remove('level-up'), 1000);
+            spawnParticles(40);
+            updateMascot(`LEVEL ${result.level}! You're evolving! 🌟`);
         }
     } else {
+        const ca = computeCorrectAnswer(currentProblem);
         elements.result.textContent = result.explanation;
-        elements.result.className = 'incorrect';
+        elements.result.className = 'result-msg incorrect';
+        updateCoach(currentProblem, `Try this strategy: ${getCoachHint(currentProblem)}`);
+        updateMascot(mascotBrain.getIncorrect());
+        updateCombo(0);
+        mathBot.noHintStreak = 0;
         playSound('incorrect');
+
+        // Visual feedback
+        elements.answer.classList.add('input-shake');
+        setTimeout(() => elements.answer.classList.remove('input-shake'), 500);
+
+        // Show step-by-step solution
+        showStepSolution(currentProblem, ca);
+
         // Puzzle mode: lose a life on incorrect answer
         if (currentMode === 'puzzle' && modeSession.active) {
             modeSession.lives = Math.max(0, modeSession.lives - 1);
@@ -613,13 +1012,16 @@ function checkAnswer() {
                 updateModeUI();
                 endModeSession('out_of_lives');
                 updateProgress();
+                updateMastery();
                 saveState();
                 return;
             }
         }
     }
-    
+
     updateProgress();
+    updateSessionAccuracy();
+    updateMastery();
     saveState();
     // Lock inputs during the wait window to prevent double submits
     awaitingNext = true;
@@ -660,6 +1062,14 @@ if (elements.skipNext) {
     elements.skipNext.addEventListener('click', performNextNow);
 }
 
+if (elements.showHint) {
+    elements.showHint.addEventListener('click', () => {
+        if (!currentProblem) return;
+        sessionStats.hintUsed = true;
+        updateCoach(currentProblem, `Hint: ${getCoachHint(currentProblem)}`);
+    });
+}
+
 // Reduce Motion toggle
 if (elements.reduceMotion) {
     elements.reduceMotion.addEventListener('click', () => {
@@ -668,13 +1078,7 @@ if (elements.reduceMotion) {
     });
 }
 
-// Theme preset radios
-Array.from(document.querySelectorAll('input[name="theme"]')).forEach(r => {
-    r.addEventListener('change', (e) => {
-        applyThemePreset(e.target.value);
-        saveState();
-    });
-});
+// Theme preset radios - Removed in Abyssal Interface
 
 // Color-blind palette toggle
 if (elements.cbSafeToggle) {
@@ -689,6 +1093,12 @@ elements.submit.addEventListener('click', checkAnswer);
 
 elements.answer.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') checkAnswer();
+});
+
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && awaitingNext) {
+        performNextNow();
+    }
 });
 
 // Start game and initialize progress
@@ -712,6 +1122,9 @@ window.addEventListener('pointerdown', primeAudio, { once: true });
 window.addEventListener('keydown', primeAudio, { once: true });
 displayProblem();
 updateProgress();
+updateSessionAccuracy();
+updateMastery();
+updateMascot(mascotBrain.getGreeting());
 
 // Add tooltip listeners
 const tooltip = document.createElement('div');
@@ -725,7 +1138,7 @@ Array.from(document.querySelectorAll('[data-tooltip]')).forEach(element => {
         tooltip.style.left = e.pageX + 'px';
         tooltip.style.top = (e.pageY - 30) + 'px';
     });
-    
+
     element.addEventListener('mouseout', () => {
         tooltip.style.display = 'none';
     });
@@ -801,10 +1214,11 @@ function initTabs() {
 }
 
 function refreshAchievementsUI() {
-    const ach = mathBot.achievements || {};
-    document.querySelectorAll('.badge[data-achievement]').forEach(el => {
+    const coreAch = mathBot.achievements || {};
+    const allAch = Object.assign({}, coreAch, extendedAchievements);
+    document.querySelectorAll('.badge-card[data-achievement]').forEach(el => {
         const key = el.getAttribute('data-achievement');
-        if (ach[key]) {
+        if (allAch[key]) {
             el.classList.add('unlocked');
         } else {
             el.classList.remove('unlocked');
