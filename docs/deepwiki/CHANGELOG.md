@@ -76,3 +76,10 @@
 - Expanded progress UX with operation mastery tracking, extended achievements, and clearer performance indicators.
 - Improved accessibility and control reliability (reduce-motion handling, keyboard flow, and verified button behavior).
 - Added in-UI footer credit: Powered by Lehro Solutions, with increased visibility styling.
+
+## Progress Update - 2026-02-25 (Docs Sync, Non-PROMOVID Scope)
+
+- Documentation synchronized to reflect repository progress outside `D:\mathaloid\PROMOVID`.
+- Latest non-PROMOVID checkpoint confirmed: `f601798` (2026-02-25).
+- No additional non-PROMOVID implementation changes were detected since that checkpoint.
+- This update intentionally excludes all PROMOVID-specific activity.

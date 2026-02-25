@@ -206,3 +206,11 @@ The MATHALOID application is **well-architected and highly maintainable**. Today
 - Expanded progress UX with operation mastery tracking, extended achievements, and clearer performance indicators.
 - Improved accessibility and control reliability (reduce-motion handling, keyboard flow, and verified button behavior).
 - Added in-UI footer credit: Powered by Lehro Solutions, with increased visibility styling.
+
+## Progress Update - 2026-02-25 (Docs Sync, Non-PROMOVID Scope)
+
+- Synced documentation to the current repository state while explicitly excluding `D:\mathaloid\PROMOVID`.
+- Confirmed the latest non-PROMOVID repository checkpoint is commit `f601798` (2026-02-25).
+- Verified prior improvements remain the current baseline: immersive UI refresh, Learning Coach upgrades, richer game-feel, expanded mastery tracking, and accessibility hardening.
+- Recorded scope boundary for this checkpoint: PROMOVID-specific changes are intentionally omitted.
+- Status after sync: no additional non-PROMOVID changes are pending documentation.
