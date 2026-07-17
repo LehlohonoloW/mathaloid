@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "adrs/adr-0001-zero-dependency-local-first",
+  "title": "ADR-0001 — Zero-dependency, local-first architecture",
+  "status": "current",
+  "section": "ADRs",
+  "audience": [
+    "contributors"
+  ],
+  "useWhen": "You are tempted to add a framework, package or server component.",
+  "sourceOfTruth": "adr-0001-zero-dependency-local-first.md",
+  "counterparts": {
+    "markdown": "adr-0001-zero-dependency-local-first.md",
+    "html": "adr-0001-zero-dependency-local-first.html",
+    "json": "adr-0001-zero-dependency-local-first.json"
+  },
+  "summary": "Decision to build Atlas as a zero-dependency static site with all state in localStorage — and what it costs us.",
+  "sections": [
+    {
+      "id": "status",
+      "label": "Status"
+    },
+    {
+      "id": "context",
+      "label": "Context"
+    },
+    {
+      "id": "decision",
+      "label": "Decision"
+    },
+    {
+      "id": "consequences",
+      "label": "Consequences"
+    }
+  ],
+  "relatedGuides": [
+    "architecture",
+    "security-privacy"
+  ],
+  "keywords": [
+    "adr",
+    "decision",
+    "dependencies",
+    "static",
+    "local-first"
+  ],
+  "lastReviewed": "2026-07-16",
+  "release": "v2.0.0",
+  "sourceChecksum": "a529dc1ba14a8830",
+  "generatedAt": "2026-07-16T18:20:15.809Z",
+  "plaintext": "Status Accepted — July 2026 reaffirmed at v2.0.0 . Context Atlas is an open source education tool for children, hosted free on GitHub Pages, forked by people with wildly varying technical skill. It must be trustworthy privacy for minors , durable usable in a decade , and forkable download → open → works . Decision 1. Zero runtime dependencies. Vanilla HTML/CSS/JS only; no frameworks, no CDN assets, no package installs to run the app. 2. Local first state. All user data lives in localStorage atlas.state.v1 ; the app makes zero network requests after load. 3. Node.js built ins only is permitted for offline tooling the docs generator , never for the runtime. Consequences Supply chain risk is structurally eliminated; “dependency updates” reduce to confirming the count is still zero. No SSR, no bundler ergonomics, no npm ecosystem shortcuts — contributors write plain JS and template literals. Multi device sync is impossible by design; the escape hatch is Settings → Export/Import. Any PR wanting a runtime package must write a superseding ADR with a security justification."
+}

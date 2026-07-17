@@ -1,353 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MATHALOID: Hyper-Play</title>
-    <!-- Playful Educational Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MATHALOID Atlas — a local-first, privacy-first, open-source mathematics universe. Grade 1 to A Levels. No ceilings.">
+<meta name="color-scheme" content="dark">
+<title>MATHALOID Atlas — Endless Mathematics</title>
+<link rel="stylesheet" href="css/atlas.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
 </head>
+<body data-theme="cosmic">
 
-<body>
-    <svg class="sr-only" aria-hidden="true" focusable="false">
-        <symbol id="i-robot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></symbol>
-        <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
-        <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
-        <symbol id="i-gamepad" viewBox="0 0 24 24"><line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="2"/></symbol>
-        <symbol id="i-chart" viewBox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></symbol>
-        <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
-        <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
-        <symbol id="i-timer" viewBox="0 0 24 24"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></symbol>
-        <symbol id="i-puzzle" viewBox="0 0 24 24"><path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 0-.253 1.02l.367 1.027c.205.573.202 1.19-.012 1.762a3.195 3.195 0 0 1-2.088 1.972 3.195 3.195 0 0 1-2.263-.094l-1.028-.367a.98.98 0 0 0-1.02.253L13 21.506c-.47.47-1.087.706-1.704.706s-1.233-.235-1.704-.706l-1.568-1.568a.98.98 0 0 0-.878-.29l-1.084.17c-.606.096-1.227-.042-1.746-.387a3.195 3.195 0 0 1-1.258-1.63 3.195 3.195 0 0 1 .154-2.25l.486-.966a.98.98 0 0 0-.036-1.05L2.5 11.506c-.47-.47-.706-1.087-.706-1.704s.235-1.233.706-1.704l1.611-1.611a.98.98 0 0 0 .253-1.02l-.367-1.027a3.195 3.195 0 0 1 .012-1.762 3.195 3.195 0 0 1 2.088-1.972 3.195 3.195 0 0 1 2.263.094l1.028.367a.98.98 0 0 0 1.02-.253L11 2.494c.47-.47 1.087-.706 1.704-.706s1.233.235 1.704.706l1.568 1.568c.23.23.556.338.878.29l1.084-.17c.606-.096 1.227.042 1.746.387a3.195 3.195 0 0 1 1.258 1.63 3.195 3.195 0 0 1-.154 2.25l-.486.966a.98.98 0 0 0 .036 1.05z"/></symbol>
-        <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
-        <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
-        <symbol id="i-light" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
-        <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></symbol>
-        <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></symbol>
-        <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
-        <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
-        <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></symbol>
-        <symbol id="i-minus" viewBox="0 0 24 24"><line x1="5" x2="19" y1="12" y2="12"/></symbol>
-        <symbol id="i-multiply" viewBox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></symbol>
-        <symbol id="i-divide" viewBox="0 0 24 24"><circle cx="12" cy="6" r="1"/><line x1="5" x2="19" y1="12" y2="12"/><circle cx="12" cy="18" r="1"/></symbol>
-        <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
-        <symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13"/><path d="M13 3l3 6-4 13"/></symbol>
-        <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></symbol>
-        <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
-    </svg>
+<canvas id="starfield" aria-hidden="true"></canvas>
+<div class="nebula nebula-a" aria-hidden="true"></div>
+<div class="nebula nebula-b" aria-hidden="true"></div>
 
-    <!-- Floating Background Shapes -->
-    <div class="bg-layer" aria-hidden="true">
-        <div class="float-shape hyper-shape-1">+</div>
-        <div class="float-shape hyper-shape-2">−</div>
-        <div class="float-shape hyper-shape-3">×</div>
-        <div class="float-shape hyper-shape-4">÷</div>
-    </div>
+<!-- ============ ICON SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4Z"/><path d="M9 4v14M15 6v14"/></symbol>
+<symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z"/><path d="M12 12 21 7M12 12v10M12 12 3 7"/></symbol>
+<symbol id="i-gamepad" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="5.5"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="11.4" r="1"/><circle cx="18.4" cy="13.6" r="1"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/></symbol>
+<symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2.5 14 9l6.5 2L14 13l-2 6.5L10 13l-6.5-2L10 9l2-6.5Z"/><path d="M19 16.5 19.8 19l2.5.8-2.5.8L19 23l-.8-2.4-2.4-.8 2.4-.8L19 16.5Z"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="5.5" r="2.5"/><path d="M8 18.5h6a4 4 0 0 0 0-8H9.5a4 4 0 0 1-1-7.9" fill="none"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2Zm0 0A2.5 2.5 0 0 0 6.5 22H20"/><path d="M9 7h7M9 11h5"/></symbol>
+<symbol id="i-scroll" viewBox="0 0 24 24"><path d="M7 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7"/><path d="M7 3a2 2 0 0 0-2 2v14a2 2 0 0 1-2 2h14"/><path d="M10 8h6M10 12h6"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx=".6"/><rect x="12" y="8" width="3" height="10" rx=".6"/><rect x="17" y="5" width="3" height="13" rx=".6"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v3M12 18.2v3M2.8 12h3M18.2 12h3M5.5 5.5l2.1 2.1M16.4 16.4l2.1 2.1M18.5 5.5l-2.1 2.1M7.6 16.4l-2.1 2.1"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+<symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4Z"/><path d="M8 5H4.5a3.5 3.5 0 0 0 3.6 3.5M16 5h3.5a3.5 3.5 0 0 1-3.6 3.5"/><path d="M12 13v4m-4 3h8m-6.5-3h5"/></symbol>
+<symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3.5h12V21l-6-4-6 4V3.5Z"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24"><path d="M4 4h16v12H8l-4 4V4Z"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 10h17M8 2.5V7M16 2.5V7"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 0 1-.4-9A6 6 0 0 1 18.3 10 4 4 0 0 1 17.5 18H7Z"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.5A2.8 2.8 0 1 1 12.6 13c-.6.4-.6 1-.6 1.5"/><circle cx="12" cy="17.5" r=".5"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3.5M8.5 21.5h7"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M3.5 11.5 20.5 4l-4 16.5-4.7-6.2-8.3-2.8Z"/><path d="M11.8 14.3 20.5 4"/></symbol>
+<symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22c4 0 7-2.7 7-6.6 0-3-1.8-4.9-3.2-6.6C14.5 7.2 13.6 5.5 14 3c-3.6 1.4-5 4.5-4.7 7-1-.3-1.8-1-2-2.4C5.7 9 5 11.3 5 13.6 5 19.3 8 22 12 22Z"/></symbol>
+<symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12L13 2Z"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.5 20 5.5v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10v-6l8-3Z"/><path d="m8.8 11.8 2.3 2.3 4.2-4.4"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 3v4h-4"/></symbol>
+<symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.8 1.7M9.5 2.5h5"/></symbol>
+<symbol id="i-code" viewBox="0 0 24 24"><path d="m8 8-4.5 4L8 16M16 8l4.5 4L16 16M13.2 5l-2.4 14"/></symbol>
+<symbol id="i-flask" viewBox="0 0 24 24"><path d="M9.5 3h5M10.5 3v6L4.8 18.6A2 2 0 0 0 6.6 21.5h10.8a2 2 0 0 0 1.8-2.9L13.5 9V3"/><path d="M7.5 15h9"/></symbol>
+<symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v11m0 0 4.5-4.5M12 14 7.5 9.5M4 18.5h16"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 14V3m0 0L7.5 7.5M12 3l4.5 4.5M4 18.5h16"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 6.5h15M9.5 6V4h5v2M6.5 6.5 7.5 21h9l1-14.5M10 10.5v6M14 10.5v6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5 19.5 12 7 19.5v-15Z"/></symbol>
+<symbol id="i-brain" viewBox="0 0 24 24"><path d="M9.5 3A3 3 0 0 0 6.6 5.2 3.4 3.4 0 0 0 4 8.5c0 .7.2 1.3.5 1.8A3.6 3.6 0 0 0 3 13.2 3.6 3.6 0 0 0 6.4 16.8 3.2 3.2 0 0 0 9.5 21a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Z"/><path d="M14.5 3a3 3 0 0 1 2.9 2.2A3.4 3.4 0 0 1 20 8.5c0 .7-.2 1.3-.5 1.8a3.6 3.6 0 0 1 1.5 2.9 3.6 3.6 0 0 1-3.4 3.6A3.2 3.2 0 0 1 14.5 21a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Z"/></symbol>
+<symbol id="i-atom" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="9.5" ry="4"/><ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9.5" ry="4" transform="rotate(120 12 12)"/></symbol>
+<symbol id="i-fx" viewBox="0 0 24 24"><path d="M4 20c5-1 5-11 7-15 1.4-2.8 4.5-2.5 5-1M6.5 9.5H13"/><path d="m15 13 5 7m0-7-5 7"/></symbol>
+<symbol id="i-shapes" viewBox="0 0 24 24"><path d="m8 3.5 4.5 7.5h-9L8 3.5Z"/><rect x="3.5" y="14" width="7" height="7" rx="1"/><circle cx="17" cy="17.5" r="3.8"/></symbol>
+<symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M8 21h8M12 6H5.5M12 6h6.5"/><path d="m5.5 6-2.5 6a3 3 0 0 0 5 0l-2.5-6ZM18.5 6 16 12a3 3 0 0 0 5 0l-2.5-6Z"/></symbol>
+<symbol id="i-pi" viewBox="0 0 24 24"><path d="M4 7c1-1.8 2-2 4-2h12M9 5v14M17 5v10.5c0 2 .8 3 2.5 3 .8 0 1.2-.2 1.5-.5"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.6 5.6L20.5 9.6l-4.3 4 1.1 5.9L12 16.8l-5.3 2.7 1.1-5.9-4.3-4 5.9-1L12 3Z"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.7 2.3 4 5.5 4 9s-1.3 6.7-4 9c-2.7-2.3-4-5.5-4-9s1.3-6.7 4-9Z"/></symbol>
+</defs>
+</svg>
 
-    <div class="app-shell">
-        <!-- Top HUD -->
-        <header id="hud" class="top-hud">
-            <div class="mascot-box">
-                <div class="bot-face"><svg class="svg-icon icon-robot" aria-hidden="true"><use href="#i-robot" /></svg></div>
-                <div class="speech-bubble">
-                    <span id="quote-text">Loading up brain power...</span>
-                </div>
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <a class="brand" href="#home" aria-label="Mathaloid Atlas home">
+    <svg class="brand-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z" fill="none"/><path d="M7.5 15.5v-6l4.5 4 4.5-4v6" fill="none"/></svg>
+    <span class="brand-name">MATHALOID <b>ATLAS</b></span>
+  </a>
+  <span class="privacy-pill"><svg class="ic"><use href="#i-shield"/></svg> Local-First • Privacy First</span>
+  <div class="top-stats">
+    <span class="chip chip-streak" title="Daily streak"><svg class="ic"><use href="#i-flame"/></svg><b id="hudStreak">1</b>&nbsp;Day Streak</span>
+    <span class="chip chip-xp" title="Experience points"><svg class="ic"><use href="#i-zap"/></svg><b id="hudXp">0</b>&nbsp;XP</span>
+    <a class="btn btn-passport" href="#passport">My Passport</a>
+    <button class="avatar" id="avatarBtn" title="Explorer profile" aria-label="Explorer profile">🧑‍🚀</button>
+  </div>
+</header>
+
+<!-- ============ SIDE RAILS ============ -->
+<aside class="rail rail-left" aria-label="Quick tools">
+  <button class="rail-btn" data-go="settings" title="Quick settings"><svg class="ic"><use href="#i-sliders"/></svg></button>
+  <button class="rail-btn" data-go="passport" title="Progress"><svg class="ic"><use href="#i-chart"/></svg></button>
+  <button class="rail-btn" data-go="arena" title="Achievements & challenges"><svg class="ic"><use href="#i-trophy"/></svg></button>
+  <button class="rail-btn" data-go="study" title="Bookmarks"><svg class="ic"><use href="#i-bookmark"/></svg></button>
+  <button class="rail-btn" data-go="settings" title="Settings"><svg class="ic"><use href="#i-gear"/></svg></button>
+</aside>
+<aside class="rail rail-right" aria-label="Activity">
+  <button class="rail-btn" data-go="data" title="Data Desk"><svg class="ic"><use href="#i-chart"/></svg></button>
+  <button class="rail-btn has-badge" data-go="home" data-badge="2" title="Mathaloid chat"><svg class="ic"><use href="#i-msg"/></svg></button>
+  <button class="rail-btn" data-go="pathfinder" title="Today's plan"><svg class="ic"><use href="#i-cal"/></svg></button>
+  <button class="rail-btn" data-go="settings" data-goto="data" title="Your data (stored locally)"><svg class="ic"><use href="#i-cloud"/></svg></button>
+  <button class="rail-btn" data-go="help" title="Help"><svg class="ic"><use href="#i-help"/></svg></button>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<main id="main">
+
+  <!-- ============ HOME ============ -->
+  <section class="view is-active" id="view-home" aria-label="Home">
+    <div class="cosmos">
+      <div class="orb-field" id="orbField">
+        <a class="orb orb-cyan"   style="--x:12%; --y:8%"  href="#pathfinder"><span class="orb-bubble"><svg class="ic"><use href="#i-map"/></svg></span><span class="orb-name">Pathfinder</span><span class="orb-sub">Your learning map</span></a>
+        <a class="orb orb-green"  style="--x:5%;  --y:30%" href="#learn"><span class="orb-bubble"><svg class="ic"><use href="#i-cube"/></svg></span><span class="orb-name">Learn</span><span class="orb-sub">Concepts &amp; lessons</span></a>
+        <a class="orb orb-orange" style="--x:6%;  --y:54%" href="#play"><span class="orb-bubble"><svg class="ic"><use href="#i-gamepad"/></svg></span><span class="orb-name">Play</span><span class="orb-sub">Games that teach</span></a>
+        <a class="orb orb-red"    style="--x:13%; --y:76%" href="#arena"><span class="orb-bubble"><svg class="ic"><use href="#i-target"/></svg></span><span class="orb-name">Arena</span><span class="orb-sub">Practice &amp; challenges</span></a>
+        <a class="orb orb-pink"   style="--x:21%; --y:85%" href="#frontier"><span class="orb-bubble"><svg class="ic"><use href="#i-spark"/></svg></span><span class="orb-name">Frontier</span><span class="orb-sub">Explore. Create. Prove.</span></a>
+        <a class="orb orb-purple" style="--x:88%; --y:8%"  href="#journey"><span class="orb-bubble"><svg class="ic"><use href="#i-route"/></svg></span><span class="orb-name">Journey</span><span class="orb-sub">Your concept map</span></a>
+        <a class="orb orb-blue"   style="--x:95%; --y:30%" href="#study"><span class="orb-bubble"><svg class="ic"><use href="#i-book"/></svg></span><span class="orb-name">Study</span><span class="orb-sub">Notes, formulas &amp; examples</span></a>
+        <a class="orb orb-gold"   style="--x:94%; --y:54%" href="#exam"><span class="orb-bubble"><svg class="ic"><use href="#i-scroll"/></svg></span><span class="orb-name">Exam Arena</span><span class="orb-sub">Exam prep &amp; past papers</span></a>
+        <a class="orb orb-teal"   style="--x:87%; --y:76%" href="#data"><span class="orb-bubble"><svg class="ic"><use href="#i-chart"/></svg></span><span class="orb-name">Data Desk</span><span class="orb-sub">Analyse &amp; understand</span></a>
+        <a class="orb orb-slate"  style="--x:79%; --y:85%" href="#settings"><span class="orb-bubble"><svg class="ic"><use href="#i-gear"/></svg></span><span class="orb-name">Settings</span><span class="orb-sub">Make it yours</span></a>
+      </div>
+
+      <div class="hero">
+        <div class="portal" aria-hidden="true">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <svg class="mascot" viewBox="0 0 200 200" role="img" aria-label="Mathaloid the robot guide">
+            <defs>
+              <radialGradient id="mHead" cx="50%" cy="38%" r="75%"><stop offset="0%" stop-color="#ffffff"/><stop offset="78%" stop-color="#dfe7f5"/><stop offset="100%" stop-color="#aebadd"/></radialGradient>
+              <linearGradient id="mVisor" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#101a33"/><stop offset="100%" stop-color="#1d2b52"/></linearGradient>
+              <radialGradient id="mEye" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#c9f6ff"/><stop offset="55%" stop-color="#4ee1ff"/><stop offset="100%" stop-color="#0891b2"/></radialGradient>
+            </defs>
+            <ellipse cx="100" cy="188" rx="52" ry="8" fill="#4ee1ff" opacity=".18"/>
+            <circle cx="100" cy="36" r="6" fill="#4ee1ff" class="antenna-tip"/>
+            <rect x="97.5" y="38" width="5" height="14" rx="2.5" fill="#aebadd"/>
+            <rect x="30" y="48" width="140" height="108" rx="54" fill="url(#mHead)"/>
+            <rect x="46" y="70" width="108" height="62" rx="31" fill="url(#mVisor)"/>
+            <g class="mascot-eyes">
+              <circle cx="78" cy="101" r="13" fill="url(#mEye)"/>
+              <circle cx="122" cy="101" r="13" fill="url(#mEye)"/>
+              <circle cx="74" cy="96" r="4" fill="#eafcff"/>
+              <circle cx="118" cy="96" r="4" fill="#eafcff"/>
+            </g>
+            <path d="M88 122 q12 8 24 0" stroke="#4ee1ff" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <circle cx="41" cy="104" r="6" fill="#4ee1ff" opacity=".85"/>
+            <circle cx="159" cy="104" r="6" fill="#4ee1ff" opacity=".85"/>
+            <rect x="62" y="152" width="76" height="34" rx="17" fill="url(#mHead)"/>
+            <rect x="84" y="160" width="32" height="12" rx="6" fill="#1d2b52"/>
+            <circle cx="92" cy="166" r="2.6" fill="#4ee1ff"/>
+            <circle cx="100" cy="166" r="2.6" fill="#a78bfa"/>
+            <circle cx="108" cy="166" r="2.6" fill="#34d399"/>
+          </svg>
+        </div>
+
+        <h1 class="hero-title">Hello, Explorer! <span class="hello-wave">👋</span></h1>
+        <p class="hero-sub">I'm <b>Mathaloid</b>, your maths guide. What shall we explore together today?</p>
+
+        <div class="chat-card" id="chatCard">
+          <div class="chat-log" id="chatLog" aria-live="polite"></div>
+          <form class="chat-form" id="chatForm">
+            <input id="chatInput" type="text" placeholder="Ask anything math..." autocomplete="off" aria-label="Ask Mathaloid anything about maths">
+            <button type="button" class="chat-btn" id="chatMic" title="Speak your question" aria-label="Speak your question"><svg class="ic"><use href="#i-mic"/></svg></button>
+            <button type="submit" class="chat-btn chat-send" title="Send" aria-label="Send"><svg class="ic"><use href="#i-send"/></svg></button>
+          </form>
+          <div class="chat-chips" id="chatChips"></div>
+        </div>
+      </div>
+
+      <div class="widget-row">
+        <article class="widget" id="wPassport">
+          <h3><svg class="ic"><use href="#i-star"/></svg> Mathematical Passport</h3>
+          <div class="widget-body radar-wrap">
+            <canvas id="homeRadar" width="150" height="130" aria-label="Mastery radar chart"></canvas>
+            <ul class="radar-legend">
+              <li style="--c:#4ee1ff">Understand</li>
+              <li style="--c:#34d399">Fluent</li>
+              <li style="--c:#fbbf24">Apply</li>
+              <li style="--c:#a78bfa">Reason</li>
+              <li style="--c:#f472b6">Create</li>
+            </ul>
+          </div>
+        </article>
+        <article class="widget" id="wFocus">
+          <h3><svg class="ic"><use href="#i-timer"/></svg> Focus Mode</h3>
+          <div class="widget-body focus-body">
+            <div class="focus-dial">
+              <svg viewBox="0 0 84 84"><circle class="dial-track" cx="42" cy="42" r="36"/><circle class="dial-fill" id="focusArc" cx="42" cy="42" r="36"/></svg>
+              <span class="focus-time" id="focusTime">25:00</span>
             </div>
-
-            <div class="stats-box">
-                <div id="level-badge" class="stat-pill level-pill">
-                    <span class="pill-label">LVL</span>
-                    <span id="current-level" class="pill-val">1</span>
-                </div>
-                <div class="stat-pill streak-pill" title="Current Streak">
-                    <span class="pill-label"><svg class="svg-icon" aria-hidden="true"><use href="#i-flame" /></svg></span>
-                    <span id="current-streak" class="pill-val">0</span>
-                </div>
-                <div class="stat-pill accuracy-pill" title="Session Accuracy">
-                    <span class="pill-label"><svg class="svg-icon" aria-hidden="true"><use href="#i-target" /></svg></span>
-                    <span id="accuracy-rate" class="pill-val">0%</span>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Workspace (Console Casing) -->
-        <main class="console-casing">
-            <!-- Navigation Tabs (Physical interlock) -->
-            <nav id="tabs" role="tablist" class="physical-tabs">
-                <button id="tab-play" role="tab" aria-selected="true" aria-controls="panel-play" tabindex="0"
-                    class="tab-btn">
-                    <span class="icon"><svg class="svg-icon" aria-hidden="true"><use href="#i-gamepad" /></svg></span> <span class="tab-text">Play</span>
-                </button>
-                <button id="tab-progress" role="tab" aria-selected="false" aria-controls="panel-progress" tabindex="-1"
-                    class="tab-btn">
-                    <span class="icon"><svg class="svg-icon" aria-hidden="true"><use href="#i-chart" /></svg></span> <span class="tab-text">Stats</span>
-                </button>
-                <button id="tab-achievements" role="tab" aria-selected="false" aria-controls="panel-achievements"
-                    tabindex="-1" class="tab-btn">
-                    <span class="icon"><svg class="svg-icon" aria-hidden="true"><use href="#i-trophy" /></svg></span> <span class="tab-text">Badges</span>
-                </button>
-                <button id="tab-settings" role="tab" aria-selected="false" aria-controls="panel-settings" tabindex="-1"
-                    class="tab-btn">
-                    <span class="icon"><svg class="svg-icon" aria-hidden="true"><use href="#i-settings" /></svg></span> <span class="tab-text">Settings</span>
-                </button>
-            </nav>
-
-            <div class="screen-bezel">
-                <div class="panels-wrapper">
-
-                    <!-- PLAY PANEL -->
-                    <section id="panel-play" role="tabpanel" aria-labelledby="tab-play" class="panel active">
-                        <!-- Mode Toggles -->
-                        <div id="game-mode" class="mode-toggles" role="group">
-                            <button id="speed-mode" aria-pressed="false" class="mode-btn btn-3d btn-3d-cyan"><svg class="svg-icon" aria-hidden="true"><use href="#i-timer" /></svg>
-                                Speed</button>
-                            <button id="puzzle-mode" aria-pressed="false" class="mode-btn btn-3d btn-3d-cyan"><svg class="svg-icon" aria-hidden="true"><use href="#i-puzzle" /></svg>
-                                Puzzle</button>
-                            <button id="story-mode" aria-pressed="false" class="mode-btn btn-3d btn-3d-cyan"><svg class="svg-icon" aria-hidden="true"><use href="#i-book" /></svg>
-                                Story</button>
-                        </div>
-
-                        <div id="mode-status" class="mode-banner" aria-live="polite">
-                            <span id="current-mode" class="mode-title">Classic Mode</span>
-                            <div class="mode-badges">
-                            <span id="mode-timer" style="display:none" class="info-badge timer-badge"><svg class="svg-icon" aria-hidden="true"><use href="#i-timer" /></svg> <span
-                                        id="timer-value">60</span>s</span>
-                            <span id="mode-lives" style="display:none" class="info-badge lives-badge"><svg class="svg-icon" aria-hidden="true"><use href="#i-heart" /></svg> <span
-                                        id="lives-value">3</span></span>
-                            </div>
-                        </div>
-
-                        <div class="coach-card physical-block" aria-live="polite">
-                            <div class="coach-head">
-                                <h3>Learning Coach</h3>
-                                <span class="coach-chip" id="coach-operation">Addition</span>
-                            </div>
-                            <p id="coach-prompt" class="coach-prompt">Solve the equation and check your strategy.</p>
-                            <div id="coach-feedback" class="coach-feedback">Tip: Say the equation out loud before you answer.</div>
-                            <button id="show-hint" class="btn-3d btn-3d-gray btn-small hint-btn" type="button"><svg class="svg-icon" aria-hidden="true"><use href="#i-light" /></svg> Show Hint</button>
-                        </div>
-
-                        <!-- Problem Area (Physical Cards) -->
-                        <div class="play-board">
-                            <div class="equation-row">
-                                <div class="num-box physical-block" id="num1"></div>
-                                <div class="op-box" id="operation"></div>
-                                <div class="num-box physical-block" id="num2"></div>
-                                <div class="eq-box">=</div>
-                            </div>
-
-                            <div class="input-row">
-                                <label for="answer" class="sr-only">Your Answer</label>
-                                <input type="number" id="answer" placeholder="?" inputmode="numeric" aria-label="Answer"
-                                    autocomplete="off" class="jelly-input physical-recess" />
-                            </div>
-                        </div>
-
-                        <!-- Combo Indicator -->
-                        <div id="combo-display" class="combo-indicator" aria-live="polite" hidden>
-                            <span class="combo-fire"><svg class="svg-icon" aria-hidden="true"><use href="#i-flame" /></svg></span>
-                            <span class="combo-count" id="combo-count">0</span>
-                            <span class="combo-label">COMBO</span>
-                        </div>
-
-                        <div class="action-footer">
-                            <button id="submit" class="btn-primary btn-3d btn-3d-purple btn-large">Check Answer!
-                                <svg class="svg-icon" aria-hidden="true"><use href="#i-sparkles" /></svg></button>
-                            <div id="result" class="result-msg" role="status" aria-live="polite"></div>
-
-                            <!-- Step-by-step solution on wrong answer -->
-                            <div id="step-solution" class="step-solution" hidden>
-                                <div class="step-solution-head"><svg class="svg-icon" aria-hidden="true"><use href="#i-book" /></svg> Step-by-Step</div>
-                                <div id="step-solution-body" class="step-solution-body"></div>
-                            </div>
-
-                            <!-- Fun fact after answer -->
-                            <div id="fun-fact" class="fun-fact" hidden>
-                                <span class="fun-fact-icon"><svg class="svg-icon" aria-hidden="true"><use href="#i-brain" /></svg></span>
-                                <span id="fun-fact-text" class="fun-fact-text"></span>
-                            </div>
-
-                            <div id="post-answer-controls" class="skip-row" style="display:none">
-                                <span class="skip-txt">Next problem in <span id="next-countdown">2</span>s</span>
-                                <button id="skip-next" class="btn-3d btn-3d-gray btn-small">Skip ▸</button>
-                            </div>
-                        </div>
-
-                        <!-- Particle burst container -->
-                        <div id="particles" class="particle-container" aria-hidden="true"></div>
-                    </section>
-
-                    <!-- PROGRESS PANEL -->
-                    <section id="panel-progress" role="tabpanel" aria-labelledby="tab-progress" class="panel" hidden>
-                        <div class="panel-header">
-                            <h2>Your Journey <svg class="svg-icon heading-icon" aria-hidden="true"><use href="#i-rocket" /></svg></h2>
-                            <p class="subtitle">Keep learning and growing!</p>
-                        </div>
-
-                        <div class="stats-grid">
-                            <div class="stat-box score-box physical-block">
-                                <span class="stat-title">Total Score <svg class="svg-icon" aria-hidden="true"><use href="#i-star" /></svg></span>
-                                <span class="stat-val" id="score-display">0</span>
-                            </div>
-                            <div class="stat-box physical-block">
-                                <span class="stat-title">Problems Solved</span>
-                                <span class="stat-val stat-val-sm" id="total-solved">0</span>
-                            </div>
-                            <div class="stat-box physical-block">
-                                <span class="stat-title">Best Streak <svg class="svg-icon" aria-hidden="true"><use href="#i-flame" /></svg></span>
-                                <span class="stat-val stat-val-sm" id="best-streak">0</span>
-                            </div>
-                        </div>
-
-                        <!-- Operation Mastery -->
-                        <div class="mastery-section">
-                            <h3 class="mastery-title">Operation Mastery</h3>
-                            <div class="mastery-grid">
-                                <div class="mastery-item physical-block" data-op="+">
-                                    <span class="mastery-icon"><svg class="svg-icon" aria-hidden="true"><use href="#i-plus" /></svg></span>
-                                    <div class="mastery-bar-wrap physical-recess">
-                                        <div class="mastery-bar-fill" id="mastery-add" style="width:0%"></div>
-                                    </div>
-                                    <span class="mastery-pct" id="mastery-add-pct">0%</span>
-                                </div>
-                                <div class="mastery-item physical-block" data-op="-">
-                                    <span class="mastery-icon"><svg class="svg-icon" aria-hidden="true"><use href="#i-minus" /></svg></span>
-                                    <div class="mastery-bar-wrap physical-recess">
-                                        <div class="mastery-bar-fill" id="mastery-sub" style="width:0%"></div>
-                                    </div>
-                                    <span class="mastery-pct" id="mastery-sub-pct">0%</span>
-                                </div>
-                                <div class="mastery-item physical-block" data-op="*">
-                                    <span class="mastery-icon"><svg class="svg-icon" aria-hidden="true"><use href="#i-multiply" /></svg></span>
-                                    <div class="mastery-bar-wrap physical-recess">
-                                        <div class="mastery-bar-fill" id="mastery-mul" style="width:0%"></div>
-                                    </div>
-                                    <span class="mastery-pct" id="mastery-mul-pct">0%</span>
-                                </div>
-                                <div class="mastery-item physical-block" data-op="/">
-                                    <span class="mastery-icon"><svg class="svg-icon" aria-hidden="true"><use href="#i-divide" /></svg></span>
-                                    <div class="mastery-bar-wrap physical-recess">
-                                        <div class="mastery-bar-fill" id="mastery-div" style="width:0%"></div>
-                                    </div>
-                                    <span class="mastery-pct" id="mastery-div-pct">0%</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="xp-container physical-recess">
-                            <div class="xp-info">
-                                <span class="xp-title">Level Progress</span>
-                                <span class="xp-target"><span id="points-needed">100</span> pts to go!</span>
-                            </div>
-                            <div id="hud-progress-bar" class="xp-track physical-recess" role="progressbar"
-                                aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                                <div id="hud-progress-fill" class="xp-fill"></div>
-                            </div>
-                            <div id="progress-fill" style="display:none"></div>
-                        </div>
-                    </section>
-
-                    <!-- ACHIEVEMENTS PANEL -->
-                    <section id="panel-achievements" role="tabpanel" aria-labelledby="tab-achievements" class="panel"
-                        hidden>
-                        <div class="panel-header">
-                            <h2>Trophy Case <svg class="svg-icon heading-icon" aria-hidden="true"><use href="#i-trophy" /></svg></h2>
-                        </div>
-                        <div class="badges-grid">
-                            <div class="badge-card physical-block" data-achievement="streakMaster"
-                                data-tooltip="10 correct answers in a row!">
-                                <div class="badge-art bg-orange physical-recess"><svg class="svg-icon" aria-hidden="true"><use href="#i-flame" /></svg></div>
-                                <h3>Streak Master</h3>
-                                <p class="badge-desc">10 streak</p>
-                            </div>
-                            <div class="badge-card physical-block" data-achievement="quickSolver"
-                                data-tooltip="Answered in under 3 seconds!">
-                                <div class="badge-art bg-yellow physical-recess"><svg class="svg-icon" aria-hidden="true"><use href="#i-zap" /></svg></div>
-                                <h3>Quick Solver</h3>
-                                <p class="badge-desc">Under 3s</p>
-                            </div>
-                            <div class="badge-card physical-block" data-achievement="diverseMaster"
-                                data-tooltip="Mastered all operations (+ - * /)">
-                                <div class="badge-art bg-pink physical-recess"><svg class="svg-icon" aria-hidden="true"><use href="#i-target" /></svg></div>
-                                <h3>Math Ninja</h3>
-                                <p class="badge-desc">All 4 ops</p>
-                            </div>
-                            <div class="badge-card physical-block" data-achievement="centurion"
-                                data-tooltip="Scored 1000 total points!">
-                                <div class="badge-art bg-cyan physical-recess"><svg class="svg-icon" aria-hidden="true"><use href="#i-gem" /></svg></div>
-                                <h3>Centurion</h3>
-                                <p class="badge-desc">1000 pts</p>
-                            </div>
-                            <div class="badge-card physical-block" data-achievement="perfectRound"
-                                data-tooltip="5 correct in a row with no hints!">
-                                <div class="badge-art bg-green physical-recess"><svg class="svg-icon" aria-hidden="true"><use href="#i-star" /></svg></div>
-                                <h3>Perfect Round</h3>
-                                <p class="badge-desc">5 no-hint</p>
-                            </div>
-                            <div class="badge-card physical-block" data-achievement="speedDemon"
-                                data-tooltip="Complete 10 speed mode problems!">
-                                <div class="badge-art bg-red physical-recess"><svg class="svg-icon" aria-hidden="true"><use href="#i-rocket" /></svg></div>
-                                <h3>Speed Demon</h3>
-                                <p class="badge-desc">10 speed</p>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- SETTINGS PANEL -->
-                    <section id="panel-settings" role="tabpanel" aria-labelledby="tab-settings" class="panel" hidden>
-                        <div class="panel-header">
-                            <h2>Settings <svg class="svg-icon heading-icon" aria-hidden="true"><use href="#i-wrench" /></svg></h2>
-                        </div>
-
-                        <div class="settings-content">
-                            <!-- Difficulty -->
-                            <div class="setting-group physical-block">
-                                <div class="setting-head">
-                                    <h3><svg class="svg-icon" aria-hidden="true"><use href="#i-brain" /></svg> Challenge Level</h3>
-                                    <span class="val-badge" id="difficulty-value">1.0</span>
-                                </div>
-                                <input type="range" class="candy-slider" min="1" max="5" step="0.5" value="1"
-                                    id="difficulty-slider" aria-label="Difficulty level">
-                                <div class="slider-labels">
-                                    <span>Easy Peasy</span>
-                                    <span>Brainiac</span>
-                                </div>
-                            </div>
-
-                            <!-- Toggles -->
-                            <div class="settings-toggles">
-                                <button id="mute-toggle" class="btn-toggle btn-3d btn-3d-gray"
-                                    aria-pressed="false">Toggle Sound</button>
-                                <button id="reduce-motion" class="btn-toggle btn-3d btn-3d-gray"
-                                    aria-pressed="false">Toggle Motion</button>
-                                <button id="reset-progress" class="btn-3d btn-3d-red"><svg class="svg-icon" aria-hidden="true"><use href="#i-trash" /></svg> Reset Game</button>
-                            </div>
-
-                            <div id="audio-warning" class="audio-notice" hidden>
-                                <strong>Tip:</strong> Click anywhere on the screen to enable fun sounds.
-                            </div>
-                        </div>
-                    </section>
-
-                </div>
-            </div> <!-- End Screen Bezel -->
-        </main>
-
-        <footer class="powered-by" aria-label="Credits">
-            Powered by <span class="powered-brand">Lehro Solutions</span>
-        </footer>
+            <button class="btn btn-mini" id="focusStart">Start</button>
+          </div>
+        </article>
+        <article class="widget" id="wGoal">
+          <h3><svg class="ic"><use href="#i-check"/></svg> Today's Goal</h3>
+          <div class="widget-body goal-body">
+            <p class="goal-text" id="goalText">Master one skill</p>
+            <span class="goal-count" id="goalCount">0/1</span>
+            <span class="goal-badge" id="goalBadge"><svg class="ic"><use href="#i-check"/></svg></span>
+          </div>
+        </article>
+        <article class="widget" id="wReview">
+          <h3><svg class="ic"><use href="#i-refresh"/></svg> Review Due</h3>
+          <div class="widget-body review-body">
+            <p><b id="reviewCount">3</b> skills to review</p>
+            <button class="btn btn-mini btn-amber" data-go="arena" data-mode="review">Review Now</button>
+          </div>
+        </article>
+        <article class="widget" id="wPath">
+          <h3><svg class="ic"><use href="#i-map"/></svg> Current Path</h3>
+          <div class="widget-body path-body">
+            <p class="path-name" id="pathName">Algebra Foundations</p>
+            <p class="path-meta" id="pathMeta">Grade 8 • CAPS</p>
+            <div class="bar"><span id="pathBar" style="width:62%"></span></div>
+            <span class="path-pct" id="pathPct">62%</span>
+          </div>
+        </article>
+        <article class="widget" id="wVoice">
+          <h3><svg class="ic"><use href="#i-mic"/></svg> Voice Mode</h3>
+          <div class="widget-body voice-body">
+            <div class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <a class="voice-orb" href="#voice" aria-label="Open voice mode"><svg class="ic"><use href="#i-mic"/></svg></a>
+          </div>
+        </article>
+      </div>
     </div>
+  </section>
 
-    <!-- Scripts -->
-    <script src="constants.js"></script>
-    <script src="mathbot.js"></script>
-    <script src="app.js"></script>
+  <!-- Other views are rendered by js/app.js into these shells -->
+  <section class="view" id="view-pathfinder" aria-label="Pathfinder"></section>
+  <section class="view" id="view-learn" aria-label="Learn"></section>
+  <section class="view" id="view-play" aria-label="Play"></section>
+  <section class="view" id="view-journey" aria-label="Journey"></section>
+  <section class="view" id="view-study" aria-label="Study"></section>
+  <section class="view" id="view-exam" aria-label="Exam Arena"></section>
+  <section class="view" id="view-arena" aria-label="Arena"></section>
+  <section class="view" id="view-data" aria-label="Data Desk"></section>
+  <section class="view" id="view-frontier" aria-label="Frontier"></section>
+  <section class="view" id="view-settings" aria-label="Settings"></section>
+  <section class="view" id="view-passport" aria-label="Mathematical Passport"></section>
+  <section class="view" id="view-voice" aria-label="Voice Mode"></section>
+  <section class="view" id="view-help" aria-label="Help"></section>
+</main>
+
+<!-- ============ MOBILE NAV ============ -->
+<nav class="dock" aria-label="Primary">
+  <a href="#home" class="dock-btn" data-view="home"><svg class="ic"><use href="#i-globe"/></svg><span>Home</span></a>
+  <a href="#learn" class="dock-btn" data-view="learn"><svg class="ic"><use href="#i-cube"/></svg><span>Learn</span></a>
+  <a href="#play" class="dock-btn" data-view="play"><svg class="ic"><use href="#i-gamepad"/></svg><span>Play</span></a>
+  <a href="#journey" class="dock-btn" data-view="journey"><svg class="ic"><use href="#i-route"/></svg><span>Journey</span></a>
+  <a href="#arena" class="dock-btn" data-view="arena"><svg class="ic"><use href="#i-target"/></svg><span>Arena</span></a>
+  <button class="dock-btn" id="dockMore" aria-label="More"><svg class="ic"><use href="#i-spark"/></svg><span>More</span></button>
+</nav>
+<div class="sheet" id="moreSheet" hidden>
+  <div class="sheet-inner">
+    <a href="#pathfinder">🗺️ Pathfinder</a><a href="#study">📘 Study</a><a href="#exam">📜 Exam Arena</a>
+    <a href="#data">📊 Data Desk</a><a href="#frontier">✨ Frontier</a><a href="#passport">⭐ Passport</a>
+    <a href="#voice">🎙️ Voice Mode</a><a href="#settings">⚙️ Settings</a><a href="#help">❓ Help</a>
+  </div>
+</div>
+
+<footer class="foot">
+  <span class="foot-badges"><b>Local-First</b><b>Privacy First</b><b>Open Source · MIT</b><b>Offline Ready</b></span>
+  <span class="foot-tag">No ceilings. No limits. Just mathematics. · <a href="https://github.com" rel="noopener">Powered by Lehro Solutions</a></span>
+</footer>
+
+<div class="toast-zone" id="toastZone" aria-live="polite"></div>
+
+<script src="js/data.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/app.js"></script>
 </body>
-
 </html>

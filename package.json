@@ -1,0 +1,15 @@
+{
+  "name": "mathaloid-atlas",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "MATHALOID Atlas — privacy-first, zero-dependency mathematics learning companion. Static site; no runtime dependencies.",
+  "license": "MIT",
+  "scripts": {
+    "docs:build": "node docs/build-docs.mjs",
+    "docs:check": "node docs/build-docs.mjs --check",
+    "check": "node --check js/app.js && node --check js/engine.js && node --check js/data.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

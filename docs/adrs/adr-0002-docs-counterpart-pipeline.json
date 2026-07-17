@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "adrs/adr-0002-docs-counterpart-pipeline",
+  "title": "ADR-0002 — Markdown-canonical docs with generated HTML/JSON counterparts",
+  "status": "current",
+  "section": "ADRs",
+  "audience": [
+    "contributors"
+  ],
+  "useWhen": "You are changing how documentation is written, built or validated.",
+  "sourceOfTruth": "adr-0002-docs-counterpart-pipeline.md",
+  "counterparts": {
+    "markdown": "adr-0002-docs-counterpart-pipeline.md",
+    "html": "adr-0002-docs-counterpart-pipeline.html",
+    "json": "adr-0002-docs-counterpart-pipeline.json"
+  },
+  "summary": "Decision to adopt the Lehro house docs pattern (Polaris MVP / LEHRO BMS): .md as source of truth, generated themed .html and machine-readable .json, gated by docs:check.",
+  "sections": [
+    {
+      "id": "status",
+      "label": "Status"
+    },
+    {
+      "id": "context",
+      "label": "Context"
+    },
+    {
+      "id": "decision",
+      "label": "Decision"
+    },
+    {
+      "id": "consequences",
+      "label": "Consequences"
+    }
+  ],
+  "relatedGuides": [
+    "quality",
+    "contributing"
+  ],
+  "keywords": [
+    "adr",
+    "docs",
+    "pipeline",
+    "counterparts",
+    "generator"
+  ],
+  "lastReviewed": "2026-07-16",
+  "release": "v2.0.0",
+  "sourceChecksum": "46f0bcf10ae78f34",
+  "generatedAt": "2026-07-16T18:20:15.832Z",
+  "plaintext": "Status Accepted — July 2026. Context Docs rot when humans must maintain multiple formats by hand. We want: diff friendly authoring, a beautiful browsable portal that matches the product's cosmic design system, and machine readable docs for agents/RAG — without adding dependencies ADR 0001 . Decision Adopt the Lehro house documentation pattern proven on Polaris MVP and LEHRO BMS: 1. Every canonical guide is a .md file with YAML ish frontmatter — the single source of truth . 2. A committed zero dependency generator docs/build docs.mjs , Node built ins only emits per guide .html cosmic themed, semantic landmarks, TOC, anchors and .json frontmatter + sections + plaintext + source checksum counterparts, plus index.html portal, docs map.json , index.json and release manifest.json . 3. npm run docs:check is the merge gate: missing/stale counterparts checksum mismatch , invalid JSON, unindexed guides or broken related links fail the build. 4. Engineering history changelog, issue log lives in docs/.docs/ and is deliberately excluded from the counterpart pipeline — evidence, not guidance. Consequences Generated files are committed, so GitHub Pages serves the portal with no CI required. Editing a generated .html / .json by hand is always wrong; docs:check catches it via checksums. Adding a guide = write one .md , run docs:build — portal, map, index and manifest update themselves."
+}

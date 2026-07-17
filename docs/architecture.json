@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "architecture",
+  "title": "Architecture",
+  "status": "current",
+  "section": "Guides",
+  "audience": [
+    "contributors"
+  ],
+  "useWhen": "You are changing code and need to know where things live and how data flows.",
+  "sourceOfTruth": "architecture.md",
+  "counterparts": {
+    "markdown": "architecture.md",
+    "html": "architecture.html",
+    "json": "architecture.json"
+  },
+  "summary": "File map, module responsibilities, hash router, storage model and rendering flow of the zero-dependency static app.",
+  "sections": [
+    {
+      "id": "file-map",
+      "label": "File map"
+    },
+    {
+      "id": "module-responsibilities",
+      "label": "Module responsibilities"
+    },
+    {
+      "id": "rendering-flow",
+      "label": "Rendering flow"
+    },
+    {
+      "id": "storage-model",
+      "label": "Storage model"
+    },
+    {
+      "id": "why-zero-dependencies",
+      "label": "Why zero dependencies?"
+    }
+  ],
+  "relatedGuides": [
+    "ai",
+    "curriculum",
+    "design-system",
+    "adrs/adr-0001-zero-dependency-local-first"
+  ],
+  "keywords": [
+    "architecture",
+    "modules",
+    "router",
+    "storage",
+    "engine",
+    "data flow"
+  ],
+  "lastReviewed": "2026-07-16",
+  "release": "v2.0.0",
+  "sourceChecksum": "a78ed19b390f003b",
+  "generatedAt": "2026-07-16T18:20:15.833Z",
+  "plaintext": "File map Module responsibilities Module Owns Never does data.js global ATLAS Static curriculum content: skills, lessons, games, categories, lens metadata Logic or DOM engine.js global Engine State, persistence, mastery bands, spaced repetition scheduling, question generators, XP/badges DOM app.js global App Hash router, view rendering, chat brain Mathaloid Brain v2 , HUD, voice, settings Data definitions Rendering flow 1. init loads state Engine , paints the HUD and starfield, wires the chat dock and router. 2. Navigation uses location.hash learn , play/gameId , study/Category … . The router shows one .view section and calls its render . 3. Views are plain template literal HTML injected into their container — no virtual DOM, no framework. 4. Answering anything chat, quiz, game, exam funnels into Engine.record skillId, correct, dims , which updates mastery, streaks, XP and the spaced repetition queue, then refreshHud . Storage model Single localStorage key atlas.state.v1 ; legacy mathbot.state.v1 is migrated on first load. State shape: settings grade, lens, theme , per skill mastery records, dimension scores understand / fluent / apply / reason / create , XP, badges, history. No cookies, no IndexedDB, no network persistence — see ADR 0001. Why zero dependencies? See ADR 0001 adrs/adr 0001 zero dependency local first.md . Short version: GitHub Pages hosting, decade scale durability, auditability for a children's education tool, and instant forkability."
+}

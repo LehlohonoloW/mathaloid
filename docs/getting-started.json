@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "getting-started",
+  "title": "Getting Started",
+  "status": "current",
+  "section": "Guides",
+  "audience": [
+    "learners",
+    "teachers",
+    "contributors"
+  ],
+  "useWhen": "You want to run, host or develop MATHALOID Atlas.",
+  "sourceOfTruth": "getting-started.md",
+  "counterparts": {
+    "markdown": "getting-started.md",
+    "html": "getting-started.html",
+    "json": "getting-started.json"
+  },
+  "summary": "Run the app from a folder, a local server or GitHub Pages; manage your data; build the docs.",
+  "sections": [
+    {
+      "id": "requirements",
+      "label": "Requirements"
+    },
+    {
+      "id": "run-it-locally",
+      "label": "Run it locally"
+    },
+    {
+      "id": "deploy-to-github-pages",
+      "label": "Deploy to GitHub Pages"
+    },
+    {
+      "id": "your-data",
+      "label": "Your data"
+    },
+    {
+      "id": "developer-commands",
+      "label": "Developer commands"
+    },
+    {
+      "id": "where-to-go-next",
+      "label": "Where to go next"
+    }
+  ],
+  "relatedGuides": [
+    "overview",
+    "architecture",
+    "contributing"
+  ],
+  "keywords": [
+    "install",
+    "run",
+    "deploy",
+    "github pages",
+    "localStorage",
+    "docs build"
+  ],
+  "lastReviewed": "2026-07-16",
+  "release": "v2.0.0",
+  "sourceChecksum": "0a5f52a1d542c657",
+  "generatedAt": "2026-07-16T18:20:15.833Z",
+  "plaintext": "Requirements None. MATHALOID Atlas is a static site with zero runtime dependencies — no npm install, no build step, no server code. Any modern browser works. Node.js 18+ is only needed if you want to rebuild the documentation. Run it locally Option A — just open it: Option B — tiny local server recommended, matches production paths : Deploy to GitHub Pages 1. Push the repository to GitHub. 2. Settings → Pages → deploy from the main branch, root folder. 3. Done — there is no build pipeline to configure. The docs portal ships pre built at /docs/index.html . Your data All progress is stored under the localStorage key atlas.state.v1 older mathbot.state.v1 saves migrate automatically . Export / erase from Settings at any time. Clearing browser data resets everything — by design there is no cloud copy. Developer commands Where to go next Architecture architecture.md — how the three JS modules fit together. Contributing contributing.md — the safe change workflow."
+}

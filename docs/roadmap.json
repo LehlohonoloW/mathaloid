@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "roadmap",
+  "title": "Roadmap",
+  "status": "current",
+  "section": "Guides",
+  "audience": [
+    "contributors",
+    "teachers",
+    "learners"
+  ],
+  "useWhen": "You want to know what shipped in v2 and what is planned next.",
+  "sourceOfTruth": "roadmap.md",
+  "counterparts": {
+    "markdown": "roadmap.md",
+    "html": "roadmap.html",
+    "json": "roadmap.json"
+  },
+  "summary": "What the v2 Atlas rebuild delivered, and the prioritised next horizons — all constrained by local-first, privacy-first, MIT.",
+  "sections": [
+    {
+      "id": "shipped-v2-0-0-atlas-july-2026",
+      "label": "Shipped — v2.0.0 “Atlas” (July 2026)"
+    },
+    {
+      "id": "next-horizons",
+      "label": "Next horizons"
+    },
+    {
+      "id": "non-goals-permanent",
+      "label": "Non-goals (permanent)"
+    }
+  ],
+  "relatedGuides": [
+    "overview",
+    "ai",
+    "quality"
+  ],
+  "keywords": [
+    "roadmap",
+    "plans",
+    "features",
+    "versions"
+  ],
+  "lastReviewed": "2026-07-16",
+  "release": "v2.0.0",
+  "sourceChecksum": "c45c22f9e57f2ad7",
+  "generatedAt": "2026-07-16T18:20:15.834Z",
+  "plaintext": "Shipped — v2.0.0 “Atlas” July 2026 Complete cosmic UI rebuild: 14 tabs, mascot hub, orb navigation, mobile first responsive. Curriculum lenses: CAPS, IEB, Cambridge A Levels, Global — Grade 1 to post matric with no ceiling. Mastery engine: five dimensions, four bands, spaced repetition, XP/badges, Data Desk analytics. Mathaloid Brain v2 : step by step linear & quadratic solvers, polynomial calculus, fractions/percentages/number theory, 18+ concept explainers, adaptive quizzes — 100% on device. Documentation system: Markdown canonical guides with generated HTML/JSON counterparts, themed portal, docs:build / docs:check pipeline Lehro house pattern . Next horizons Priority Item Notes P1 More games per band Target: every skill category has ≥2 game formats P1 Printable worksheet generator Client side print stylesheets; still zero server P2 PWA install + full offline cache Service worker; keeps the zero request promise P2 i18n scaffolding Afrikaans + isiZulu first; lens aware terminology P2 Teacher mode Local class lists via import/export codes — no accounts P3 A Level depth pack Vectors, mechanics applications, further calculus P3 Opt in local small model experiment Only if it runs fully on device and degrades gracefully; deterministic brain stays the default P3 Accessibility audit round 2 Screen reader passes on all games Non goals permanent Accounts, cloud sync, telemetry, ads, or any server dependency. Paid tiers — the tool is MIT and free forever."
+}

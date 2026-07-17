@@ -1,0 +1,244 @@
+{
+  "schemaVersion": "1.0",
+  "release": "v2.0.0",
+  "generatedAt": "2026-07-16T18:20:15.848Z",
+  "entries": [
+    {
+      "slug": "adrs/adr-0001-zero-dependency-local-first",
+      "title": "ADR-0001 — Zero-dependency, local-first architecture",
+      "section": "ADRs",
+      "audience": [
+        "contributors"
+      ],
+      "status": "current",
+      "useWhen": "You are tempted to add a framework, package or server component.",
+      "description": "Decision to build Atlas as a zero-dependency static site with all state in localStorage — and what it costs us.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "adrs/adr-0001-zero-dependency-local-first.md",
+        "html": "adrs/adr-0001-zero-dependency-local-first.html",
+        "json": "adrs/adr-0001-zero-dependency-local-first.json"
+      }
+    },
+    {
+      "slug": "adrs/adr-0002-docs-counterpart-pipeline",
+      "title": "ADR-0002 — Markdown-canonical docs with generated HTML/JSON counterparts",
+      "section": "ADRs",
+      "audience": [
+        "contributors"
+      ],
+      "status": "current",
+      "useWhen": "You are changing how documentation is written, built or validated.",
+      "description": "Decision to adopt the Lehro house docs pattern (Polaris MVP / LEHRO BMS): .md as source of truth, generated themed .html and machine-readable .json, gated by docs:check.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "adrs/adr-0002-docs-counterpart-pipeline.md",
+        "html": "adrs/adr-0002-docs-counterpart-pipeline.html",
+        "json": "adrs/adr-0002-docs-counterpart-pipeline.json"
+      }
+    },
+    {
+      "slug": "ai",
+      "title": "Mathaloid Brain — the on-device AI tutor",
+      "section": "Guides",
+      "audience": [
+        "contributors",
+        "teachers"
+      ],
+      "status": "current",
+      "useWhen": "You want to understand, test or extend the built-in AI maths tutor.",
+      "description": "Design and capability reference for Mathaloid Brain v2 — a fully local, explainable, step-by-step maths engine with zero network calls.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "ai.md",
+        "html": "ai.html",
+        "json": "ai.json"
+      }
+    },
+    {
+      "slug": "architecture",
+      "title": "Architecture",
+      "section": "Guides",
+      "audience": [
+        "contributors"
+      ],
+      "status": "current",
+      "useWhen": "You are changing code and need to know where things live and how data flows.",
+      "description": "File map, module responsibilities, hash router, storage model and rendering flow of the zero-dependency static app.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "architecture.md",
+        "html": "architecture.html",
+        "json": "architecture.json"
+      }
+    },
+    {
+      "slug": "contributing",
+      "title": "Contributing",
+      "section": "Guides",
+      "audience": [
+        "contributors"
+      ],
+      "status": "current",
+      "useWhen": "You want to add a game, lesson, skill or fix — safely.",
+      "description": "The safe-change workflow, style rules, and where to add games, lessons, skills and explainers.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "contributing.md",
+        "html": "contributing.html",
+        "json": "contributing.json"
+      }
+    },
+    {
+      "slug": "curriculum",
+      "title": "Curriculum & Mastery Model",
+      "section": "Guides",
+      "audience": [
+        "teachers",
+        "parents",
+        "contributors"
+      ],
+      "status": "current",
+      "useWhen": "You want to know how content maps to CAPS / IEB / A-Levels and how mastery is measured.",
+      "description": "Curriculum lenses, the five understanding dimensions, mastery bands and the spaced-repetition scheduler.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "curriculum.md",
+        "html": "curriculum.html",
+        "json": "curriculum.json"
+      }
+    },
+    {
+      "slug": "design-system",
+      "title": "Design System — Cosmic UI",
+      "section": "Guides",
+      "audience": [
+        "contributors",
+        "designers"
+      ],
+      "status": "current",
+      "useWhen": "You are changing visuals and need the tokens, components and accessibility rules.",
+      "description": "The cosmic design language: palette tokens, panels and orbs, motion rules, themes and accessibility requirements.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "design-system.md",
+        "html": "design-system.html",
+        "json": "design-system.json"
+      }
+    },
+    {
+      "slug": "getting-started",
+      "title": "Getting Started",
+      "section": "Guides",
+      "audience": [
+        "learners",
+        "teachers",
+        "contributors"
+      ],
+      "status": "current",
+      "useWhen": "You want to run, host or develop MATHALOID Atlas.",
+      "description": "Run the app from a folder, a local server or GitHub Pages; manage your data; build the docs.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "getting-started.md",
+        "html": "getting-started.html",
+        "json": "getting-started.json"
+      }
+    },
+    {
+      "slug": "overview",
+      "title": "Overview — Start Here",
+      "section": "Guides",
+      "audience": [
+        "learners",
+        "parents",
+        "teachers",
+        "contributors"
+      ],
+      "status": "current",
+      "useWhen": "You are new to MATHALOID Atlas and want to understand what it is, who it serves and why it exists.",
+      "description": "What MATHALOID Atlas is, the no-ceiling curriculum promise, the privacy-first principles, and a map of every tab.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "overview.md",
+        "html": "overview.html",
+        "json": "overview.json"
+      }
+    },
+    {
+      "slug": "quality",
+      "title": "Quality & Verification",
+      "section": "Guides",
+      "audience": [
+        "contributors",
+        "maintainers"
+      ],
+      "status": "current",
+      "useWhen": "You are preparing a change or a release and need the verification gates.",
+      "description": "The verification gates every change must pass: syntax checks, brain harness, visual QA across all 14 views, and the docs freshness gate.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "quality.md",
+        "html": "quality.html",
+        "json": "quality.json"
+      }
+    },
+    {
+      "slug": "roadmap",
+      "title": "Roadmap",
+      "section": "Guides",
+      "audience": [
+        "contributors",
+        "teachers",
+        "learners"
+      ],
+      "status": "current",
+      "useWhen": "You want to know what shipped in v2 and what is planned next.",
+      "description": "What the v2 Atlas rebuild delivered, and the prioritised next horizons — all constrained by local-first, privacy-first, MIT.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "roadmap.md",
+        "html": "roadmap.html",
+        "json": "roadmap.json"
+      }
+    },
+    {
+      "slug": "security-privacy",
+      "title": "Security, Privacy & Dependency Policy",
+      "section": "Guides",
+      "audience": [
+        "parents",
+        "teachers",
+        "contributors",
+        "auditors"
+      ],
+      "status": "current",
+      "useWhen": "You need to verify what data Atlas touches, or audit its dependency surface.",
+      "description": "The privacy-first guarantees, the threat model for a children's education tool, and the standing zero-dependency policy.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "security-privacy.md",
+        "html": "security-privacy.html",
+        "json": "security-privacy.json"
+      }
+    },
+    {
+      "slug": "skills/maintain-docs",
+      "title": "SKILL — Maintain the documentation",
+      "section": "Skills",
+      "audience": [
+        "contributors",
+        "agents"
+      ],
+      "status": "current",
+      "useWhen": "You changed behaviour, added a feature, or are preparing a release and must keep docs true.",
+      "description": "Repeatable workflow for updating canonical guides and regenerating counterparts so docs never drift from the code.",
+      "lastReviewed": "2026-07-16",
+      "counterparts": {
+        "markdown": "skills/maintain-docs.md",
+        "html": "skills/maintain-docs.html",
+        "json": "skills/maintain-docs.json"
+      }
+    }
+  ]
+}

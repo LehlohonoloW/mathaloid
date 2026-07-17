@@ -1,0 +1,19 @@
+{
+  "release": "v2.0.0",
+  "sourceRevision": "e38f7058b8eac346",
+  "generatedAt": "2026-07-16T18:20:15.849Z",
+  "docsBuild": "node docs/build-docs.mjs — success",
+  "counts": {
+    "markdown": 13,
+    "html": 13,
+    "json": 13,
+    "adrs": 2,
+    "skills": 1
+  },
+  "checks": {
+    "counterpartsFresh": true,
+    "linksValid": true,
+    "jsonValid": true,
+    "portalIndexed": true
+  }
+}
