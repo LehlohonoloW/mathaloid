@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "deepwiki/06-Troubleshooting",
+  "title": "deepwiki/06-Troubleshooting",
+  "status": "current",
+  "section": "Guides",
+  "audience": [],
+  "useWhen": "",
+  "sourceOfTruth": "06-Troubleshooting.md",
+  "counterparts": {
+    "markdown": "06-Troubleshooting.md",
+    "html": "06-Troubleshooting.html",
+    "json": "06-Troubleshooting.json"
+  },
+  "summary": "",
+  "sections": [
+    {
+      "id": "css-js-not-loading",
+      "label": "CSS/JS not loading"
+    },
+    {
+      "id": "sounds-not-playing",
+      "label": "Sounds not playing"
+    },
+    {
+      "id": "progress-not-saving",
+      "label": "Progress not saving"
+    },
+    {
+      "id": "duplicate-mathbot-definitions",
+      "label": "Duplicate MathBot definitions"
+    },
+    {
+      "id": "cockpit-overlays-not-visible",
+      "label": "Cockpit overlays not visible"
+    },
+    {
+      "id": "hud-leds-not-pulsing",
+      "label": "HUD LEDs not pulsing"
+    },
+    {
+      "id": "progress-update-2026-02-25",
+      "label": "Progress Update - 2026-02-25"
+    }
+  ],
+  "relatedGuides": [],
+  "keywords": [],
+  "lastReviewed": "",
+  "release": "v2.0.0",
+  "sourceChecksum": "a1defcf7f0f1b1c1",
+  "generatedAt": "2026-07-17T07:44:39.038Z",
+  "plaintext": "Troubleshooting CSS/JS not loading Verify filenames in index.html match actual files. Use styles.css , mathbot.js , and app.js after refactor. Sounds not playing Browser blocks autoplay: play only on user interaction and catch errors. Progress not saving Check LocalStorage for mathbot.state.v1 . If corrupted, delete and refresh to reset. Duplicate MathBot definitions Ensure only mathbot.js is loaded remove older duplicate includes . Cockpit overlays not visible Ensure Theme → \"Cockpit Neon\" is selected check <body has theme cockpit . Verify CSS loaded and cockpit overlay is present inside .container with pointer events: none . Layering: overlay z index: 25 and hud z index: 30 . On mobile <640px , caution stripes are hidden by design. HUD LEDs not pulsing Check Reduce Motion: if enabled, pulses are intentionally disabled. Verify status lights exists only shown in cockpit theme . Progress Update 2026 02 25 Upgraded core UI to a more immersive, tactile experience with improved interaction feedback and motion. Added Learning Coach enhancements, dynamic hinting, and stronger educational reinforcement during gameplay. Implemented richer game feel systems: combo indicator, celebratory effects, step by step solution reveal, and smarter mascot messaging. Expanded progress UX with operation mastery tracking, extended achievements, and clearer performance indicators. Improved accessibility and control reliability reduce motion handling, keyboard flow, and verified button behavior . Added in UI footer credit: Powered by Lehro Solutions, with increased visibility styling."
+}

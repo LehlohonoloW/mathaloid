@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "deepwiki/01-Overview",
+  "title": "deepwiki/01-Overview",
+  "status": "current",
+  "section": "Guides",
+  "audience": [],
+  "useWhen": "",
+  "sourceOfTruth": "01-Overview.md",
+  "counterparts": {
+    "markdown": "01-Overview.md",
+    "html": "01-Overview.html",
+    "json": "01-Overview.json"
+  },
+  "summary": "",
+  "sections": [
+    {
+      "id": "progress-update-2026-02-25",
+      "label": "Progress Update - 2026-02-25"
+    }
+  ],
+  "relatedGuides": [],
+  "keywords": [],
+  "lastReviewed": "",
+  "release": "v2.0.0",
+  "sourceChecksum": "1a4fd9ee817dfd95",
+  "generatedAt": "2026-07-17T07:44:38.953Z",
+  "plaintext": "Overview MATHALOID is a lightweight, browser only learning game for practicing arithmetic. Key features: Adaptive difficulty, scoring, and streaks Achievements and level progression Problem explanations for learning Planned modes: Speed, Puzzle, Story Themes including Cockpit Neon: HUD overlays status lights, mini radar , scanlines, and mechanical bezel Directory planned stable naming : index.html — UI scaffold styles.css — styles mathbot.js — core logic class unified app.js — UI glue, event handlers, modes docs/deepwiki/ — operational docs Progress Update 2026 02 25 Upgraded core UI to a more immersive, tactile experience with improved interaction feedback and motion. Added Learning Coach enhancements, dynamic hinting, and stronger educational reinforcement during gameplay. Implemented richer game feel systems: combo indicator, celebratory effects, step by step solution reveal, and smarter mascot messaging. Expanded progress UX with operation mastery tracking, extended achievements, and clearer performance indicators. Improved accessibility and control reliability reduce motion handling, keyboard flow, and verified button behavior . Added in UI footer credit: Powered by Lehro Solutions, with increased visibility styling."
+}

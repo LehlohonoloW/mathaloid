@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "deepwiki/CHANGELOG",
+  "title": "deepwiki/CHANGELOG",
+  "status": "current",
+  "section": "Guides",
+  "audience": [],
+  "useWhen": "",
+  "sourceOfTruth": "CHANGELOG.md",
+  "counterparts": {
+    "markdown": "CHANGELOG.md",
+    "html": "CHANGELOG.html",
+    "json": "CHANGELOG.json"
+  },
+  "summary": "",
+  "sections": [
+    {
+      "id": "2025-08-18",
+      "label": "2025-08-18"
+    },
+    {
+      "id": "2025-08-18-phase-c",
+      "label": "2025-08-18 (Phase C)"
+    },
+    {
+      "id": "2025-08-18-phase-d",
+      "label": "2025-08-18 (Phase D)"
+    },
+    {
+      "id": "2025-08-19",
+      "label": "2025-08-19"
+    },
+    {
+      "id": "2025-11-21-code-quality-playbook-compliance",
+      "label": "2025-11-21 (Code Quality & Playbook Compliance)"
+    },
+    {
+      "id": "progress-update-2026-02-25",
+      "label": "Progress Update - 2026-02-25"
+    },
+    {
+      "id": "progress-update-2026-02-25-docs-sync-non-promovid-scope",
+      "label": "Progress Update - 2026-02-25 (Docs Sync, Non-PROMOVID Scope)"
+    }
+  ],
+  "relatedGuides": [],
+  "keywords": [],
+  "lastReviewed": "",
+  "release": "v2.0.0",
+  "sourceChecksum": "2ddfa404a400f824",
+  "generatedAt": "2026-07-17T07:44:39.050Z",
+  "plaintext": "Changelog 2025 08 18 Initialize deepwiki structure. Added plan for file renames, persistence, modes, and UX improvements. Phase A completed: standardized file names and HTML references .container {.css → styles.css class MathBot {.js → mathbot.js unified class, exposed as window.MathBot const mathBot = new MathBot ;.js → app.js UI glue index.html updated to load styles.css, mathbot.js, app.js Phase B started: persistence and UI theme hooks Added localStorage persistence in app.js difficulty, score, streak, level, pointsToNextLevel, achievements, operationsUsed Load state on init; update slider/value; apply difficulty color theme; save on answer check and slider change Minor: introduced applyDifficultyTheme helper Cleanup Archived legacy duplicates to archive/ .container {.css, class MathBot {.js, class MathBot.js, const mathBot = new MathBot ;.js Note Resolved in Phase C below Previously had duplicate progress sections/IDs in index.html; these have been removed. 2025 08 18 Phase C Implemented game modes MVP : Speed: 60s timer, auto advance, ends on time up Puzzle: 3 lives, lose a life on incorrect, ends on 0 lives Story: appends explanation after correct answers UI: added mode status bar in index.html mode status showing current mode, timer, lives Styles: added mode status styles; fixed CSS lint by adding appearance: none to difficulty slider Controls/UX: added controls bar with mute toggle persisted and reset progress clears progress, stops modes HTML: deduplicated the progress section and removed duplicate IDs Docs: updated docs/deepwiki/04 Game Modes.md and 02 Runbooks.md , 03 Architecture.md for modes, persistence, and controls 2025 08 18 Phase D Story UX enhancements: Story mode now always shows explanations; after correct answers, adds an extra ~7s wait ≈9s total before next problem. Inputs are locked during the wait to prevent double submissions. Added post answer countdown and \"Skip now\" control. Difficulty UX: Slider now supports 0.5 increments; app reads difficulty as float. Implementation notes: Added scheduleNextProblem countdown UI, performNextNow , clearPendingNext , and awaitingNext guard in app.js . Added post answer controls section to index.html and corresponding styles to styles.css . Docs updated: 04 Game Modes.md , 02 Runbooks.md , 03 Architecture.md reflect the new UX. 2025 08 19 Branding: DeepWiki rebranded to MATHALOID README.md , 01 Overview.md . UI/UX: Added \"Cockpit Neon\" section with visuals, layering, reduced motion, mobile, and verification checklist. Architecture: Documented HUD extras status lights , mini radar and cockpit overlay layering and behavior. Runbooks: Added theme verification checklist for Cockpit Neon. Troubleshooting: Added cockpit overlay and LED pulse tips. CSS tweaks code : refined overlay z index and caution stripe placement; added reduced motion handling for LED pulses; LCD like readouts for level badge . 2025 11 21 Code Quality & Playbook Compliance Code Quality Initiative : Comprehensive codebase analysis against improved_dev_rules.md playbook Constants Centralization : Created constants.js to eliminate magic numbers playbook rule 75 MODE_CONFIG : Game mode timing and behavior constants GAME_BALANCE : Scoring, achievements, and difficulty tuning UI_TIMING : Animation and transition durations AUDIO_CONFIG , STORAGE_CONFIG , A11Y_CONFIG , PARALLAX_CONFIG All constants documented with rationale comments Documentation : Created comprehensive improvement roadmap docs/CONTINUOUS_IMPROVEMENT_PLAN.md : 7 priority areas for enhancement docs/IMPROVEMENT_SESSION_SUMMARY.md : Session summary and next steps HTML : Updated index.html to load constants.js before other scripts Impact : Zero breaking changes; purely additive improvements Playbook Compliance : Increased from 95% to 98% Next Phase : Migrate existing magic numbers to use centralized constants Progress Update 2026 02 25 Upgraded core UI to a more immersive, tactile experience with improved interaction feedback and motion. Added Learning Coach enhancements, dynamic hinting, and stronger educational reinforcement during gameplay. Implemented richer game feel systems: combo indicator, celebratory effects, step by step solution reveal, and smarter mascot messaging. Expanded progress UX with operation mastery tracking, extended achievements, and clearer performance indicators. Improved accessibility and control reliability reduce motion handling, keyboard flow, and verified button behavior . Added in UI footer credit: Powered by Lehro Solutions, with increased visibility styling. Progress Update 2026 02 25 Docs Sync, Non PROMOVID Scope Documentation synchronized to reflect repository progress outside D:\\mathaloid\\PROMOVID . Latest non PROMOVID checkpoint confirmed: f601798 2026 02 25 . No additional non PROMOVID implementation changes were detected since that checkpoint. This update intentionally excludes all PROMOVID specific activity."
+}

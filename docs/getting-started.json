@@ -59,6 +59,6 @@
   "lastReviewed": "2026-07-16",
   "release": "v2.0.0",
   "sourceChecksum": "0a5f52a1d542c657",
-  "generatedAt": "2026-07-16T18:20:15.833Z",
+  "generatedAt": "2026-07-17T07:44:39.097Z",
   "plaintext": "Requirements None. MATHALOID Atlas is a static site with zero runtime dependencies — no npm install, no build step, no server code. Any modern browser works. Node.js 18+ is only needed if you want to rebuild the documentation. Run it locally Option A — just open it: Option B — tiny local server recommended, matches production paths : Deploy to GitHub Pages 1. Push the repository to GitHub. 2. Settings → Pages → deploy from the main branch, root folder. 3. Done — there is no build pipeline to configure. The docs portal ships pre built at /docs/index.html . Your data All progress is stored under the localStorage key atlas.state.v1 older mathbot.state.v1 saves migrate automatically . Export / erase from Settings at any time. Clearing browser data resets everything — by design there is no cloud copy. Developer commands Where to go next Architecture architecture.md — how the three JS modules fit together. Contributing contributing.md — the safe change workflow."
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "release": "v2.0.0",
-  "generatedAt": "2026-07-16T18:20:15.848Z",
+  "generatedAt": "2026-07-17T07:44:39.288Z",
   "entries": [
     {
       "slug": "adrs/adr-0001-zero-dependency-local-first",
@@ -73,6 +73,36 @@
       }
     },
     {
+      "slug": "CONSTANTS_USAGE_GUIDE",
+      "title": "CONSTANTS_USAGE_GUIDE",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "CONSTANTS_USAGE_GUIDE.md",
+        "html": "CONSTANTS_USAGE_GUIDE.html",
+        "json": "CONSTANTS_USAGE_GUIDE.json"
+      }
+    },
+    {
+      "slug": "CONTINUOUS_IMPROVEMENT_PLAN",
+      "title": "CONTINUOUS_IMPROVEMENT_PLAN",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "CONTINUOUS_IMPROVEMENT_PLAN.md",
+        "html": "CONTINUOUS_IMPROVEMENT_PLAN.html",
+        "json": "CONTINUOUS_IMPROVEMENT_PLAN.json"
+      }
+    },
+    {
       "slug": "contributing",
       "title": "Contributing",
       "section": "Guides",
@@ -106,6 +136,126 @@
         "markdown": "curriculum.md",
         "html": "curriculum.html",
         "json": "curriculum.json"
+      }
+    },
+    {
+      "slug": "deepwiki/01-Overview",
+      "title": "deepwiki/01-Overview",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "deepwiki/01-Overview.md",
+        "html": "deepwiki/01-Overview.html",
+        "json": "deepwiki/01-Overview.json"
+      }
+    },
+    {
+      "slug": "deepwiki/02-Runbooks",
+      "title": "deepwiki/02-Runbooks",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "deepwiki/02-Runbooks.md",
+        "html": "deepwiki/02-Runbooks.html",
+        "json": "deepwiki/02-Runbooks.json"
+      }
+    },
+    {
+      "slug": "deepwiki/03-Architecture",
+      "title": "deepwiki/03-Architecture",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "deepwiki/03-Architecture.md",
+        "html": "deepwiki/03-Architecture.html",
+        "json": "deepwiki/03-Architecture.json"
+      }
+    },
+    {
+      "slug": "deepwiki/04-Game-Modes",
+      "title": "deepwiki/04-Game-Modes",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "deepwiki/04-Game-Modes.md",
+        "html": "deepwiki/04-Game-Modes.html",
+        "json": "deepwiki/04-Game-Modes.json"
+      }
+    },
+    {
+      "slug": "deepwiki/05-UI-UX",
+      "title": "deepwiki/05-UI-UX",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "deepwiki/05-UI-UX.md",
+        "html": "deepwiki/05-UI-UX.html",
+        "json": "deepwiki/05-UI-UX.json"
+      }
+    },
+    {
+      "slug": "deepwiki/06-Troubleshooting",
+      "title": "deepwiki/06-Troubleshooting",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "deepwiki/06-Troubleshooting.md",
+        "html": "deepwiki/06-Troubleshooting.html",
+        "json": "deepwiki/06-Troubleshooting.json"
+      }
+    },
+    {
+      "slug": "deepwiki/CHANGELOG",
+      "title": "deepwiki/CHANGELOG",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "deepwiki/CHANGELOG.md",
+        "html": "deepwiki/CHANGELOG.html",
+        "json": "deepwiki/CHANGELOG.json"
+      }
+    },
+    {
+      "slug": "deepwiki/README",
+      "title": "deepwiki/README",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "deepwiki/README.md",
+        "html": "deepwiki/README.html",
+        "json": "deepwiki/README.json"
       }
     },
     {
@@ -143,6 +293,36 @@
         "markdown": "getting-started.md",
         "html": "getting-started.html",
         "json": "getting-started.json"
+      }
+    },
+    {
+      "slug": "IMPROVEMENT_PLAN",
+      "title": "IMPROVEMENT_PLAN",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "IMPROVEMENT_PLAN.md",
+        "html": "IMPROVEMENT_PLAN.html",
+        "json": "IMPROVEMENT_PLAN.json"
+      }
+    },
+    {
+      "slug": "IMPROVEMENT_SESSION_SUMMARY",
+      "title": "IMPROVEMENT_SESSION_SUMMARY",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "IMPROVEMENT_SESSION_SUMMARY.md",
+        "html": "IMPROVEMENT_SESSION_SUMMARY.html",
+        "json": "IMPROVEMENT_SESSION_SUMMARY.json"
       }
     },
     {
