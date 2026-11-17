@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "open-world",
+  "title": "Atlas Plateau — maths and physics in an open world",
+  "status": "current",
+  "section": "Guides",
+  "audience": [
+    "learners",
+    "contributors"
+  ],
+  "useWhen": "You want to play, extend or verify the 3D expedition.",
+  "sourceOfTruth": "open-world.md",
+  "counterparts": {
+    "markdown": "open-world.md",
+    "html": "open-world.html",
+    "json": "open-world.json"
+  },
+  "summary": "A continuous local-first 3D learning world with six regions, eighteen discoveries, prediction evidence and an expansion plan.",
+  "sections": [
+    {
+      "id": "what-you-can-play-now",
+      "label": "What you can play now"
+    },
+    {
+      "id": "design-pillars",
+      "label": "Design pillars"
+    },
+    {
+      "id": "the-six-stations",
+      "label": "The six stations"
+    },
+    {
+      "id": "controls-and-accessibility",
+      "label": "Controls and accessibility"
+    },
+    {
+      "id": "running-and-backing-up",
+      "label": "Running and backing up"
+    },
+    {
+      "id": "architecture-and-contracts",
+      "label": "Architecture and contracts"
+    },
+    {
+      "id": "decisions-and-tradeoffs",
+      "label": "Decisions and tradeoffs"
+    },
+    {
+      "id": "verification",
+      "label": "Verification"
+    },
+    {
+      "id": "development-toward-the-full-potential",
+      "label": "Development toward the full potential"
+    }
+  ],
+  "relatedGuides": [
+    "architecture",
+    "curriculum",
+    "quality",
+    "roadmap"
+  ],
+  "keywords": [
+    "3d",
+    "open world",
+    "physics",
+    "experiments",
+    "accessibility",
+    "saves"
+  ],
+  "lastReviewed": "2026-11-12",
+  "release": "v2.0.0",
+  "sourceChecksum": "f97875d8e9e290fe",
+  "generatedAt": "2026-11-17T11:26:29.759Z",
+  "plaintext": "What you can play now The Atlas Plateau is the default entry to Mathaloid. Explore a 200 m by 200 m meadow with an observatory, river, paths, trees and six distinct field stations. Restore the stations by changing their physical parameters, observing what happens, and explaining the result. You can visit them in any order, walk around the river, or use the map to travel and open accessible laboratories. The existing learning atlas, quizzes, lessons, notes, exams and Passport remain available. This is the first playable open world slice, with the expansion direction below. It is not a completed commercial open world game or a validated substitute for classroom teaching. The regions now have distinct landmarks: layered quarry faces, a launch mast and ridge outcrops, shoreline reeds and buoys, growing beds and trellises, highland terraces with a turbine, and bridge approach rails. Restoring the energy station turns the highland turbine. The map lets you Track on foot without teleporting; the objective, minimap ring and compass follow your chosen station. Distances are straight lines, so use paths and river detours. Tracking lasts for the current world session. Each laboratory offers an optional numeric prediction with named units. Choose your experiment settings, estimate the result, test, then compare predicted and measured values. Every valid trial is recorded immediately, including successful trials abandoned before explanation. Reflection grants the discovery and XP separately; replays cannot farm rewards. Field notes contain settings, outcomes, measured quantities and prediction comparisons, with Test another idea returning to the recorded challenge level. Predictions are estimates, not graded answers. Design pillars 1. Mathematics changes the world: a calculation fits a brace, opens a gate or delivers a capsule. 2. Predict, investigate, then explain: compare expectations with measurements; a causal explanation completes the discovery. 3. Freedom without pressure: all stations are open, failed attempts cost no lives, and there is no compulsory timer. 4. Every learner can participate: map access, native keyboard controls, touch buttons, remapping and reduced motion complement walking. 5. Learning belongs to the student: progress stays in a versioned local save and can be backed up with the Atlas. The story is simple: an explorer brings the plateau's field stations back to life. Tone: curious, practical, encouraging. Materials: pale limestone, warm brass, meadow greens, teal water, cream paper. The observatory's orbital apparatus lights up as discoveries accumulate. The six stations Station Student action Mathematics / physics Visible consequence Geometry Crossing Fit the diagonal of a right triangle Pythagoras and length in metres River bridge becomes traversable Trajectory Ridge Choose capsule speed and angle Horizontal and vertical motion, gravity, range Capsule follows a ballistic path to the receiver Force Quarry Choose force and distance from a pivot Torque and equilibrium Lever balances and gate rises Energy Highlands Choose release height Potential energy, kinetic energy, energy losses Capsule runs down a ramp and turbine starts Resonance Lake Tune frequency and wavelength Wave speed and inverse relationships Waveform changes and station is restored Ratio Gardens Choose whole metre length and width Area, perimeter and constrained design Planting cells occupy the chosen bed Three levels give eighteen independently recorded discoveries. Discover simplifies the target; Investigate is the default; Engineer adds larger targets or constraints. They are difficulty choices, not certified grade alignment. Beginner explanations still benefit from adult support for younger students. Physics assumptions are explicit in each laboratory. Projectiles use g = 9.81 m/s² with no air resistance and equal launch/landing heights. Lever forces act perpendicular to the lever. Ramp energy retention is fixed by the mission. The wave activity is a configurable teaching medium; students are told that a fixed real medium fixes wave speed. Controls and accessibility Action Default Walk / strafe W A S D Turn Left / right arrows, or drag the scene Jump Space Sprint Shift Investigate a nearby station E or the Investigate button Field map M or Map Pause / settings Escape or the settings button Gamepad mapping Left stick moves, right stick turns, A jumps, X investigates Change movement bindings in expedition settings. Tab and Escape leave key capture. Touch controls release on pointer up, cancellation or lost capture. Held inputs clear on blur and visibility changes. Native dialogs contain focus and return it on exit. Map actions provide access to every activity without first person navigation. Reduced motion freezes ambient or repeating animation while retaining useful experiment results. No camera shake or strobe is used. Physical gamepad hardware and a screen reader led playthrough have not been verified. A 3D scene is not an accessible description of space by itself; the named map entries, prose targets, controls and numerical results are the alternative interface. Running and backing up Run bun run start and open http://127.0.0.1:4173/ world . Static hosting and direct file use remain possible: there are no asset CDNs, framework packages or runtime downloads. A local HTTP origin is recommended for reliable browser storage. Settings → Export includes expedition in the existing Atlas backup. Import restores it; Reset erases it with the rest of the Atlas. A failed storage write displays Session only · export to keep . The save is not encrypted or synchronised to another device. Clearing browser data clears progress, so keep a backup when it matters. Malformed backups are validated before replacing live state. Missing fields in older valid backups receive safe defaults. If a different tab has saved newer data, this tab refuses to overwrite it and displays Another tab saved · export this session . Export any work you want to keep, then reload to use the latest saved state. Tabs do not merge their changes. A restore with unavailable storage explicitly reports that it exists only in the current session; a failed reset cannot claim persisted data was erased. Architecture and contracts Source Responsibility js/expedition.js DOM free mission definitions, validated physics, reflection questions, rewards and save sanitisation js/world.js Fixed 60 Hz locomotion, interpolation, bounded world, water/tree collision, input, camera and lifecycle js/world renderer.js Packed native WebGL mesh, lighting/fog, reactive station geometry, Canvas fallback, context recovery js/world ui.js Onboarding, map, laboratories, evidence journal, explanation gate, settings and progress transaction js/engine.js Existing Atlas state, profile rewards and backup persistence css/world.css Expedition interface, responsive states and focus styling The world draws at render frequency but advances movement in fixed 1/60 s steps, with at most five catch up steps. Suspension cannot turn a delayed frame into a large movement. Geometry uses native WebGL with three draw calls and a shared triangle based Canvas fallback. Fallback scenery is simplified while stations retain their learning logic. Stop disconnects observers, removes global listeners and releases GPU resources. GPU restoration rebuilds the buffers. Save version 1 contains position, visited station IDs, completed id:difficulty entries, up to thirty experiment records with optional predictions, and validated settings. Unknown schemas, invalid coordinates, control values or false completion claims are sanitised. Older records remain compatible. Trial recording and discovery completion are separate operations. Completion is separate from quiz accuracy; it increments Apply, Reason and Create without treating one experiment as proof of curriculum mastery. XP is awarded once per station and level: 50 / 80 / 120. Explanation completion and XP are saved together. Decisions and tradeoffs Decision Choice Reason / tradeoff Engine Native WebGL, no third party engine Preserves the static, zero dependency application; limits authoring tools and advanced graphics World size One continuous bounded 200 m plateau Gives free exploration and meaningful landmarks with a manageable browser budget Learning Physical controls plus explanation Integrates maths into consequences; multiple choice explanations are a first step towards richer reasoning Saves Existing localStorage Atlas backup Recoverable without accounts; no automatic device sync or class management Art Authored procedural low poly modules Everything ships locally; a future art pass should improve terrain, characters and environmental density Assessment Separate discoveries and quiz mastery Avoids overstating what a successful simulation establishes Verification Run bun run check , bun run test , bun run docs:build , and bun run docs:check . Browser verification is bun run test:browser ; it requires an installed Playwright tooling module, supplied by ATLAS_PLAYWRIGHT_MODULE , and optionally ATLAS_CHROMIUM for an existing Chromium executable. Tooling is not a runtime dependency. Bun runs the server, syntax parser, unit tests and documentation generator. Browser only verification uses Node internally because Playwright's Windows debugging pipe transport timed out under Bun 1.3.14. Run the renderer browser smoke with bun run test:renderer:browser and the same tooling environment variables; normal Bun unit tests skip that optional browser smoke on Windows. Set ATLAS_EVIDENCE_DIR to retain each run in its own directory. The Bun verification run is in docs/.docs/evidence/2026 11 12 bun/ ; prior runs are preserved. The optional renderer browser smoke in tests/renderer regions.test.mjs runs when its tooling environment variables are provided; the full app browser journey exercises the renderer as well. The browser harness exercises all eighteen complete discoveries, wrong explanations, changed controls, replay rewards, actual keyboard movement, jumping, touch holds, mobile completion, reload, backup restoration, map pause, settings, returning to the world, Canvas completion, and ten existing routes. It records console/page errors, third party requests, draw/triangle budgets, screenshots and measured timings in docs/.docs/evidence/world browser.json . Rendering budgets for this slice: at most 22,000 triangles and three WebGL draws, at least 30 FPS for the reference host, and a target of 20 FPS for fallback traversal. Headless software GPU measurements do not establish performance on school laptops, tablets or phones. The evidence report distinguishes functional success from unfulfilled performance targets. See docs/.docs/open world verification.md for measured results and open gates. Development toward the full potential Each next phase must end in another start to finish playable learning journey. 1. A working valley: connect stations through shared outcomes. A water powered district requires a bridge, flow estimate, energy budget and supply garden. End with a student built system whose measurements can be explained and exported. Preserve existing free exploration. 2. A learner's expedition: map missions to prerequisite concepts and local curricula; add plain language visual scaffolds and teacher reviewed misconceptions. Adapt from observed errors, with explanations and manual overrides. Verify learning gains with realistic learner sessions before claiming educational effectiveness. 3. The field construction kit: extend the shipped prediction notebook into student built ramps, levers, bridges and circuits, placed sensors and an exportable lab report. Add dimensional checks, controls that cannot create invalid physics, and an undoable editor. 4. A larger inhabited world: modular ecology, purposeful guide characters, coherent weather and sound, multiple regions, streaming and level of detail budgets. Every region teaches a distinct scientific verb; new scenery must not outrun playable content or hardware gates. 5. Classroom journeys: offline friendly session plans, assignment packs, accessible alternatives and local evidence export. Shared worlds or teacher device sync require an explicit privacy/authentication design and a new architecture decision; do not silently add student accounts or tracking. Still open: fallback performance, named school hardware benchmarks, Safari/Firefox, physical gamepads, screen reader and learner testing, broader curriculum coverage, richer explanations than multiple choice, and a professional environmental art pass. These are expansion and release gates, not features disguised as completed work."
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "release": "v2.0.0",
-  "generatedAt": "2026-07-17T07:44:39.288Z",
+  "generatedAt": "2026-11-17T11:26:30.068Z",
   "entries": [
     {
       "slug": "adrs/adr-0001-zero-dependency-local-first",
@@ -35,6 +35,23 @@
         "markdown": "adrs/adr-0002-docs-counterpart-pipeline.md",
         "html": "adrs/adr-0002-docs-counterpart-pipeline.html",
         "json": "adrs/adr-0002-docs-counterpart-pipeline.json"
+      }
+    },
+    {
+      "slug": "adrs/adr-0003-native-3d-expedition",
+      "title": "ADR-0003 — Native 3D learning expedition",
+      "section": "ADRs",
+      "audience": [
+        "contributors"
+      ],
+      "status": "current",
+      "useWhen": "You change the game runtime, physics, saves or assessment.",
+      "description": "Add a native WebGL learning world while preserving the existing static, local-first Atlas and its zero runtime dependencies.",
+      "lastReviewed": "2026-11-11",
+      "counterparts": {
+        "markdown": "adrs/adr-0003-native-3d-expedition.md",
+        "html": "adrs/adr-0003-native-3d-expedition.html",
+        "json": "adrs/adr-0003-native-3d-expedition.json"
       }
     },
     {
@@ -288,7 +305,7 @@
       "status": "current",
       "useWhen": "You want to run, host or develop MATHALOID Atlas.",
       "description": "Run the app from a folder, a local server or GitHub Pages; manage your data; build the docs.",
-      "lastReviewed": "2026-07-16",
+      "lastReviewed": "2026-11-12",
       "counterparts": {
         "markdown": "getting-started.md",
         "html": "getting-started.html",
@@ -326,6 +343,24 @@
       }
     },
     {
+      "slug": "open-world",
+      "title": "Atlas Plateau — maths and physics in an open world",
+      "section": "Guides",
+      "audience": [
+        "learners",
+        "contributors"
+      ],
+      "status": "current",
+      "useWhen": "You want to play, extend or verify the 3D expedition.",
+      "description": "A continuous local-first 3D learning world with six regions, eighteen discoveries, prediction evidence and an expansion plan.",
+      "lastReviewed": "2026-11-12",
+      "counterparts": {
+        "markdown": "open-world.md",
+        "html": "open-world.html",
+        "json": "open-world.json"
+      }
+    },
+    {
       "slug": "overview",
       "title": "Overview — Start Here",
       "section": "Guides",
@@ -356,7 +391,7 @@
       "status": "current",
       "useWhen": "You are preparing a change or a release and need the verification gates.",
       "description": "The verification gates every change must pass: syntax checks, brain harness, visual QA across all 14 views, and the docs freshness gate.",
-      "lastReviewed": "2026-07-16",
+      "lastReviewed": "2026-11-17",
       "counterparts": {
         "markdown": "quality.md",
         "html": "quality.html",
@@ -375,7 +410,7 @@
       "status": "current",
       "useWhen": "You want to know what shipped in v2 and what is planned next.",
       "description": "What the v2 Atlas rebuild delivered, and the prioritised next horizons — all constrained by local-first, privacy-first, MIT.",
-      "lastReviewed": "2026-07-16",
+      "lastReviewed": "2026-11-12",
       "counterparts": {
         "markdown": "roadmap.md",
         "html": "roadmap.html",

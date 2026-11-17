@@ -19,6 +19,10 @@
   "summary": "What the v2 Atlas rebuild delivered, and the prioritised next horizons — all constrained by local-first, privacy-first, MIT.",
   "sections": [
     {
+      "id": "new-playable-direction-atlas-plateau-november-2026",
+      "label": "New playable direction — Atlas Plateau (November 2026)"
+    },
+    {
       "id": "shipped-v2-0-0-atlas-july-2026",
       "label": "Shipped — v2.0.0 “Atlas” (July 2026)"
     },
@@ -42,9 +46,9 @@
     "features",
     "versions"
   ],
-  "lastReviewed": "2026-07-16",
+  "lastReviewed": "2026-11-12",
   "release": "v2.0.0",
-  "sourceChecksum": "c45c22f9e57f2ad7",
-  "generatedAt": "2026-07-17T07:44:39.195Z",
-  "plaintext": "Shipped — v2.0.0 “Atlas” July 2026 Complete cosmic UI rebuild: 14 tabs, mascot hub, orb navigation, mobile first responsive. Curriculum lenses: CAPS, IEB, Cambridge A Levels, Global — Grade 1 to post matric with no ceiling. Mastery engine: five dimensions, four bands, spaced repetition, XP/badges, Data Desk analytics. Mathaloid Brain v2 : step by step linear & quadratic solvers, polynomial calculus, fractions/percentages/number theory, 18+ concept explainers, adaptive quizzes — 100% on device. Documentation system: Markdown canonical guides with generated HTML/JSON counterparts, themed portal, docs:build / docs:check pipeline Lehro house pattern . Next horizons Priority Item Notes P1 More games per band Target: every skill category has ≥2 game formats P1 Printable worksheet generator Client side print stylesheets; still zero server P2 PWA install + full offline cache Service worker; keeps the zero request promise P2 i18n scaffolding Afrikaans + isiZulu first; lens aware terminology P2 Teacher mode Local class lists via import/export codes — no accounts P3 A Level depth pack Vectors, mechanics applications, further calculus P3 Opt in local small model experiment Only if it runs fully on device and degrades gracefully; deterministic brain stays the default P3 Accessibility audit round 2 Screen reader passes on all games Non goals permanent Accounts, cloud sync, telemetry, ads, or any server dependency. Paid tiers — the tool is MIT and free forever."
+  "sourceChecksum": "0989844de7164b10",
+  "generatedAt": "2026-11-17T11:26:29.814Z",
+  "plaintext": "New playable direction — Atlas Plateau November 2026 The default app entry is now a continuous 3D maths and physics expedition. Six physical stations across three difficulties provide eighteen experiment and explanation discoveries. Local saves, Atlas backups, accessible map access, touch controls and the existing study tools are integrated. Functional browser verification is recorded; target school hardware and real learner testing remain open release gates. The November 12 slice adds region specific scenery, destination tracking and compass guidance, optional predictions compared with measured outcomes, and a field notebook that retains every trial before reflection. Backup validation, visible storage failures and stale tab write rejection protect the student's evidence. Canvas fallback frame rate remains an explicit verification gate. The next game milestones are a connected working valley, curriculum specific expeditions, a student construction kit, a larger modular world, and classroom journey packs. Each must ship a complete playable learning loop. See open world.md open world.md for the full plan, architecture and honest verification limits. Existing companion app priorities below remain available for later work. Shipped — v2.0.0 “Atlas” July 2026 Complete cosmic UI rebuild: 14 tabs, mascot hub, orb navigation, mobile first responsive. Curriculum lenses: CAPS, IEB, Cambridge A Levels, Global — Grade 1 to post matric with no ceiling. Mastery engine: five dimensions, four bands, spaced repetition, XP/badges, Data Desk analytics. Mathaloid Brain v2 : step by step linear & quadratic solvers, polynomial calculus, fractions/percentages/number theory, 18+ concept explainers, adaptive quizzes — 100% on device. Documentation system: Markdown canonical guides with generated HTML/JSON counterparts, themed portal, docs:build / docs:check pipeline Lehro house pattern . Next horizons Priority Item Notes P1 More games per band Target: every skill category has ≥2 game formats P1 Printable worksheet generator Client side print stylesheets; still zero server P2 PWA install + full offline cache Service worker; keeps the zero request promise P2 i18n scaffolding Afrikaans + isiZulu first; lens aware terminology P2 Teacher mode Local class lists via import/export codes — no accounts P3 A Level depth pack Vectors, mechanics applications, further calculus P3 Opt in local small model experiment Only if it runs fully on device and degrades gracefully; deterministic brain stays the default P3 Accessibility audit round 2 Screen reader passes on all games Non goals permanent Accounts, cloud sync, telemetry, ads, or any server dependency. Paid tiers — the tool is MIT and free forever."
 }

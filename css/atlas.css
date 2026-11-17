@@ -193,6 +193,26 @@ body{
 .list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
 .list li{display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--line); border-radius:12px; background:var(--glass-2); font-size:13.5px}
 .list li .spacer{flex:1}
+
+/* ================= 3D WORLD (Atlas Plateau) ================= */
+/* The canvas fills a tall, rounded viewport like a window onto the world. */
+.world-host{position:relative; width:100%; height:clamp(420px,68vh,760px); border:1px solid var(--line-2); border-radius:calc(var(--radius) + 4px); overflow:hidden; background:linear-gradient(180deg,#070a18,#060a1a); box-shadow:0 0 calc(40px*var(--glow)) rgba(78,225,255,.14), inset 0 0 60px rgba(0,0,0,.4); cursor:grab; touch-action:none}
+.world-host:active{cursor:grabbing}
+.world-canvas{display:block; width:100%; height:100%}
+.world-head{display:block}
+.world-controls{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+/* Monument prompt menu floats over the world canvas. */
+.world-menu{position:fixed; inset:0; z-index:40; display:grid; place-items:center; background:rgba(4,6,15,.66); backdrop-filter:blur(6px); padding:20px; animation:viewIn .25s ease}
+.world-menu[hidden]{display:none}
+.world-card{max-width:460px; width:100%; text-align:center}
+.world-card h3{justify-content:center}
+.world-card h3 .ic{color:var(--ac,var(--cyan))}
+.world-choices{display:flex; flex-direction:column; gap:10px; margin:16px 0 12px}
+.world-choices .btn{justify-content:center}
+/* Home orb variant for the world portal — the atom emblem. */
+.orb-world .orb-bubble{background:radial-gradient(circle at 32% 28%, rgba(78,225,255,.4), rgba(10,16,40,.85) 68%); border-color:rgba(78,225,255,.7); box-shadow:0 0 calc(38px*var(--glow)) rgba(78,225,255,.55), inset 0 0 22px rgba(78,225,255,.3); animation:orbFloat 5s ease-in-out infinite}
+.orb-world .orb-name{color:var(--cyan)}
+
 progress{display:none}
 .meter{display:grid; grid-template-columns:1fr auto; align-items:center; gap:4px 10px; font-size:13px; margin-bottom:10px}
 .meter .bar{grid-column:1}

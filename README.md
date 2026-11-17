@@ -1,5 +1,11 @@
 # MATHALOID Atlas 🪐
 
+**New: a playable 3D maths and physics expedition.** Explore the Atlas Plateau, restore six field stations through experiments, and explain your discoveries. Three difficulty levels provide eighteen independently saved challenges. The existing learning companion remains available. See [the open-world guide](docs/open-world.md) for controls, verification and the development plan.
+
+Track a destination with the compass, make a prediction, then compare it with your experiment's measured result. Field notes keep every trial, and the six regions now have distinct landmarks. Progress and predictions stay on this device and travel with your Atlas backup.
+
+Run `bun run start`, then open `http://127.0.0.1:4173/#world`. No runtime packages or asset downloads are required.
+
 **Every tab. One atlas. Endless mathematics.**
 
 MATHALOID Atlas is a free, open-source, privacy-first mathematics learning companion that runs entirely in your browser — from Grade 1 counting to A-Level calculus and beyond. No accounts. No servers. No analytics. No ceiling.
@@ -58,9 +64,11 @@ Or just open `index.html` in a browser. Works offline once loaded.
 
 ### Deploy to GitHub Pages
 
-1. Push this folder to a GitHub repository
-2. Settings → Pages → deploy from the `main` branch, root folder
-3. Done — the whole app is static files
+1. In repository Settings → Pages, select **GitHub Actions** as the source.
+2. Run `bun run release:check`, then push to `main`.
+3. The workflow validates the committed documentation, packages public files and deploys the static site. Pull requests run validation without deploying.
+
+`bun run pages:package` prints the temporary distribution directory. It contains the application, public docs, license and release notes; development tools, archives and QA evidence are excluded.
 
 ## ♿ Accessibility
 
@@ -82,7 +90,7 @@ js/app.js       — router, chat, views, games, quiz runner, voice, settings
 
 Full docs live in [`docs/`](docs/README.md) — Markdown-canonical guides with a generated, themed portal at [`docs/index.html`](docs/index.html) (served on GitHub Pages at `/docs/`).
 
-- Rebuild: `npm run docs:build` · Gate: `npm run docs:check` (zero dependencies — Node built-ins only)
+- Rebuild: `bun run docs:build` · Gate: `bun run docs:check` (Bun 1.3.14+, zero dependencies)
 - Key reads: [Overview](docs/overview.md) · [Mathaloid Brain (AI)](docs/ai.md) · [Security & privacy](docs/security-privacy.md) · [Contributing](docs/contributing.md)
 
 ## 📄 License

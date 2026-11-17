@@ -46,6 +46,7 @@ const App = (() => {
     size(); addEventListener("resize", size);
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches || Engine.state.settings.reducedMotion;
     function frame(t) {
+      if (!still && (document.hidden || document.body.classList.contains("world-active"))) { requestAnimationFrame(frame); return; }
       ctx.clearRect(0, 0, cv.width, cv.height);
       for (const st of stars) {
         const a = still ? 0.7 : 0.35 + 0.45 * Math.abs(Math.sin(st.p + t * 0.0006 * st.s));
@@ -716,7 +717,7 @@ const App = (() => {
     </div>`;
     $$("[data-mode]", el).forEach((b) => b.addEventListener("click", () => { if (b.dataset.mode === "review") { startArena("review"); } else VIEWS.arena(el, b.dataset.mode); }));
     const sessGens = sessionStorage.getItem("arena.gens");
-    if (sessGens) { sessionStorage.removeItem("arena.gens"); startArena("drill", [sessGens]); }
+    if (sessGens) { sessionStorage.removeItem("arena.gens"); startArena("drill", sessGens.split(",").map((s) => s.trim()).filter(Boolean)); }
     $("#arenaStart", el).addEventListener("click", () => startArena(mode.id));
     function startArena(id, forceGens) {
       const host = $("#arenaHost", el); host.hidden = false; host.scrollIntoView({ behavior: "smooth" });
@@ -851,10 +852,10 @@ const App = (() => {
     $("#impData", el).addEventListener("change", (e) => {
       const f = e.target.files[0]; if (!f) return;
       const r = new FileReader();
-      r.onload = () => { try { Engine.importJSON(r.result); toast("✅ Backup restored!"); applySettings(); refreshHud(); VIEWS.settings(el); } catch (err) { toast("⚠️ That file isn't a valid Atlas backup."); } };
+      r.onload = () => { try { const saved = Engine.importJSON(r.result); toast(saved ? "✅ Backup restored!" : Engine.saveIssue === "conflict" ? "Another tab saved newer data. Backup restored in this session only; export it before reloading." : "Backup restored in this session only. Storage is unavailable; export before closing."); applySettings(); refreshHud(); VIEWS.settings(el); } catch (err) { toast("⚠️ That file isn't a valid Atlas backup. Your existing progress was kept."); } };
       r.readAsText(f);
     });
-    $("#rstData", el).addEventListener("click", () => { if (confirm("Erase ALL local progress, notes and settings? This cannot be undone.")) { Engine.reset(); applySettings(); refreshHud(); VIEWS.settings(el); toast("🧹 Fresh start — everything erased."); } });
+    $("#rstData", el).addEventListener("click", () => { if (confirm("Erase ALL local progress, notes and settings? This cannot be undone.")) { const saved = Engine.reset(); applySettings(); refreshHud(); VIEWS.settings(el); toast(saved ? "🧹 Fresh start — everything erased." : "This session was reset. Storage is unavailable, so saved data could not be erased."); } });
   };
 
   /* ---------- Passport ---------- */
@@ -880,6 +881,10 @@ const App = (() => {
           <div class="kbd-row" style="margin-top:12px"><span class="pill">🔥 ${S.streak.count}-day streak</span><span class="pill">⚡ ${S.xp.toLocaleString()} XP</span><span class="pill">✓ ${S.totals.correct} solved</span></div></div>
       </div>
     </div>`;
+    const discoveries = Object.keys(Expedition.sanitizeProgress(S.expedition).completed).length;
+    const field = document.createElement("div"); field.className = "panel"; field.style.marginTop = "18px";
+    field.innerHTML = `<h3>${icon("i-flask")} Field discoveries: ${discoveries} / 18</h3><p class="muted" style="font-size:13px;line-height:1.7">Your experiments and explanations build Apply, Reason and Create. Each discovery is recorded separately from quiz accuracy.</p><a href="#world" class="btn btn-ghost btn-mini">Return to the plateau →</a>`;
+    $(".page", el).appendChild(field);
     drawRadar($("#ppRadar", el), S.passport, 240);
   };
 
@@ -931,6 +936,29 @@ const App = (() => {
     </div>`;
   };
 
+  /* ---------- Open-world field expedition ---------- */
+  VIEWS.world = (el) => {
+    destroyWorld();
+    activeWorld = WorldUI.mount(el, {
+      getProgress: () => Engine.state.expedition,
+      saveIssue: () => Engine.saveIssue,
+      setProgress: progress => { Engine.state.expedition = progress; },
+      onSave: () => Engine.save(),
+      introSeen: Engine.state.worldIntroSeen === true,
+      onIntro: () => { Engine.state.worldIntroSeen = true; Engine.save(); },
+      reduced: Engine.state.settings.reducedMotion,
+      onCredit: (mission, reward) => {
+        Engine.creditExpedition(reward);
+        refreshHud();
+      },
+      onSound: event => {
+        if (Engine.state.expedition?.settings.audio === false) return;
+        if (event === "complete") sfx.win(); else if (event === "try") sfx.click(); else sfx.right();
+      },
+      onToast: toast,
+    });
+  };
+
   /* ================= ROUTER & INIT ================= */
   function applySettings() {
     const s = Engine.state.settings;
@@ -941,10 +969,17 @@ const App = (() => {
     document.body.classList.toggle("reduced-motion", s.reducedMotion);
   }
 
+  let activeWorld = null;
+  function destroyWorld() {
+    if (activeWorld) { activeWorld.stop(); activeWorld = null; }
+  }
+
   function route() {
-    const hash = (location.hash || "#home").slice(1);
+    const hash = (location.hash || "#world").slice(1);
     const [name, param] = hash.split("/");
     const target = $("#view-" + name) ? name : "home";
+    if (target !== "world") destroyWorld();
+    document.body.classList.toggle("world-active", target === "world");
     $$(".view").forEach((v) => v.classList.remove("is-active"));
     const el = $("#view-" + target);
     el.classList.add("is-active");
@@ -973,5 +1008,5 @@ const App = (() => {
 
   document.readyState === "loading" ? addEventListener("DOMContentLoaded", init) : init();
 
-  return { toast };
+  return { toast, worldStats: () => activeWorld?.stats() || null };
 })();

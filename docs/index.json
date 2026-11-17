@@ -1,10 +1,11 @@
 {
   "schemaVersion": "1.0",
   "release": "v2.0.0",
-  "generatedAt": "2026-07-17T07:44:39.292Z",
+  "generatedAt": "2026-11-17T11:26:30.084Z",
   "files": [
     "adrs/adr-0001-zero-dependency-local-first.json",
     "adrs/adr-0002-docs-counterpart-pipeline.json",
+    "adrs/adr-0003-native-3d-expedition.json",
     "ai.json",
     "architecture.json",
     "CONSTANTS_USAGE_GUIDE.json",
@@ -23,6 +24,7 @@
     "getting-started.json",
     "IMPROVEMENT_PLAN.json",
     "IMPROVEMENT_SESSION_SUMMARY.json",
+    "open-world.json",
     "overview.json",
     "quality.json",
     "roadmap.json",

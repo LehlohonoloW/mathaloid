@@ -3,6 +3,8 @@ name: Deploy MATHALOID to GitHub Pages
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -11,7 +13,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -21,25 +23,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
+          bun-version: 1.3.14
 
-      - name: Build documentation assets
+      - name: Check application and learning contracts
         run: |
-          npm run docs:build
-          npm run docs:check
+          bun run check
+          bun run test
+
+      - name: Check documentation freshness
+        run: bun run docs:check
+
+      - name: Package public site
+        id: package
+        run: echo "path=$(bun scripts/package-pages.mjs)" >> "$GITHUB_OUTPUT"
 
       - name: Setup Pages
+        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .
+          path: ${{ steps.package.outputs.path }}
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:

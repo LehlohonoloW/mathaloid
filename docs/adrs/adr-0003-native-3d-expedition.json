@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0",
+  "slug": "adrs/adr-0003-native-3d-expedition",
+  "title": "ADR-0003 — Native 3D learning expedition",
+  "status": "current",
+  "section": "ADRs",
+  "audience": [
+    "contributors"
+  ],
+  "useWhen": "You change the game runtime, physics, saves or assessment.",
+  "sourceOfTruth": "adr-0003-native-3d-expedition.md",
+  "counterparts": {
+    "markdown": "adr-0003-native-3d-expedition.md",
+    "html": "adr-0003-native-3d-expedition.html",
+    "json": "adr-0003-native-3d-expedition.json"
+  },
+  "summary": "Add a native WebGL learning world while preserving the existing static, local-first Atlas and its zero runtime dependencies.",
+  "sections": [
+    {
+      "id": "context",
+      "label": "Context"
+    },
+    {
+      "id": "decision",
+      "label": "Decision"
+    },
+    {
+      "id": "alternatives",
+      "label": "Alternatives"
+    },
+    {
+      "id": "consequences",
+      "label": "Consequences"
+    }
+  ],
+  "relatedGuides": [
+    "open-world",
+    "architecture",
+    "security-privacy"
+  ],
+  "keywords": [
+    "adr",
+    "webgl",
+    "3d",
+    "physics",
+    "assessment",
+    "persistence"
+  ],
+  "lastReviewed": "2026-11-11",
+  "release": "v2.0.0",
+  "sourceChecksum": "08f85ee29a8e1b29",
+  "generatedAt": "2026-11-17T11:26:28.507Z",
+  "plaintext": "Context The user requested that Mathaloid become a fun, interactive 3D open world maths and physics game. Existing working tree code introduced an incomplete Canvas perspective world and curriculum linked monuments. A real learning game loop requires experiments whose parameters and outcomes are part of the world, rather than only links to quizzes. Decision Extend the existing static application with a continuous bounded landscape, native WebGL rendering, shared Canvas fallback, fixed step player simulation and six physical experiment stations. Keep the companion learning tools and avoid runtime libraries, external assets and services. This extends ADR 0001; its privacy and dependency decisions remain in force. Native WebGL is a browser API, not a dependency. Separate rendering, world simulation, learning definitions and UI. Validate physical inputs independently of the DOM. Save a versioned expedition object inside the existing Atlas state. A physical solution plus an explanation earns one completion reward per station/difficulty. Commit completion and XP together. Replays can be explored freely but cannot farm rewards. Record discoveries separately from quiz accuracy and mastery. Alternatives Three.js or Babylon.js would provide mature scene management, materials and loaders, but introduce a new runtime dependency and a larger authoring/deployment change. A Unity or Unreal rewrite would provide richer tooling at a substantial cost to the current browser first application. Keeping the former software projection monument world would preserve implementation size but fall short of the requested gameplay. Consequences Procedural meshes keep assets local and the initial world compact. The first slice has restricted physics models and a modest art budget. The Canvas fallback trades scenery detail and speed for reach; performance must be measured rather than assumed. Larger worlds, open ended construction, multiplayer and certified curriculum alignment belong to later playable milestones with their own acceptance evidence."
+}

@@ -11,11 +11,11 @@ lastReviewed: 2026-07-16
 ## Ground rules
 - **License:** MIT. Keep headers and the LICENSE file intact.
 - **Zero dependencies:** PRs that add runtime packages need a superseding ADR (see [Security & privacy](security-privacy.md)).
-- **Docs-with-code:** any behaviour change updates the relevant canonical `.md` guide in the same PR, then runs `npm run docs:build`. `npm run docs:check` is the merge gate.
+- **Docs-with-code:** any behaviour change updates the relevant canonical `.md` guide in the same PR, then runs `bun run docs:build`. `bun run docs:check` is the merge gate.
 ## The safe-change workflow
 1. Fork and clone; open `index.html` or run a local server.
 2. Make the change in the owning module ([Architecture](architecture.md) tells you which).
-3. Run the [quality gates](quality.md) — at minimum `npm run check` and a visual pass over affected views in desktop + mobile widths.
+3. Run the [quality gates](quality.md) — at minimum `bun run check` and a visual pass over affected views in desktop + mobile widths.
 4. Update docs + changelog (`docs/.docs/changelog.md`).
 5. Open a PR describing what changed, evidence of gates run, and screenshots for UI changes.
 ## Where things get added

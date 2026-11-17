@@ -3,12 +3,20 @@
   "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "MATHALOID Atlas — privacy-first, zero-dependency mathematics learning companion. Static site; no runtime dependencies.",
+  "description": "MATHALOID Atlas — a local-first 3D maths and physics expedition and learning companion. Zero runtime dependencies.",
   "license": "MIT",
+  "packageManager": "bun@1.3.14",
+  "engines": { "bun": ">=1.3.14" },
   "scripts": {
-    "docs:build": "node docs/build-docs.mjs",
-    "docs:check": "node docs/build-docs.mjs --check",
-    "check": "node --check js/app.js && node --check js/engine.js && node --check js/data.js"
+    "docs:build": "bun docs/build-docs.mjs",
+    "docs:check": "bun docs/build-docs.mjs --check",
+    "check": "bun scripts/check.mjs",
+    "release:check": "bun run check && bun run test && bun run docs:check",
+    "pages:package": "bun scripts/package-pages.mjs",
+    "test": "bun tests/world.test.cjs && bun test tests/*.test.mjs",
+    "start": "bun scripts/serve.mjs",
+    "test:browser": "node scripts/verify-world-browser.mjs",
+    "test:renderer:browser": "node --test tests/renderer-regions.test.mjs"
   },
   "dependencies": {},
   "devDependencies": {}

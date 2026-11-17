@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="MATHALOID Atlas — a local-first, privacy-first, open-source mathematics universe. Grade 1 to A Levels. No ceilings.">
+<meta name="description" content="MATHALOID Atlas — explore a 3D open world and learn maths and physics through hands-on experiments. Local-first, private, and open source.">
 <meta name="color-scheme" content="dark">
 <title>MATHALOID Atlas — Endless Mathematics</title>
 <link rel="stylesheet" href="css/atlas.css">
+<link rel="stylesheet" href="css/world.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
 </head>
 <body data-theme="cosmic">
@@ -98,6 +99,7 @@
 
   <!-- ============ HOME ============ -->
   <section class="view is-active" id="view-home" aria-label="Home">
+    <div class="world-portal-callout"><div><b>The Atlas Plateau is waiting.</b><p>Build a bridge, balance a gate, and send a signal through a living 3D world.</p></div><a href="#world">Enter the expedition →</a></div>
     <div class="cosmos">
       <div class="orb-field" id="orbField">
         <a class="orb orb-cyan"   style="--x:12%; --y:8%"  href="#pathfinder"><span class="orb-bubble"><svg class="ic"><use href="#i-map"/></svg></span><span class="orb-name">Pathfinder</span><span class="orb-sub">Your learning map</span></a>
@@ -106,6 +108,7 @@
         <a class="orb orb-red"    style="--x:13%; --y:76%" href="#arena"><span class="orb-bubble"><svg class="ic"><use href="#i-target"/></svg></span><span class="orb-name">Arena</span><span class="orb-sub">Practice &amp; challenges</span></a>
         <a class="orb orb-pink"   style="--x:21%; --y:85%" href="#frontier"><span class="orb-bubble"><svg class="ic"><use href="#i-spark"/></svg></span><span class="orb-name">Frontier</span><span class="orb-sub">Explore. Create. Prove.</span></a>
         <a class="orb orb-purple" style="--x:88%; --y:8%"  href="#journey"><span class="orb-bubble"><svg class="ic"><use href="#i-route"/></svg></span><span class="orb-name">Journey</span><span class="orb-sub">Your concept map</span></a>
+        <a class="orb orb-world"  style="--x:50%; --y:47%" href="#world"><span class="orb-bubble orb-world-bubble"><svg class="ic"><use href="#i-atom"/></svg></span><span class="orb-name">Atlas Plateau</span><span class="orb-sub">Explore the 3D world</span></a>
         <a class="orb orb-blue"   style="--x:95%; --y:30%" href="#study"><span class="orb-bubble"><svg class="ic"><use href="#i-book"/></svg></span><span class="orb-name">Study</span><span class="orb-sub">Notes, formulas &amp; examples</span></a>
         <a class="orb orb-gold"   style="--x:94%; --y:54%" href="#exam"><span class="orb-bubble"><svg class="ic"><use href="#i-scroll"/></svg></span><span class="orb-name">Exam Arena</span><span class="orb-sub">Exam prep &amp; past papers</span></a>
         <a class="orb orb-teal"   style="--x:87%; --y:76%" href="#data"><span class="orb-bubble"><svg class="ic"><use href="#i-chart"/></svg></span><span class="orb-name">Data Desk</span><span class="orb-sub">Analyse &amp; understand</span></a>
@@ -223,6 +226,7 @@
   <section class="view" id="view-learn" aria-label="Learn"></section>
   <section class="view" id="view-play" aria-label="Play"></section>
   <section class="view" id="view-journey" aria-label="Journey"></section>
+  <section class="view" id="view-world" aria-label="3D World"></section>
   <section class="view" id="view-study" aria-label="Study"></section>
   <section class="view" id="view-exam" aria-label="Exam Arena"></section>
   <section class="view" id="view-arena" aria-label="Arena"></section>
@@ -240,13 +244,14 @@
   <a href="#learn" class="dock-btn" data-view="learn"><svg class="ic"><use href="#i-cube"/></svg><span>Learn</span></a>
   <a href="#play" class="dock-btn" data-view="play"><svg class="ic"><use href="#i-gamepad"/></svg><span>Play</span></a>
   <a href="#journey" class="dock-btn" data-view="journey"><svg class="ic"><use href="#i-route"/></svg><span>Journey</span></a>
+  <a href="#world" class="dock-btn" data-view="world"><svg class="ic"><use href="#i-atom"/></svg><span>World</span></a>
   <a href="#arena" class="dock-btn" data-view="arena"><svg class="ic"><use href="#i-target"/></svg><span>Arena</span></a>
   <button class="dock-btn" id="dockMore" aria-label="More"><svg class="ic"><use href="#i-spark"/></svg><span>More</span></button>
 </nav>
 <div class="sheet" id="moreSheet" hidden>
   <div class="sheet-inner">
     <a href="#pathfinder">🗺️ Pathfinder</a><a href="#study">📘 Study</a><a href="#exam">📜 Exam Arena</a>
-    <a href="#data">📊 Data Desk</a><a href="#frontier">✨ Frontier</a><a href="#passport">⭐ Passport</a>
+    <a href="#world">🛰️ Atlas Plateau</a><a href="#data">📊 Data Desk</a><a href="#frontier">✨ Frontier</a><a href="#passport">⭐ Passport</a>
     <a href="#voice">🎙️ Voice Mode</a><a href="#settings">⚙️ Settings</a><a href="#help">❓ Help</a>
   </div>
 </div>
@@ -260,6 +265,10 @@
 
 <script src="js/data.js"></script>
 <script src="js/engine.js"></script>
+<script src="js/expedition.js"></script>
+<script src="js/world.js"></script>
+<script src="js/world-renderer.js"></script>
+<script src="js/world-ui.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

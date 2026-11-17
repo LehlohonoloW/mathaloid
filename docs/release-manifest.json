@@ -1,13 +1,13 @@
 {
   "release": "v2.0.0",
-  "sourceRevision": "7345835eaa951453",
-  "generatedAt": "2026-07-17T07:44:39.301Z",
+  "sourceRevision": "c24f36998344d5ae",
+  "generatedAt": "2026-11-17T11:26:30.145Z",
   "docsBuild": "node docs/build-docs.mjs — success",
   "counts": {
-    "markdown": 25,
-    "html": 25,
-    "json": 25,
-    "adrs": 2,
+    "markdown": 27,
+    "html": 27,
+    "json": 27,
+    "adrs": 3,
     "skills": 1
   },
   "checks": {

@@ -34,6 +34,6 @@ The brain is an intent cascade in `js/app.js` (see the `chat brain` section): pe
 - **New explainer:** add a `[regex, message]` pair to the `EXPLAIN` table.
 - **New solver:** add a regex + handler before the explainer loop; return an HTML string with numbered steps.
 - **New quiz type:** add a generator in `engine.js` and list its id in the quiz intent's `gens` array.
-Always rerun the brain harness and `node --check js/app.js` — see [Quality](quality.md).
+Always rerun the brain harness and `bun run check` — see [Quality](quality.md).
 ## Why not an LLM?
 A hosted LLM would break all three product promises (offline, private, free-forever static hosting). The roadmap tracks an *optional, opt-in* local small-model experiment — see [Roadmap](roadmap.md) — but the deterministic brain remains the default forever.

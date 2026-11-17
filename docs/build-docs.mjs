@@ -1,10 +1,10 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 /*
  MATHALOID Atlas docs pipeline — Lehro house pattern (Polaris MVP / LEHRO BMS).
- Zero-dependency Node generator: every canonical .md emits a themed .html + .json counterpart,
+ Zero-dependency Bun generator: every canonical .md emits a themed .html + .json counterpart,
  plus portal (index.html), docs-map.json, index.json and release-manifest.json.
- Usage: node docs/build-docs.mjs        (build)
-        node docs/build-docs.mjs --check (CI gate — fails on missing/stale/invalid counterparts)
+ Usage: bun docs/build-docs.mjs        (build)
+        bun docs/build-docs.mjs --check (CI gate — fails on missing/stale/invalid counterparts)
 */
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 
 const DOCS = dirname(fileURLToPath(import.meta.url));
 const CHECK = process.argv.includes("--check");
-const RELEASE = "v2.0.0";
+const RELEASE = `v${JSON.parse(readFileSync(join(DOCS, "../package.json"), "utf8")).version}`;
 const problems = [];
 const sha = (s) => createHash("sha256").update(s).digest("hex").slice(0, 16);
 

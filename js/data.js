@@ -37,6 +37,14 @@ ATLAS.SKILLS = [
   { id:"derivatives",   name:"Differentiation",           grade:"12", strand:"Calculus",  gen:"derivative", lvl:9, prereqs:["quadratics","functions"] },
   { id:"integrals",     name:"Integration",               grade:"AS", strand:"Calculus",  gen:"integral",   lvl:10, prereqs:["derivatives"] },
   { id:"complex",       name:"Complex Numbers",           grade:"A2", strand:"Pure",      gen:"complex",    lvl:10, prereqs:["quadratics"] },
+
+  /* Computing strand — the "coding" half of the Atlas world. Language-agnostic pseudocode that
+     reinforces real maths (arithmetic, modulo, indices, iteration counts) as you solve it. */
+  { id:"code-basics",   name:"Variables & Values",        grade:"6",  strand:"Computing",gen:"codevar",    lvl:2, prereqs:[] },
+  { id:"conditionals",  name:"Conditionals & Logic",      grade:"7",  strand:"Computing",gen:"codecond",   lvl:3, prereqs:["code-basics"] },
+  { id:"loops",         name:"Loops & Iteration",         grade:"8",  strand:"Computing",gen:"codeloop",   lvl:4, prereqs:["conditionals"] },
+  { id:"functions",     name:"Functions & Returns",       grade:"9",  strand:"Computing",gen:"codefunc",   lvl:5, prereqs:["code-basics"] },
+  { id:"sequences",     name:"Lists & Sequences",         grade:"9",  strand:"Computing",gen:"codeseq",    lvl:5, prereqs:["loops"] },
 ];
 
 /* Journey map layout (mirrors reference image 4th panel). Coordinates on a 100x62 grid. */
@@ -63,6 +71,37 @@ ATLAS.GAMES = [
   { id:"function-flight",   name:"Function Flight",   color:"blue",   icon:"i-fx",     desc:"Pilot graphs: evaluate, transform and read functions.", gens:["funceval","quadratic","derivative"] },
   { id:"geometry-studio",   name:"Geometry Studio",   color:"pink",   icon:"i-shapes", desc:"Space and shape: area, volume, angles and trig.", gens:["geometry","trig"] },
 ];
+
+/* ================= OPEN WORLD: THE ATLAS PLATEAU =================
+   A single, seamless 3D island rendered on a zero-dependency Canvas 2D engine.
+   Each REGION is a hub with MONUMENTS (obelisks) that stand on the terrain and
+   gate a real curriculum challenge via the shared quiz engine. Design pillars
+   (§7.0): reactive world (monuments rise & glow with your mastery, ground grid
+   pulses underfoot), one continuous traversal fantasy, craft over slop. */
+ATLAS.WORLD = {
+  name: "The Atlas Plateau",
+  intro: "Explore a living laboratory. Build a river crossing, deliver a capsule, balance a lever, power a ramp, tune a wave and plan a garden through maths and physics.",
+  /* Player spawn at world origin; heading is in radians (0 = +x). */
+  spawn: { x: 0, z: 28, yaw: 0 },
+  /* Regions placed on a 100×100 world tile grid. x,z are world units.
+     color drives the monument emissive + ground tint; gens feed the quiz engine. */
+  regions: [
+    { id:"number",  name:"Number Mesa",    icon:"i-atom",   color:"#4ee1ff", x:-34, z:-10, radius:9,
+      tagline:"Whole numbers, negatives & the roots of it all.", gens:["counting","addsub20","times","division","placevalue","integers"] },
+    { id:"algebra", name:"Algebra Ridge",  icon:"i-fx",     color:"#a78bfa", x:-12, z:-40, radius:9,
+      tagline:"Letters standing in for unknowns. Solve, simplify, factor.", gens:["expressions","exponents","linear","inequality","quadratic","systems"] },
+    { id:"geometry",name:"Geometry Basin", icon:"i-shapes", color:"#f472b6", x:14,  z:-42, radius:9,
+      tagline:"Shape, space, angle & measure under an open sky.", gens:["geometry","trig"] },
+    { id:"function",name:"Function Falls", icon:"i-pi",     color:"#34d399", x:38,  z:-8,  radius:9,
+      tagline:"Where inputs become outputs — the great transformation machine.", gens:["funceval","sequence","derivative"] },
+    { id:"data",    name:"Data Downs",     icon:"i-chart",  color:"#fbbf24", x:16,  z:22,  radius:9,
+      tagline:"Chance, spread and the stories numbers tell together.", gens:["probability","stats","finance"] },
+    { id:"code",    name:"Code Citadel",   icon:"i-code",   color:"#fb923c", x:-16, z:20,  radius:9,
+      tagline:"Variables, loops, functions & logic — thinking like a machine.", gens:["codevar","codecond","codeloop","codefunc","codeseq"] },
+  ],
+  /* Colour palette per region matches the orb accents for visual rhyme (§7.2). */
+};
+
 
 ATLAS.LESSONS = [
   {
@@ -148,6 +187,13 @@ ATLAS.FORMULAS = {
   ],
 };
 
+ATLAS.FORMULAS.Physics = [
+  { name:"Projectile Motion", f:"x = v cos(θ)t; y = v sin(θ)t − ½gt²", ex:"At 45° with v = 15 m/s and g = 9.81 m/s², equal-height range = v²/g ≈ 22.94 m. Air resistance is ignored." },
+  { name:"Torque and Balance", f:"τ = Fd; equilibrium: clockwise torque = anticlockwise torque", ex:"12 N at 3 m gives 36 N·m, balanced by 6 N at 6 m. Distance is perpendicular to the force." },
+  { name:"Potential and Kinetic Energy", f:"Eₚ = mgh; Eₖ = ½mv²", ex:"A 3 kg capsule released at 5 m has 147.15 J. With 80% retained as kinetic energy, speed = √(2 × 9.81 × 5 × 0.8) ≈ 8.86 m/s." },
+  { name:"Wave Speed", f:"v = fλ", ex:"A 3 Hz wave with wavelength 4 m travels at 12 m/s. In a fixed medium, doubling f halves λ." },
+];
+
 ATLAS.PAPERS = [
   { year:2024, paper:"Paper 1", focus:"Algebra • Functions • Sequences • Finance", mins:180 },
   { year:2023, paper:"Paper 1", focus:"Algebra • Functions • Probability", mins:180 },
@@ -173,6 +219,7 @@ ATLAS.DATASETS = [
 ];
 
 ATLAS.BADGES = [
+  { id:"field-discovery", name:"Field Scientist", icon:"🔬", test:(s)=>Object.keys(s.expedition?.completed || {}).length >= 6, desc:"Explain six successful field experiments" },
   { id:"first-steps", name:"First Steps", icon:"🌱", test:(s)=>s.totals.attempts>=1, desc:"Answer your first question" },
   { id:"ten-streak", name:"On Fire", icon:"🔥", test:(s)=>s.totals.bestRun>=10, desc:"10 correct in a row" },
   { id:"centurion", name:"Centurion", icon:"💯", test:(s)=>s.totals.correct>=100, desc:"100 correct answers" },

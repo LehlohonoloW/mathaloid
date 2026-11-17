@@ -15,9 +15,9 @@ Atlas is an open source education tool for children, hosted free on GitHub Pages
 ## Decision
 1. **Zero runtime dependencies.** Vanilla HTML/CSS/JS only; no frameworks, no CDN assets, no package installs to run the app.
 2. **Local-first state.** All user data lives in localStorage (`atlas.state.v1`); the app makes zero network requests after load.
-3. Node.js (built-ins only) is permitted for *offline tooling* (the docs generator), never for the runtime.
+3. Bun with compatible built-in APIs powers contributor tooling and the optional local server. The browser application needs no runtime packages.
 ## Consequences
 - Supply-chain risk is structurally eliminated; “dependency updates” reduce to confirming the count is still zero.
-- No SSR, no bundler ergonomics, no npm ecosystem shortcuts — contributors write plain JS and template literals.
+- No SSR, no bundler ergonomics, no package ecosystem shortcuts — contributors write plain JS and template literals.
 - Multi-device sync is impossible by design; the escape hatch is Settings → Export/Import.
 - Any PR wanting a runtime package must write a superseding ADR with a security justification.

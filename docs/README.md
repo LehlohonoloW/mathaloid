@@ -37,6 +37,6 @@ docs/
 ## Commands
 
 ```
-npm run docs:build   # regenerate counterparts + portal + manifests
-npm run docs:check   # CI gate — fails on stale/missing/invalid docs
+bun run docs:build   # regenerate counterparts + portal + manifests
+bun run docs:check   # CI gate — fails on stale/missing/invalid docs
 ```

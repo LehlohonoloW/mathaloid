@@ -26,12 +26,69 @@ const Engine = (() => {
     lessonProgress: {},     // lessonId -> step index
   });
 
+  let lastStored = null, saveIssue = "";
   let S = load();
+
+  function validateState(raw) {
+    const plain = value => value !== null && typeof value === "object" && !Array.isArray(value);
+    const fail = () => { throw new Error("Not a valid Atlas backup"); };
+    const number = value => Number.isFinite(value) && value >= 0;
+    if (!plain(raw) || !number(raw.xp) || (raw.version !== undefined && raw.version !== 1)) fail();
+    function record(defaults, incoming) {
+      if (!plain(incoming)) fail();
+      const result = { ...defaults };
+      for (const [key, fallback] of Object.entries(defaults)) {
+        if (!Object.hasOwn(incoming, key)) continue;
+        const value = incoming[key];
+        if (typeof value !== typeof fallback || (typeof fallback === "number" && !number(value))) fail();
+        result[key] = value;
+      }
+      return result;
+    }
+    const state = defaultState();
+    for (const key of ["xp", "createdAt", "notes"]) {
+      if (!Object.hasOwn(raw, key)) continue;
+      if (typeof raw[key] !== typeof state[key] || (typeof state[key] === "number" && !number(raw[key]))) fail();
+      state[key] = raw[key];
+    }
+    for (const key of ["streak", "passport", "totals", "goal", "settings", "bests"]) {
+      if (Object.hasOwn(raw, key)) state[key] = record(state[key], raw[key]);
+    }
+    const allowed = { theme: ["focus", "cosmic", "neon", "contrast"], lens: ATLAS.LENSES.map(lens => lens.id), grade: ATLAS.GRADES, textSize: ["small", "normal", "large"], density: ["dense", "cozy"] };
+    for (const [key, values] of Object.entries(allowed)) if (!values.includes(state.settings[key])) fail();
+    for (const key of ["bookmarks", "badges"]) {
+      if (!Object.hasOwn(raw, key)) continue;
+      if (!Array.isArray(raw[key]) || raw[key].some(value => typeof value !== "string")) fail();
+      state[key] = raw[key].slice();
+    }
+    for (const key of ["leaderboard", "chat"]) {
+      if (!Object.hasOwn(raw, key)) continue;
+      if (!Array.isArray(raw[key]) || raw[key].some(value => !plain(value))) fail();
+      state[key] = raw[key].map(value => ({ ...value }));
+    }
+    if (state.leaderboard.some(value => typeof value.name !== "string" || !number(value.xp))) fail();
+    for (const key of ["skills", "lessonProgress"]) {
+      if (!Object.hasOwn(raw, key)) continue;
+      if (!plain(raw[key])) fail();
+      for (const [id, value] of Object.entries(raw[key])) {
+        if (["__proto__", "constructor", "prototype"].includes(id)) fail();
+        if (key === "lessonProgress") { if (!Number.isInteger(value) || value < 0) fail(); state[key][id] = value; }
+        else state.skills[id] = record({ mastery: 0, attempts: 0, correct: 0, run: 0, due: 0, last: 0 }, value);
+      }
+    }
+    if (Object.hasOwn(raw, "worldIntroSeen")) { if (typeof raw.worldIntroSeen !== "boolean") fail(); state.worldIntroSeen = raw.worldIntroSeen; }
+    if (Object.hasOwn(raw, "expedition")) {
+      if (!plain(raw.expedition) || raw.expedition.version !== 1) fail();
+      state.expedition = typeof Expedition !== "undefined" ? Expedition.sanitizeProgress(raw.expedition) : raw.expedition;
+    }
+    return state;
+  }
 
   function load() {
     try {
       const raw = localStorage.getItem(KEY);
-      if (raw) return Object.assign(defaultState(), JSON.parse(raw));
+      lastStored = raw;
+      if (raw) return validateState(JSON.parse(raw));
       const legacy = localStorage.getItem(LEGACY_KEY); // migrate v1 Mathaloid players
       const s = defaultState();
       if (legacy) {
@@ -40,7 +97,13 @@ const Engine = (() => {
       return s;
     } catch (e) { return defaultState(); }
   }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  function save(overwrite = false) {
+    try {
+      if (!overwrite && localStorage.getItem(KEY) !== lastStored) { saveIssue = "conflict"; return false; }
+      const encoded = JSON.stringify(S);
+      localStorage.setItem(KEY, encoded); lastStored = encoded; saveIssue = ""; return true;
+    } catch (e) { saveIssue = "storage"; return false; }
+  }
 
   function touchStreak() {
     const t = todayStr();
@@ -299,6 +362,49 @@ const Engine = (() => {
         hints: [`Add real parts and imaginary parts separately.`, `Real: ${a}+${c}. Imaginary: ${b}+${d}.`],
         explain: `Real ${a}+${c}=${re}; imaginary ${b}+${d}=${im} ⇒ ${ans}.`, dims: { fluent: 2, understand: 1 } };
     },
+    /* ---------- Computing / Coding generators ---------- */
+    codevar(lv) {
+      const val = ri(2, 9 + lv * 2);
+      const delta = ri(1, 9);
+      const ans = val + delta;
+      return { prompt: `x ← ${val} then x ← x + ${delta} What is x now?`, answer: String(ans), options: opts(ans, 4),
+        hints: [`← means "store the value on the right into the name on the left".`, `x starts as ${val}; adding ${delta} replaces x with ${val}+${delta}.`],
+        explain: `Assignment overwrites the old value: x = ${val} + ${delta} = ${ans}.`, dims: { understand: 2, apply: 1 } };
+    },
+    codecond(lv) {
+      const op = pick([">", "<", ">=", "<="]);
+      const a = ri(1, 12), b = ri(1, 12);
+      // For >= and <= force a tie so the boundary case is taught meaningfully.
+      const aa = a, bb = (op === ">=" || op === "<=") ? a : b;
+      const real = op === ">" ? aa > bb : op === "<" ? aa < bb : op === ">=" ? aa >= bb : aa <= bb;
+      const realAns = real ? "true" : "false";
+      const e = `${aa} ${op} ${bb}`;
+      return { prompt: `What does the comparison ${e} evaluate to?`, answer: realAns, options: shuffle(["true", "false"]),
+        hints: [`Compare the two numbers on either side of the operator.`, `${e} — is ${aa} ${op} ${bb}?`],
+        explain: `${e} evaluates to ${realAns}.`, dims: { understand: 2, reason: 1 } };
+    },
+    codeloop(lv) {
+      const n = ri(3, 6 + lv);
+      const total = (n * (n + 1)) / 2;
+      return { prompt: `sum = 0\nfor i from 1 to ${n}:\n  sum = sum + i\nWhat is sum?`, answer: String(total), options: opts(total, 8),
+        hints: [`The loop runs for i = 1, 2, … up to ${n}.`, `Add 1+2+…+${n}. The shortcut is ${n}×${n + 1}÷2.`],
+        explain: `The loop sums 1+2+…+${n} = ${n}×${n + 1}÷2 = ${total}.`, dims: { apply: 2, reason: 1 } };
+    },
+    codefunc(lv) {
+      const m = ri(2, 5), c = ri(1, 9), x = ri(2, 6);
+      const ans = m * x + c;
+      return { prompt: `function f(x):\n  return ${m}*x + ${c}\nWhat is f(${x})?`, answer: String(ans), options: opts(ans, 6),
+        hints: [`Substitute x = ${x} into the rule ${m}*x + ${c}.`, `First ${m}×${x}, then add ${c}.`],
+        explain: `f(${x}) = ${m}×${x} + ${c} = ${ans}.`, dims: { apply: 2, understand: 1 } };
+    },
+    codeseq(lv) {
+      const arr = [ri(2, 9), ri(2, 9), ri(2, 9)];
+      const i = ri(0, 2);
+      const ans = arr[i];
+      return { prompt: `list = [${arr.join(", ")}]\nWhat is list[${i}]?  (0-based index)`, answer: String(ans), options: opts(ans, 4),
+        hints: [`Computers count list positions from 0, not 1.`, `list[0] is the first item, list[1] the second, list[${i}] the ${i + 1}th.`],
+        explain: `With 0-based indexing, list[${i}] is the ${i + 1}${["st", "nd", "rd"][i] || "th"} value = ${ans}.`, dims: { understand: 2, apply: 1 } };
+    },
   };
 
   /* ---------- public API ---------- */
@@ -347,6 +453,15 @@ const Engine = (() => {
     ATLAS.BADGES.forEach((b) => { if (!S.badges.includes(b.id) && b.test(S)) { S.badges.push(b.id); if (typeof window !== "undefined" && window.App && App.toast) App.toast(`${b.icon} Badge earned: ${b.name}!`); } });
   }
 
+  function creditExpedition(reward) {
+    if (![50, 80, 120].includes(reward)) throw new RangeError("Invalid expedition reward");
+    S.xp += reward;
+    for (const [dimension, amount] of Object.entries({ understand: 1.2, apply: 1.5, reason: 1.2, create: 0.8 })) {
+      S.passport[dimension] = Math.min(100, S.passport[dimension] + amount);
+    }
+    checkBadges();
+  }
+
   function masteryBand(m) { return m >= 80 ? "secure" : m >= 45 ? "practising" : m > 0 ? "review" : "foundation"; }
 
   function reviewQueue() {
@@ -374,8 +489,8 @@ const Engine = (() => {
   }
 
   function exportJSON() { return JSON.stringify(S, null, 2); }
-  function importJSON(txt) { const obj = JSON.parse(txt); if (!obj || typeof obj !== "object" || !("xp" in obj)) throw new Error("Not an Atlas backup"); S = Object.assign(defaultState(), obj); save(); }
-  function reset() { S = defaultState(); save(); }
+  function importJSON(txt) { const restored = validateState(JSON.parse(txt)); S = restored; return save(); }
+  function reset() { S = defaultState(); return save(true); }
 
-  return { get state() { return S; }, save, touchStreak, generate, record, skillState, skillPct, masteryBand, reviewQueue, currentPath, overallMastery, exportJSON, importJSON, reset, ri, pick, shuffle };
+  return { get state() { return S; }, get saveIssue() { return saveIssue; }, save, touchStreak, generate, record, creditExpedition, skillState, skillPct, masteryBand, reviewQueue, currentPath, overallMastery, exportJSON, importJSON, reset, ri, pick, shuffle };
 })();

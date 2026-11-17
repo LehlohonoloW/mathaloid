@@ -6,8 +6,16 @@ useWhen: You want to know what shipped in v2 and what is planned next.
 summary: What the v2 Atlas rebuild delivered, and the prioritised next horizons — all constrained by local-first, privacy-first, MIT.
 keywords: roadmap, plans, features, versions
 links: overview, ai, quality
-lastReviewed: 2026-07-16
+lastReviewed: 2026-11-12
 ---
+## New playable direction — Atlas Plateau (November 2026)
+
+The default app entry is now a continuous 3D maths and physics expedition. Six physical stations across three difficulties provide eighteen experiment-and-explanation discoveries. Local saves, Atlas backups, accessible map access, touch controls and the existing study tools are integrated. Functional browser verification is recorded; target school hardware and real learner testing remain open release gates.
+
+The November 12 slice adds region-specific scenery, destination tracking and compass guidance, optional predictions compared with measured outcomes, and a field notebook that retains every trial before reflection. Backup validation, visible storage failures and stale-tab write rejection protect the student's evidence. Canvas fallback frame rate remains an explicit verification gate.
+
+The next game milestones are a connected working valley, curriculum-specific expeditions, a student construction kit, a larger modular world, and classroom journey packs. Each must ship a complete playable learning loop. See [open-world.md](open-world.md) for the full plan, architecture and honest verification limits. Existing companion-app priorities below remain available for later work.
+
 ## Shipped — v2.0.0 “Atlas” (July 2026)
 - Complete cosmic UI rebuild: 14 tabs, mascot hub, orb navigation, mobile-first responsive.
 - Curriculum lenses: CAPS, IEB, Cambridge A-Levels, Global — Grade 1 to post-matric with no ceiling.
