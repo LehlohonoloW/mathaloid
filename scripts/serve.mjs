@@ -23,5 +23,5 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const port = Number(process.env.ATLAS_PORT || 4173);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error("ATLAS_PORT must be a valid port.");
   const server = createAtlasServer();
-  server.listen(port, "127.0.0.1", () => console.log(`Mathaloid: http://127.0.0.1:${port}/#world`));
+  server.listen(port, "127.0.0.1", () => console.log(`Mathaloid: http://127.0.0.1:${port}/`));
 }

@@ -21,6 +21,7 @@ async function copyTree(directory, extensions) {
     }
   }
 }
+await copyTree("assets", [".png"]);
 await copyTree("css", [".css"]);
 await copyTree("js", [".js"]);
 await copyTree("docs", [".md", ".html", ".json", ".css", ".js", ".svg"]);

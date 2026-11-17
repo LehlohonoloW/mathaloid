@@ -47,6 +47,6 @@
   "lastReviewed": "2026-07-16",
   "release": "v2.0.0",
   "sourceChecksum": "5cbd98329fee2627",
-  "generatedAt": "2026-11-17T11:26:28.379Z",
+  "generatedAt": "2026-11-17T13:14:27.325Z",
   "plaintext": "Status Accepted — July 2026 reaffirmed at v2.0.0 . Context Atlas is an open source education tool for children, hosted free on GitHub Pages, forked by people with wildly varying technical skill. It must be trustworthy privacy for minors , durable usable in a decade , and forkable download → open → works . Decision 1. Zero runtime dependencies. Vanilla HTML/CSS/JS only; no frameworks, no CDN assets, no package installs to run the app. 2. Local first state. All user data lives in localStorage atlas.state.v1 ; the app makes zero network requests after load. 3. Bun with compatible built in APIs powers contributor tooling and the optional local server. The browser application needs no runtime packages. Consequences Supply chain risk is structurally eliminated; “dependency updates” reduce to confirming the count is still zero. No SSR, no bundler ergonomics, no package ecosystem shortcuts — contributors write plain JS and template literals. Multi device sync is impossible by design; the escape hatch is Settings → Export/Import. Any PR wanting a runtime package must write a superseding ADR with a security justification."
 }

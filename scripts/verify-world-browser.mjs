@@ -54,10 +54,10 @@ async function solve(page, id, difficulty, wrongReflection = false) {
 }
 try {
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } }); observe(page);
-  await page.goto(origin + "/"); await page.locator("#worldStart").waitFor();
+  await page.goto(origin + "/#world"); await page.locator("#worldStart").waitFor();
   await shot(page, "world-welcome");
   await page.locator("#worldStart").click(); await delay(1700);
-  check("default entry opens the playable 3D world", (await stats(page)).renderer === "WebGL");
+  check("world entry opens the playable 3D world", (await stats(page)).renderer === "WebGL");
   check("initial coordinates use south for positive world z", (await page.locator("#worldCoordinates").innerText()).includes("S"));
   const beforeTracking = (await stats(page)).position;
   await page.locator("#worldMapButton").click();

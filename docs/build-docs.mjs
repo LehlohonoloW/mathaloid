@@ -187,7 +187,7 @@ for (const file of mdFiles) {
   const relPath = relative(DOCS, file).replace(/\\/g, "/");
   const slug = relPath.replace(/\.md$/, "");
   if (slug === "README") continue; // README is the Markdown home; portal is its HTML face
-  const src = readFileSync(file, "utf8");
+  const src = readFileSync(file, "utf8").replace(/\r\n/g, "\n");
   const { meta, body } = fm(src);
   const headings = [];
   const html = mdToHtml(body, headings);
@@ -277,14 +277,14 @@ ${groups}
 const counts = { markdown: docs.length, html: 0, json: 0, adrs: docs.filter((d) => d.section === "ADRs").length, skills: docs.filter((d) => d.section === "Skills").length };
 if (!CHECK) {
   for (const d of docs) {
-    writeFileSync(join(DOCS, `${d.slug}.html`), pageHtml(d));
+    writeFileSync(join(DOCS, `${d.slug}.html`), pageHtml(d).replace(/[ \t]+$/gm, ""));
     writeFileSync(join(DOCS, `${d.slug}.json`), JSON.stringify(jsonFor(d), null, 2));
     counts.html++; counts.json++;
   }
   writeFileSync(join(DOCS, "index.html"), portalHtml());
   writeFileSync(join(DOCS, "docs-map.json"), JSON.stringify({ schemaVersion: "1.0", release: RELEASE, generatedAt: new Date().toISOString(), entries: docs.map((d) => ({ slug: d.slug, title: d.title, section: d.section, audience: d.audience, status: d.status, useWhen: d.useWhen, description: d.summary, lastReviewed: d.lastReviewed, counterparts: { markdown: `${d.slug}.md`, html: `${d.slug}.html`, json: `${d.slug}.json` } })) }, null, 2));
   writeFileSync(join(DOCS, "index.json"), JSON.stringify({ schemaVersion: "1.0", release: RELEASE, generatedAt: new Date().toISOString(), files: docs.map((d) => `${d.slug}.json`) }, null, 2));
-  writeFileSync(join(DOCS, "release-manifest.json"), JSON.stringify({ release: RELEASE, sourceRevision: sha(mdFiles.map((f) => readFileSync(f, "utf8")).join("\n")), generatedAt: new Date().toISOString(), docsBuild: "node docs/build-docs.mjs — success", counts, checks: { counterpartsFresh: true, linksValid: problems.length === 0, jsonValid: true, portalIndexed: true } }, null, 2));
+  writeFileSync(join(DOCS, "release-manifest.json"), JSON.stringify({ release: RELEASE, sourceRevision: sha(mdFiles.map((f) => readFileSync(f, "utf8").replace(/\r\n/g, "\n")).join("\n")), generatedAt: new Date().toISOString(), docsBuild: "node docs/build-docs.mjs — success", counts, checks: { counterpartsFresh: true, linksValid: problems.length === 0, jsonValid: true, portalIndexed: true } }, null, 2));
   console.log(`docs:build — ${docs.length} canonical guides → ${counts.html} HTML + ${counts.json} JSON + portal + docs-map + index + release-manifest`);
   if (problems.length) { console.error("WARNINGS:\n" + problems.join("\n")); process.exit(1); }
 } else {

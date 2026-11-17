@@ -8,9 +8,12 @@
 <title>MATHALOID Atlas — Endless Mathematics</title>
 <link rel="stylesheet" href="css/atlas.css">
 <link rel="stylesheet" href="css/world.css">
+<link rel="stylesheet" href="css/expedition-design.css">
+<link rel="stylesheet" href="css/immersive.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
 </head>
 <body data-theme="cosmic">
+<a class="skip-link" href="#main">Skip to content</a>
 
 <canvas id="starfield" aria-hidden="true"></canvas>
 <div class="nebula nebula-a" aria-hidden="true"></div>
@@ -78,30 +81,22 @@
   </div>
 </header>
 
-<!-- ============ SIDE RAILS ============ -->
-<aside class="rail rail-left" aria-label="Quick tools">
-  <button class="rail-btn" data-go="settings" title="Quick settings"><svg class="ic"><use href="#i-sliders"/></svg></button>
-  <button class="rail-btn" data-go="passport" title="Progress"><svg class="ic"><use href="#i-chart"/></svg></button>
-  <button class="rail-btn" data-go="arena" title="Achievements & challenges"><svg class="ic"><use href="#i-trophy"/></svg></button>
-  <button class="rail-btn" data-go="study" title="Bookmarks"><svg class="ic"><use href="#i-bookmark"/></svg></button>
-  <button class="rail-btn" data-go="settings" title="Settings"><svg class="ic"><use href="#i-gear"/></svg></button>
-</aside>
-<aside class="rail rail-right" aria-label="Activity">
-  <button class="rail-btn" data-go="data" title="Data Desk"><svg class="ic"><use href="#i-chart"/></svg></button>
-  <button class="rail-btn has-badge" data-go="home" data-badge="2" title="Mathaloid chat"><svg class="ic"><use href="#i-msg"/></svg></button>
-  <button class="rail-btn" data-go="pathfinder" title="Today's plan"><svg class="ic"><use href="#i-cal"/></svg></button>
-  <button class="rail-btn" data-go="settings" data-goto="data" title="Your data (stored locally)"><svg class="ic"><use href="#i-cloud"/></svg></button>
-  <button class="rail-btn" data-go="help" title="Help"><svg class="ic"><use href="#i-help"/></svg></button>
-</aside>
-
+<nav class="expedition-nav" aria-label="Workspace"><div class="nav-eyebrow">YOUR WORKSPACE</div><a href="#home" class="dock-btn nav-link" data-view="home"><svg class="ic"><use href="#i-globe"/></svg><span>Overview</span></a><a href="#world" class="dock-btn nav-link" data-view="world"><svg class="ic"><use href="#i-compass"/></svg><span>Atlas Plateau</span><span class="nav-tag">3D</span></a><a href="#pathfinder" class="dock-btn nav-link" data-view="pathfinder"><svg class="ic"><use href="#i-map"/></svg><span>Pathfinder</span></a><a href="#learn" class="dock-btn nav-link" data-view="learn"><svg class="ic"><use href="#i-cube"/></svg><span>Learn</span></a><a href="#play" class="dock-btn nav-link" data-view="play"><svg class="ic"><use href="#i-gamepad"/></svg><span>Play</span></a><a href="#arena" class="dock-btn nav-link" data-view="arena"><svg class="ic"><use href="#i-target"/></svg><span>Practice arena</span></a><div class="nav-eyebrow nav-section">YOUR TOOLKIT</div><a href="#journey" class="dock-btn nav-link" data-view="journey"><svg class="ic"><use href="#i-route"/></svg><span>My journey</span></a><a href="#study" class="dock-btn nav-link" data-view="study"><svg class="ic"><use href="#i-book"/></svg><span>Study library</span></a><a href="#exam" class="dock-btn nav-link" data-view="exam"><svg class="ic"><use href="#i-scroll"/></svg><span>Exam preparation</span></a><a href="#data" class="dock-btn nav-link" data-view="data"><svg class="ic"><use href="#i-chart"/></svg><span>Data desk</span></a><a href="#frontier" class="dock-btn nav-link" data-view="frontier"><svg class="ic"><use href="#i-spark"/></svg><span>Frontier</span></a><div class="nav-bottom"><a href="#settings" class="dock-btn nav-link" data-view="settings"><svg class="ic"><use href="#i-gear"/></svg><span>Settings</span></a><a href="#help" class="dock-btn nav-link" data-view="help"><svg class="ic"><use href="#i-help"/></svg><span>Field guide</span></a><p><span class="status-dot"></span> Your progress stays with you.<br><small>Stored privately on this device</small></p></div></nav>
 <!-- ============ MAIN ============ -->
 <main id="main">
 
   <!-- ============ HOME ============ -->
   <section class="view is-active" id="view-home" aria-label="Home">
-    <div class="world-portal-callout"><div><b>The Atlas Plateau is waiting.</b><p>Build a bridge, balance a gate, and send a signal through a living 3D world.</p></div><a href="#world">Enter the expedition →</a></div>
+
+    <div class="overview-heading"><div><span class="section-eyebrow">YOUR NEXT DISCOVERY STARTS HERE</span><h1>A little curiosity. Endless possibilities.</h1><p>Explore a world of maths, one discovery at a time.</p></div><a href="#passport" class="overview-passport">View my passport <span>&#8599;</span></a></div>
+    <article class="landscape-card"><div class="landscape-copy"><span class="landscape-label"><span class="status-dot"></span> THE EXPEDITION &middot; MATHS + PHYSICS</span><h2>A world worth<br>figuring out.</h2><p>Build a bridge. Balance a gate. Light up a lighthouse. Put your ideas to work on the Atlas Plateau.</p><a href="#world" class="expedition-cta">Enter the plateau <span>&#8599;</span></a><div class="landscape-meta">6 discovery stations <span>&middot;</span> 3 challenge levels <span>&middot;</span> Your pace</div></div><span class="landscape-caption">FIG. 01 / THE ATLAS PLATEAU</span></article>
+    <nav class="plateau-destinations" aria-label="Explore the landscape">
+      <a class="scene-pin pin-observatory" href="#learn"><span class="pin-dot">01</span><span>THE OBSERVATORY<b>Discover a concept</b></span><span>&#8599;</span></a>
+      <a class="scene-pin pin-bridge" href="#world"><span class="pin-dot">02</span><span>THE CROSSING<b>Enter the 3D expedition</b></span><span>&#8599;</span></a>
+      <a class="scene-pin pin-orbit" href="#arena"><span class="pin-dot">03</span><span>THE ORBIT GARDEN<b>Put an idea to the test</b></span><span>&#8599;</span></a>
+    </nav>
     <div class="cosmos">
-      <div class="orb-field" id="orbField">
+      <div class="orb-field" id="orbField"><div class="toolkit-heading"><span class="section-eyebrow">FOLLOW YOUR CURIOSITY</span><h2>Choose your next step</h2></div>
         <a class="orb orb-cyan"   style="--x:12%; --y:8%"  href="#pathfinder"><span class="orb-bubble"><svg class="ic"><use href="#i-map"/></svg></span><span class="orb-name">Pathfinder</span><span class="orb-sub">Your learning map</span></a>
         <a class="orb orb-green"  style="--x:5%;  --y:30%" href="#learn"><span class="orb-bubble"><svg class="ic"><use href="#i-cube"/></svg></span><span class="orb-name">Learn</span><span class="orb-sub">Concepts &amp; lessons</span></a>
         <a class="orb orb-orange" style="--x:6%;  --y:54%" href="#play"><span class="orb-bubble"><svg class="ic"><use href="#i-gamepad"/></svg></span><span class="orb-name">Play</span><span class="orb-sub">Games that teach</span></a>
@@ -148,17 +143,17 @@
           </svg>
         </div>
 
-        <h1 class="hero-title">Hello, Explorer! <span class="hello-wave">👋</span></h1>
-        <p class="hero-sub">I'm <b>Mathaloid</b>, your maths guide. What shall we explore together today?</p>
+        <span class="section-eyebrow">YOUR LEARNING COMPANION</span><h2 class="hero-title">Your guide in the unknown.</h2>
+        <p class="hero-sub">Meet <b>Mathaloid</b>. A little guidance for your next big idea.</p>
 
         <div class="chat-card" id="chatCard">
-          <div class="chat-log" id="chatLog" aria-live="polite"></div>
+          <div class="chat-log" id="chatLog" role="log" aria-label="Conversation with Mathaloid" aria-live="polite"></div>
           <form class="chat-form" id="chatForm">
-            <input id="chatInput" type="text" placeholder="Ask anything math..." autocomplete="off" aria-label="Ask Mathaloid anything about maths">
+            <input id="chatInput" maxlength="600" type="text" placeholder="Try 2(x + 3) = 18..." autocomplete="off" aria-label="Ask Mathaloid anything about maths">
             <button type="button" class="chat-btn" id="chatMic" title="Speak your question" aria-label="Speak your question"><svg class="ic"><use href="#i-mic"/></svg></button>
             <button type="submit" class="chat-btn chat-send" title="Send" aria-label="Send"><svg class="ic"><use href="#i-send"/></svg></button>
           </form>
-          <div class="chat-chips" id="chatChips"></div>
+          <div class="tutor-actions" aria-label="Tutor controls"><button type="button" data-tutor="Show steps">Show steps</button><button type="button" data-tutor="hint">Give me a hint</button><button type="button" data-tutor="quiz me">Practise</button><button type="button" data-tutor="skip">Skip question</button></div><div class="chat-chips" id="chatChips"></div>
         </div>
       </div>
 
@@ -269,6 +264,7 @@
 <script src="js/world.js"></script>
 <script src="js/world-renderer.js"></script>
 <script src="js/world-ui.js"></script>
+<script src="js/tutor.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

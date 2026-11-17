@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "release": "v2.0.0",
-  "generatedAt": "2026-11-17T11:26:30.068Z",
+  "generatedAt": "2026-11-17T13:14:27.742Z",
   "entries": [
     {
       "slug": "adrs/adr-0001-zero-dependency-local-first",
@@ -310,6 +310,21 @@
         "markdown": "getting-started.md",
         "html": "getting-started.html",
         "json": "getting-started.json"
+      }
+    },
+    {
+      "slug": "IMMERSIVE-TUTOR",
+      "title": "IMMERSIVE-TUTOR",
+      "section": "Guides",
+      "audience": [],
+      "status": "current",
+      "useWhen": "",
+      "description": "",
+      "lastReviewed": "",
+      "counterparts": {
+        "markdown": "IMMERSIVE-TUTOR.md",
+        "html": "IMMERSIVE-TUTOR.html",
+        "json": "IMMERSIVE-TUTOR.json"
       }
     },
     {

@@ -4,7 +4,7 @@
 
 Track a destination with the compass, make a prediction, then compare it with your experiment's measured result. Field notes keep every trial, and the six regions now have distinct landmarks. Progress and predictions stay on this device and travel with your Atlas backup.
 
-Run `bun run start`, then open `http://127.0.0.1:4173/#world`. No runtime packages or asset downloads are required.
+Run `bun run start`, then open `http://127.0.0.1:4173/`. No runtime packages or asset downloads are required.
 
 **Every tab. One atlas. Endless mathematics.**
 
@@ -18,7 +18,7 @@ MATHALOID Atlas is a free, open-source, privacy-first mathematics learning compa
 
 | Tab | What it does |
 | --- | --- |
-| 🏠 **Home** | Cosmic hub: chat with Mathaloid, focus timer, daily goal, review queue, passport radar, voice orb |
+| 🏠 **Home** | Immersive plateau: landscape destinations, worked maths tutoring, focus timer, daily goal, review queue and passport radar |
 | 🗺️ **Pathfinder** | A recommended route through the whole curriculum, per grade and curriculum lens |
 | 📗 **Learn** | Step-by-step lessons: Introduction → The Idea → Examples → Your Turn → Try It → Challenge |
 | 🎮 **Play** | Six games that teach: Number Lab, Fraction Forge, Pattern Detective, Strategy Quest, Function Flight, Geometry Studio |
@@ -100,3 +100,5 @@ Full docs live in [`docs/`](docs/README.md) — Markdown-canonical guides with a
 ---
 
 *Powered by Lehro Solutions*
+
+See [Immersive overview and tutor](docs/IMMERSIVE-TUTOR.md) for supported questions, follow-ups, limits and verification.

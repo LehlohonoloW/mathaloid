@@ -15,6 +15,8 @@
     "pages:package": "bun scripts/package-pages.mjs",
     "test": "bun tests/world.test.cjs && bun test tests/*.test.mjs",
     "start": "bun scripts/serve.mjs",
+    "test:layout:browser": "node scripts/verify-layout-browser.mjs",
+    "test:tutor:browser": "node scripts/verify-tutor-browser.mjs",
     "test:browser": "node scripts/verify-world-browser.mjs",
     "test:renderer:browser": "node --test tests/renderer-regions.test.mjs"
   },

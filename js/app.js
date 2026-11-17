@@ -109,21 +109,10 @@ const App = (() => {
 
   /* ---------------- chat brain — Mathaloid Brain v2 (100% local · private · offline) ---------------- */
   let pendingQ = null;
+  let lastWorked = null;
+  let hintIndex = 0;
   const gcd2 = (a, b) => (b ? gcd2(b, a % b) : Math.abs(a));
   const fmtN = (n) => (Number.isInteger(n) ? String(n) : String(Math.round(n * 1e6) / 1e6));
-  function parseLin(side) {
-    let a = 0, b = 0;
-    const s = side.replace(/−/g, "-").replace(/\s+/g, "").replace(/\*/g, "");
-    const terms = s.match(/[+-]?[^+-]+/g);
-    if (!terms) return null;
-    for (const t of terms) {
-      const m = t.match(/^([+-]?)(\d*\.?\d*)x(?:\/(\d+\.?\d*))?$/);
-      if (m) { let co = m[2] === "" ? 1 : parseFloat(m[2]); if (m[3]) co /= parseFloat(m[3]); a += m[1] === "-" ? -co : co; }
-      else if (/^[+-]?\d+\.?\d*$/.test(t)) b += parseFloat(t);
-      else return null;
-    }
-    return [a, b];
-  }
   function parsePoly(expr) {
     const s = expr.replace(/−/g, "-").replace(/\s+/g, "").replace(/\*\*/g, "^").replace(/\*/g, "").replace(/²/g, "^2").replace(/³/g, "^3");
     const terms = s.match(/[+-]?[^+-]+/g);
@@ -173,76 +162,37 @@ const App = (() => {
     greet: "Hi! I'm Mathaloid — your private, on-device maths brain. I can solve equations step by step (try 2x + 3 = x + 9, or x^2 − 5x + 6 = 0), differentiate polynomials, work out percentages and fractions, explain any concept, or quiz you at your level. Nothing you type ever leaves this device.",
     answer(text) {
       const t = text.toLowerCase().trim();
+      if (/^(cancel|stop|skip)( quiz| question)?$/.test(t)) { pendingQ = null; return "Practice paused. Ask a question whenever you are ready."; }
+      const grade = t.match(/\bgrade\s*(\d+)\b/);
+      if (grade && +grade[1] >= 1 && +grade[1] <= 12) { Engine.state.settings.grade = grade[1]; Engine.save(); refreshHud(); }
+      if (pendingQ && /^(hint|help|give me a hint)[!.?]*$/.test(t)) {
+        const hints = pendingQ.hints || [];
+        return hints.length ? `Hint ${Math.min(hintIndex + 1, hints.length)}: ${esc(hints[Math.min(hintIndex++, hints.length - 1)])}<br>Try your answer, ask for another hint, or say "skip".` : 'Try breaking the question into smaller parts. You can also say "skip".';
+      }
+      if (/^(explain|why|show (?:the )?steps|explain (?:that|the answer)|explain step \d+)[!.?]*$/.test(t) && lastWorked) {
+        const step = t.match(/step (\d+)/);
+        return step && lastWorked.steps[+step[1] - 1] ? `Step ${+step[1]}: ${esc(lastWorked.steps[+step[1] - 1])}<br>${esc(lastWorked.check)}` : MathTutor.render(lastWorked);
+      }
+      if (pendingQ && !/^[+\-\d.\s/\w^=<>]+$/.test(MathTutor.normalize(t))) return 'Try an answer, ask for a hint, or say "skip" to leave this question.';
+      if (pendingQ && !/\d|^(true|false)$/.test(t)) return 'Your question is still open. Type an answer, ask for a hint, or say "skip" before asking something else.';
       if (pendingQ) {
-        const correct = t.replace(/\s+/g, "") === String(pendingQ.answer).toLowerCase().replace(/\s+/g, "");
+        const expected = String(pendingQ.answer).toLowerCase().replace(/\s+/g, "");
+        const numericAnswer = /^[+\-\d.\s/]+$/.test(t) ? safeCalc(t) : null;
+        const numericExpected = /^[+\-\d.\s/]+$/.test(expected) ? safeCalc(expected) : null;
+        const correct = t.replace(/\s+/g, "") === expected || (numericAnswer !== null && numericExpected !== null && Math.abs(numericAnswer - numericExpected) < 1e-9);
         const q = pendingQ; pendingQ = null;
         Engine.record(q.skillId, correct, q.dims);
         refreshHud();
         return correct ? `✅ Exactly right — <b>${esc(q.answer)}</b>! ${esc(q.explain)}\n\nWant another? Just say “next”.`
           : `Not quite — the answer is <b>${esc(q.answer)}</b>. ${esc(q.explain)}\n\nSay “next” to try another.`;
       }
-      const cleaned = t.replace(/^solve\s*(for x)?:?\s*/, "").replace(/\s+/g, "");
-      // quadratic: ax^2+bx+c=0 (also x²)
-      if (/x\^2|x²/.test(cleaned) && cleaned.includes("=")) {
-        const [lhs, rhs] = cleaned.split("=");
-        const L = parsePoly(lhs), R = parsePoly(rhs);
-        if (L && R) {
-          const a = (L[2] || 0) - (R[2] || 0), b = (L[1] || 0) - (R[1] || 0), c = (L[0] || 0) - (R[0] || 0);
-          if (a !== 0) {
-            const D = b * b - 4 * a * c;
-            let roots;
-            if (D > 0) { const r1 = (-b + Math.sqrt(D)) / (2 * a), r2 = (-b - Math.sqrt(D)) / (2 * a); roots = `two real solutions: <b>x = ${fmtN(r1)}</b> or <b>x = ${fmtN(r2)}</b>`; }
-            else if (D === 0) roots = `one repeated solution: <b>x = ${fmtN(-b / (2 * a))}</b>`;
-            else roots = `no real solutions (D < 0). At A-Level: two complex roots x = ${fmtN(-b / (2 * a))} ± ${fmtN(Math.sqrt(-D) / (2 * a))}i`;
-            return `Quadratic detected 🧮 Standard form: <b>${polyStr({ 2: a, 1: b, 0: c })} = 0</b>\n1) a = ${fmtN(a)}, b = ${fmtN(b)}, c = ${fmtN(c)}\n2) Discriminant D = b² − 4ac = ${fmtN(b)}² − 4(${fmtN(a)})(${fmtN(c)}) = <b>${fmtN(D)}</b>\n3) x = (−b ± √D) / 2a → ${roots}\nCheck by substituting back ✓`;
-          }
-        }
-      }
-      // linear with x on either side: ax+b = cx+d
-      if (cleaned.includes("x") && cleaned.includes("=") && !/[<>]/.test(cleaned)) {
-        const parts = cleaned.split("=");
-        if (parts.length === 2) {
-          const L = parseLin(parts[0]), R = parseLin(parts[1]);
-          if (L && R) {
-            const a = L[0] - R[0], b = R[1] - L[1];
-            if (a !== 0) {
-              const x = b / a;
-              const steps = [];
-              steps.push(`1) Start: <b>${esc(text.trim())}</b>`);
-              if (R[0] !== 0) steps.push(`2) Move the x-terms to one side → ${fmtN(a)}x ${L[1] >= 0 ? "+ " + fmtN(L[1]) : "− " + fmtN(Math.abs(L[1]))} = ${fmtN(R[1])}`);
-              steps.push(`${R[0] !== 0 ? 3 : 2}) Move the constants → ${fmtN(a)}x = ${fmtN(b)}`);
-              steps.push(`${R[0] !== 0 ? 4 : 3}) Divide both sides by ${fmtN(a)} → <b>x = ${fmtN(x)}</b>`);
-              return `Let's balance it like a scale ⚖️\n${steps.join("\n")}\nCheck it by substituting back ✓`;
-            }
-          }
-        }
-      }
-      // pure arithmetic (fraction expressions like 1/2 + 1/3 are handled by the step-by-step solver below)
-      if (!/^\d+\s*\/\s*\d+\s*[+\-×*÷]\s*\d+\s*\/\s*\d+$/.test(t) && /^[\d\s+\-*/().^%×÷]+$/.test(t) && /\d/.test(t)) {
-        const v = safeCalc(t);
-        if (v !== null) return `<b>${esc(t)} = ${v}</b>\nWant the why behind it? Ask me to explain any step.`;
-      }
-      // fraction arithmetic with steps
-      const fr = t.match(/^(\d+)\s*\/\s*(\d+)\s*([+\-×*÷])\s*(\d+)\s*\/\s*(\d+)$/);
-      if (fr) {
-        const n1 = +fr[1], d1 = +fr[2], op = fr[3], n2 = +fr[4], d2 = +fr[5];
-        let num, den, opTxt;
-        if (op === "+" || op === "-") {
-          den = (d1 * d2) / gcd2(d1, d2);
-          const a1 = n1 * (den / d1), a2 = n2 * (den / d2);
-          num = op === "+" ? a1 + a2 : a1 - a2;
-          opTxt = `1) Common denominator: ${den} → ${a1}/${den} ${op} ${a2}/${den}\n2) ${op === "+" ? "Add" : "Subtract"} the tops → ${num}/${den}`;
-        } else if (op === "×" || op === "*") { num = n1 * n2; den = d1 * d2; opTxt = `1) Multiply tops and bottoms → ${num}/${den}`; }
-        else { num = n1 * d2; den = d1 * n2; opTxt = `1) Dividing = multiplying by the reciprocal → ${n1}/${d1} × ${d2}/${n2} = ${num}/${den}`; }
-        const g = gcd2(num, den) || 1;
-        const simp = g > 1 ? `\n${op === "+" || op === "-" ? 3 : 2}) Simplify by ÷${g} → <b>${num / g}/${den / g}</b>` : `\nAlready in simplest form: <b>${num}/${den}</b>`;
-        return `Fraction work 🍰\n${opTxt}${simp}`;
-      }
+      const worked = MathTutor.solve(text);
+      if (worked) { lastWorked = worked; return MathTutor.render(worked); }
       // percentages
       let m = t.match(/(\d+\.?\d*)\s*%\s*of\s*(\d+\.?\d*)/);
       if (m) { const p = +m[1], n = +m[2]; return `💯 ${p}% of ${n}:\n1) Turn % into a decimal → ${p}% = ${fmtN(p / 100)}\n2) Multiply → ${fmtN(p / 100)} × ${n} = <b>${fmtN((p / 100) * n)}</b>`; }
       m = t.match(/(\d+\.?\d*)\s+(?:is what|as a)\s*percent(?:age)?\s*of\s*(\d+\.?\d*)/);
-      if (m) { const a = +m[1], b = +m[2]; return `💯 ${a} out of ${b}:\n1) Divide → ${a} ÷ ${b} = ${fmtN(a / b)}\n2) ×100 → <b>${fmtN((a / b) * 100)}%</b>`; }
+      if (m) { const a = +m[1], b = +m[2]; if (b === 0) return "A percentage of a zero total is undefined. Use a nonzero total."; return `💯 ${a} out of ${b}:\n1) Divide → ${a} ÷ ${b} = ${fmtN(a / b)}\n2) ×100 → <b>${fmtN((a / b) * 100)}%</b>`; }
       m = t.match(/(increase|decrease)\s*(\d+\.?\d*)\s*by\s*(\d+\.?\d*)\s*%/);
       if (m) { const up = m[1] === "increase", n = +m[2], p = +m[3]; const f = up ? 1 + p / 100 : 1 - p / 100; return `💯 ${m[1][0].toUpperCase() + m[1].slice(1)} ${n} by ${p}%:\n1) Multiplier = ${up ? "1 +" : "1 −"} ${fmtN(p / 100)} = ${fmtN(f)}\n2) ${n} × ${fmtN(f)} = <b>${fmtN(n * f)}</b>\nOne multiplier beats two steps — that's the exam trick.`; }
       // derivative of a polynomial
@@ -262,7 +212,7 @@ const App = (() => {
       }
       // expand (x+a)(x+b)
       m = t.replace(/\s+/g, "").match(/^expand\(x([+-]\d+)\)\(x([+-]\d+)\)$/);
-      if (m) { const a = +m[1], b = +m[2]; return `🧩 FOIL — First, Outer, Inner, Last:\n1) x·x = x²\n2) x·${b} + ${a}·x = ${fmtN(a + b)}x\n3) ${a} × ${b} = ${fmtN(a * b)}\nResult: <b>${polyStr({ 2: 1, 1: a + b, 0: a * b })}</b>`; }
+      if (m) { const a = +m[1], b = +m[2]; if (b === 0) return "A percentage of a zero total is undefined. Use a nonzero total."; return `🧩 FOIL — First, Outer, Inner, Last:\n1) x·x = x²\n2) x·${b} + ${a}·x = ${fmtN(a + b)}x\n3) ${a} × ${b} = ${fmtN(a * b)}\nResult: <b>${polyStr({ 2: 1, 1: a + b, 0: a * b })}</b>`; }
       // gcd / lcm
       m = t.match(/\b(gcd|hcf|highest common factor|lcm|lowest common multiple)\b\D*(\d+)\D+(\d+)/);
       if (m) {
@@ -272,9 +222,9 @@ const App = (() => {
       }
       // prime check / factors
       m = t.match(/is\s+(\d+)\s+(?:a\s+)?prime/);
-      if (m) { const n = +m[1]; if (n < 2) return `${n} is <b>not prime</b> — primes start at 2.`; let d = 0; for (let i = 2; i * i <= n; i++) if (n % i === 0) { d = i; break; } return d ? `${n} is <b>not prime</b> — it divides by ${d} (${n} = ${d} × ${n / d}).` : `✨ Yes — <b>${n} is prime</b>! Its only factors are 1 and ${n}.`; }
+      if (m) { const n = +m[1]; if (!Number.isSafeInteger(n) || n > 1e9) return "For prime checks, please use a whole number up to 1,000,000,000."; if (n < 2) return `${n} is <b>not prime</b> — primes start at 2.`; let d = 0; for (let i = 2; i * i <= n; i++) if (n % i === 0) { d = i; break; } return d ? `${n} is <b>not prime</b> — it divides by ${d} (${n} = ${d} × ${n / d}).` : `✨ Yes — <b>${n} is prime</b>! Its only factors are 1 and ${n}.`; }
       m = t.match(/(?:prime factors?|factorise|factorize|factors?) of\s*(\d+)/);
-      if (m) { let n = +m[1]; const fs = []; for (let i = 2; i * i <= n; i++) while (n % i === 0) { fs.push(i); n /= i; } if (n > 1) fs.push(n); return `🌳 Prime factor tree of ${m[1]}:\n<b>${m[1]} = ${fs.join(" × ")}</b>${fs.length === 1 ? " (it's prime!)" : ""}`; }
+      if (m) { let n = +m[1]; if (!Number.isSafeInteger(n) || n < 2 || n > 1e9) return "For prime factorisation, please use a whole number from 2 to 1,000,000,000."; const fs = []; for (let i = 2; i * i <= n; i++) while (n % i === 0) { fs.push(i); n /= i; } if (n > 1) fs.push(n); return `🌳 Prime factor tree of ${m[1]}:\n<b>${m[1]} = ${fs.join(" × ")}</b>${fs.length === 1 ? " (it's prime!)" : ""}`; }
       // times table
       m = t.match(/(\d+)\s*times table/);
       if (m) { const n = +m[1]; return `🎵 The ${n} times table:\n` + Array.from({ length: 12 }, (_, i) => `${n} × ${i + 1} = <b>${n * (i + 1)}</b>`).join("\n"); }
@@ -282,28 +232,25 @@ const App = (() => {
       if (/linear equation|solve.*equation|equation.*solve/.test(t)) return `A <b>linear equation</b> is a balance scale: whatever you do to one side, do to the other.\nExample: 3x + 7 = 22 → subtract 7 (3x = 15) → divide by 3 (<b>x = 5</b>).\n\n📘 I've got a full lesson with a balance model — open <b>Learn</b>, or say “quiz me” to practise now. You can also paste any equation, even with x on both sides.`;
       if (/quadratic formula|quadratic/.test(t)) return `The <b>quadratic formula</b> solves ax² + bx + c = 0:\n<b>x = (−b ± √(b² − 4ac)) / 2a</b>\nThe part under the root, b²−4ac, is the <b>discriminant</b> — it counts the real solutions. Paste one (like x^2 − 5x + 6 = 0) and I'll solve it step by step.`;
       for (const [re, msg] of EXPLAIN) if (re.test(t)) return msg;
-      if (/fraction/.test(t)) { pendingQ = Engine.generate("fractions"); return `🔥 Fraction challenge:\n<b>${esc(pendingQ.prompt)}</b>\nType your answer!`; }
+      if (/fraction/.test(t)) { pendingQ = Engine.generate("fractions"); hintIndex = 0; return `🔥 Fraction challenge:\n<b>${esc(pendingQ.prompt)}</b>\nType your answer!`; }
       if (/\bpi\b|π/.test(t)) return `🥧 Imagine any circle. Walk once around it (that's the circumference), then walk straight across the middle (the diameter). The walk around is always about <b>3.14 times</b> longer — no matter the size of the circle! That magic number is <b>π</b>.`;
       if (/quiz|challenge|practice|test me|next|another/.test(t)) {
         const gens = ["linear", "fractions", "sequence", "percent", "exponents", "funceval"];
-        pendingQ = Engine.generate(gens[Math.floor(Math.random() * gens.length)]);
+        const grade = Number(Engine.state.settings.grade) || 8;
+        const pool = grade <= 4 ? ["counting", "times", "division"] : grade <= 7 ? ["fractions", "percent", "sequence"] : gens;
+        pendingQ = Engine.generate(pool[Math.floor(Math.random() * pool.length)], grade <= 4 ? 1 : grade <= 8 ? 2 : 3);
+        hintIndex = 0;
         return `🎯 Here we go:\n<b>${esc(pendingQ.prompt)}</b>\nType your answer — or say “hint”.`;
       }
       if (/hint/.test(t)) return pendingQ ? `💡 ${esc(pendingQ.hints[0])}` : `Ask me for a quiz first, then I'll drop hints when you need them.`;
       if (/grade\s*(\d+)/.test(t)) { const g = t.match(/grade\s*(\d+)/)[1]; Engine.state.settings.grade = g; Engine.save(); refreshHud(); return `Locked in — I'll aim content at <b>Grade ${g}</b>. Say “quiz me” and I'll match the level, or open Pathfinder for your recommended route.`; }
       if (/help|what can you do/.test(t)) return BOT.greet;
       if (/hello|hi\b|hey/.test(t)) return `Hello, Explorer! 👋 Ready to bend some numbers? Say “quiz me”, ask about any concept, or paste an equation — I can even handle x on both sides now.`;
-      return `Interesting! Try me with:\n• <b>2x + 3 = x + 9</b> or <b>x^2 − 5x + 6 = 0</b> — step-by-step solving\n• <b>differentiate 3x^2 + 5x</b> — calculus\n• <b>15% of 80</b>, <b>1/2 + 1/3</b>, <b>hcf of 24 and 36</b>\n• “what is Pythagoras?” — concept explainers\n• “quiz me for grade 9” — adaptive practice`;
+      return `I could not reliably solve that question as written. I work offline with supported expressions and built-in concept explanations. Try a shorter expression or give the missing values.\n\nTry me with:\n• <b>2x + 3 = x + 9</b> or <b>x^2 − 5x + 6 = 0</b> — step-by-step solving\n• <b>differentiate 3x^2 + 5x</b> — calculus\n• <b>15% of 80</b>, <b>1/2 + 1/3</b>, <b>hcf of 24 and 36</b>\n• “what is Pythagoras?” — concept explainers\n• “quiz me for grade 9” — adaptive practice`;
     },
   };
   function safeCalc(expr) {
-    try {
-      let e = expr.replace(/\^/g, "**").replace(/÷/g, "/").replace(/×/g, "*");
-      if (!/^[\d\s+\-*/().%*]+$/.test(e)) return null;
-      const v = Function('"use strict";return (' + e + ")")();
-      if (typeof v !== "number" || !isFinite(v)) return null;
-      return Math.round(v * 1e6) / 1e6;
-    } catch (err) { return null; }
+    try { const p = MathTutor.parse(MathTutor.normalize(expr)).coefficients; return p[1] || p[2] ? null : p[0]; } catch { return null; }
   }
 
   function pushMsg(role, html, log) {
@@ -317,8 +264,8 @@ const App = (() => {
 
   function initChat() {
     const log = $("#chatLog");
-    pushMsg("user", "Help me understand solving linear equations", log);
-    pushMsg("bot", "Great choice! A <b>linear equation</b> is like a balance scale — keep both sides equal while you isolate x. Try: 3x + 7 = 22 → 3x = 15 → <b>x = 5</b>. Want a full lesson or a quick quiz?", log);
+    pushMsg("bot", 'Welcome to the plateau. Bring me an expression, an equation, or a question.<br><br>Try <b>2(x + 3) = 18</b>, <b>15% of 240</b>, or <b>mean of 4, 8, 12</b>. I will show my working. I solve supported maths on this device; I am an offline maths tutor.', log);
+    $$("[data-tutor]").forEach(button => button.addEventListener("click", () => { $("#chatInput").value = button.dataset.tutor; $("#chatForm").requestSubmit(); }));
     const chips = $("#chatChips");
     ATLAS.CHAT_SUGGESTIONS.forEach((s) => {
       const b = document.createElement("button");
@@ -334,7 +281,8 @@ const App = (() => {
       pushMsg("user", esc(text));
       inp.value = "";
       sfx.click();
-      setTimeout(() => { const reply = BOT.answer(text); pushMsg("bot", reply); speakMaybe(reply); }, 260);
+      try { const reply = BOT.answer(text.slice(0, 600)); pushMsg("bot", reply); speakMaybe(reply); }
+      catch { pushMsg("bot", 'I could not finish that calculation. Try a shorter expression or a simpler question.'); }
     });
     hookMic($("#chatMic"), (text) => { $("#chatInput").value = text; $("#chatForm").requestSubmit(); });
   }
@@ -975,16 +923,21 @@ const App = (() => {
   }
 
   function route() {
-    const hash = (location.hash || "#world").slice(1);
+    const hash = (location.hash || "#home").slice(1);
     const [name, param] = hash.split("/");
     const target = $("#view-" + name) ? name : "home";
     if (target !== "world") destroyWorld();
     document.body.classList.toggle("world-active", target === "world");
+    document.body.classList.toggle("home-active", target === "home");
     $$(".view").forEach((v) => v.classList.remove("is-active"));
     const el = $("#view-" + target);
     el.classList.add("is-active");
     if (VIEWS[target]) VIEWS[target](el, param);
-    $$(".dock-btn").forEach((d) => d.classList.toggle("is-active", d.dataset.view === target));
+    $$(".dock-btn").forEach((d) => {
+      const active = d.dataset.view === target;
+      d.classList.toggle("is-active", active);
+      if (active) d.setAttribute("aria-current", "page"); else d.removeAttribute("aria-current");
+    });
     if (target === "home") refreshHud();
     window.scrollTo({ top: 0 });
   }
